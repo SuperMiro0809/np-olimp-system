@@ -1,14 +1,22 @@
 import { createTheme } from '@mui/material';
+const { palette } = createTheme();
+const { augmentColor } = palette;
+const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
+
+const orangeColor = createColor('#ff7701');
+const lightBlueColor = createColor('#3c8dbc');
 
 const theme = createTheme({
   palette: {
+    orange: orangeColor,
+    lightBlue: lightBlueColor,
     background: {
       default: '#f4f6f8',
       paper: '#ffffff'
     },
     primary: {
       contrastText: '#ffffff',
-      main: '#5664d2'
+      main: '#005384'
     },
     text: {
       primary: '#172b4d',

@@ -9,7 +9,9 @@ import {
   Grid,
   Link,
   TextField,
-  Typography
+  Typography,
+  Tabs,
+  Tab
 } from '@mui/material';
 import FacebookIcon from '../icons/Facebook';
 import GoogleIcon from '../icons/Google';
@@ -55,22 +57,22 @@ const Login = () => {
               values
             }) => (
               <form onSubmit={handleSubmit}>
-                <Box sx={{ mb: 3 }}>
+                <Box sx={{ mb: 2 }}>
                   <Typography
                     color="textPrimary"
                     variant="h2"
                   >
-                    Sign in
+                    Вход
                   </Typography>
                   <Typography
                     color="textSecondary"
                     gutterBottom
                     variant="body2"
                   >
-                    Sign in on the internal platform
+                    Въведете имейл и парола, за да влезете в системата
                   </Typography>
                 </Box>
-                <Grid
+                {/* <Grid
                   container
                   spacing={3}
                 >
@@ -105,8 +107,8 @@ const Login = () => {
                       Login with Google
                     </Button>
                   </Grid>
-                </Grid>
-                <Box
+                </Grid> */}
+                {/* <Box
                   sx={{
                     pb: 1,
                     pt: 3
@@ -119,7 +121,7 @@ const Login = () => {
                   >
                     or login with email address
                   </Typography>
-                </Box>
+                </Box> */}
                 <TextField
                   error={Boolean(touched.email && errors.email)}
                   fullWidth
@@ -148,24 +150,24 @@ const Login = () => {
                 />
                 <Box sx={{ py: 2 }}>
                   <Button
-                    color="primary"
+                    color="lightBlue"
                     disabled={isSubmitting}
                     fullWidth
                     size="large"
                     type="submit"
                     variant="contained"
                   >
-                    Sign in now
+                    Влизане
                   </Button>
                 </Box>
                 <Typography
                   color="textSecondary"
                   variant="body1"
                 >
-                  Don&apos;t have an account?
+                  Нямате акаунт?
                   {' '}
-                  <Link component={RouterLink} to="/register" variant="h6" underline="hover">
-                    Sign up
+                  <Link component={RouterLink} to="/register" variant="h5" underline="hover">
+                    Регистрация
                   </Link>
                 </Typography>
               </form>
