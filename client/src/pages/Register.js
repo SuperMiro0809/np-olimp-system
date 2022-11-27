@@ -22,7 +22,7 @@ const Register = () => {
   const navigate = useNavigate();
   const [mode, setMode] = useState(0);
   const [successMsg, setSuccessMsg] = useState('');
-  const [errorMsg, setErrorMsg] = useState();
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleModeChange = (event, newValue) => {
     setMode(newValue);

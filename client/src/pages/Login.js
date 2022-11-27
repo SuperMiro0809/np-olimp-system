@@ -1,182 +1,80 @@
+import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import * as Yup from 'yup';
-import { Formik } from 'formik';
-import { 
-  Box,
-  Button,
-  Container,
-  Grid,
-  Link,
-  TextField,
-  Typography,
-  Tabs,
-  Tab
+import {
+    Box,
+    Container,
+    Link,
+    Typography,
+    Alert
 } from '@mui/material';
-import FacebookIcon from '../icons/Facebook';
-import GoogleIcon from '../icons/Google';
+import LoginForm from '../components/login-form/LoginForm';
 
 const Login = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const [successMsg, setSuccessMsg] = useState('');
+    const [errorMsg, setErrorMsg] = useState('');
 
-  return (
-    <>
-      <Helmet>
-        <title>Login | Material Kit</title>
-      </Helmet>
-      <Box
-        sx={{
-          backgroundColor: 'background.default',
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%',
-          justifyContent: 'center'
-        }}
-      >
-        <Container maxWidth="sm">
-          <Formik
-            initialValues={{
-              email: 'demo@devias.io',
-              password: 'Password123'
-            }}
-            validationSchema={Yup.object().shape({
-              email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-              password: Yup.string().max(255).required('Password is required')
-            })}
-            onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
-            }}
-          >
-            {({
-              errors,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              isSubmitting,
-              touched,
-              values
-            }) => (
-              <form onSubmit={handleSubmit}>
-                <Box sx={{ mb: 2 }}>
-                  <Typography
-                    color="textPrimary"
-                    variant="h2"
-                  >
-                    Вход
-                  </Typography>
-                  <Typography
-                    color="textSecondary"
-                    gutterBottom
-                    variant="body2"
-                  >
-                    Въведете имейл и парола, за да влезете в системата
-                  </Typography>
-                </Box>
-                {/* <Grid
-                  container
-                  spacing={3}
-                >
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                  >
-                    <Button
-                      color="primary"
-                      fullWidth
-                      startIcon={<FacebookIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
+    return (
+        <>
+            <Helmet>
+                <title>Login | Material Kit</title>
+            </Helmet>
+            <Box
+                sx={{
+                    backgroundColor: 'background.default',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%',
+                    justifyContent: 'center'
+                }}
+            >
+                <Container maxWidth="sm">
+                    <Box sx={{ mb: 2 }}>
+                        <Typography
+                            color="textPrimary"
+                            variant="h2"
+                        >
+                            Вход
+                        </Typography>
+                        <Typography
+                            color="textSecondary"
+                            gutterBottom
+                            variant="body2"
+                        >
+                            Въведете имейл и парола, за да влезете в системата
+                        </Typography>
+                    </Box>
+
+                    {successMsg &&
+                        <Box sx={{ my: 1 }}>
+                        <Alert severity="success">{successMsg}</Alert>
+                        </Box>
+                    }
+                    {errorMsg &&
+                        <Box sx={{ my: 1 }}>
+                        <Alert severity="error">{errorMsg}</Alert>
+                        </Box>
+                    }
+
+                    <Box>
+                        <LoginForm setSuccessMsg={setSuccessMsg} setErrorMsg={setErrorMsg} />
+                    </Box>
+
+                    <Typography
+                        color="textSecondary"
+                        variant="body1"
                     >
-                      Login with Facebook
-                    </Button>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                  >
-                    <Button
-                      fullWidth
-                      startIcon={<GoogleIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
-                    >
-                      Login with Google
-                    </Button>
-                  </Grid>
-                </Grid> */}
-                {/* <Box
-                  sx={{
-                    pb: 1,
-                    pt: 3
-                  }}
-                >
-                  <Typography
-                    align="center"
-                    color="textSecondary"
-                    variant="body1"
-                  >
-                    or login with email address
-                  </Typography>
-                </Box> */}
-                <TextField
-                  error={Boolean(touched.email && errors.email)}
-                  fullWidth
-                  helperText={touched.email && errors.email}
-                  label="Email Address"
-                  margin="normal"
-                  name="email"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="email"
-                  value={values.email}
-                  variant="outlined"
-                />
-                <TextField
-                  error={Boolean(touched.password && errors.password)}
-                  fullWidth
-                  helperText={touched.password && errors.password}
-                  label="Password"
-                  margin="normal"
-                  name="password"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="password"
-                  value={values.password}
-                  variant="outlined"
-                />
-                <Box sx={{ py: 2 }}>
-                  <Button
-                    color="lightBlue"
-                    disabled={isSubmitting}
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                  >
-                    Влизане
-                  </Button>
-                </Box>
-                <Typography
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  Нямате акаунт?
-                  {' '}
-                  <Link component={RouterLink} to="/register" variant="h5" underline="hover">
-                    Регистрация
-                  </Link>
-                </Typography>
-              </form>
-            )}
-          </Formik>
-        </Container>
-      </Box>
-    </>
-  );
+                        Нямате акаунт?
+                        {' '}
+                        <Link component={RouterLink} to="/register" variant="h5" underline="hover">
+                            Регистрация
+                        </Link>
+                    </Typography>
+                </Container>
+            </Box>
+        </>
+    );
 };
 
 export default Login;

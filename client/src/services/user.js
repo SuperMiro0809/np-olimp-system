@@ -9,8 +9,17 @@ function register(data) {
     });
 }
 
+function login(data) {
+    const url = `${servicesHelper.url}/users/login`;
+
+    return axios.post(url, data, {
+        headers: servicesHelper.header
+    });
+}
+
 const userService = {
-    register
+    register,
+    login
 }
 
 export default userService;
