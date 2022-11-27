@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import {
     Box,
@@ -11,7 +11,6 @@ import {
 import LoginForm from '../components/login-form/LoginForm';
 
 const Login = () => {
-    const navigate = useNavigate();
     const [successMsg, setSuccessMsg] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
 

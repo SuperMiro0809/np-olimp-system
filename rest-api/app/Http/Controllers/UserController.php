@@ -91,6 +91,27 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        return 'test';
+        $data = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
+
+        $u = User::whereEmail($request->email)->first();
+
+        if(!$u) {
+            return response()->json(['error' => 'Имейлът не е регистриран'], 401);
+        }
+
+        if($u->verified != 1) {
+            return response()->json(['error' => 'Регистрацията все още не е удобрена'], 401);
+        }
+
+        if (auth()->attempt($data)) {
+            $user = auth()->user();
+            $token = auth()->user()->createToken('authToken')->accessToken;
+            return response()->json(['token' => $token], 200);
+        } else {
+            return response()->json(['error' => 'Грешна парола'], 401);
+        }
     }
 }

@@ -1,8 +1,10 @@
 import FormBuilder from "../FormBuilder";
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import userService from '../../services/user';
 
 const LoginForm = ({ setSuccessMsg, setErrorMsg }) => {
+    const navigate = useNavigate();
     const initialValues = {
         email: '',
         password: ''
@@ -16,10 +18,18 @@ const LoginForm = ({ setSuccessMsg, setErrorMsg }) => {
     const onSubmit = (values, { setSubmitting }) => {
         userService.login(values)
         .then((res) => {
-            console.log(res);
+            localStorage.setItem('refresh-token', res.data.token);
+            navigate('/app/dashboard', { replace: true });
         })
         .catch((error) => {
+            const msg = error.response.data.error;
+            setErrorMsg(msg);
             setSubmitting(false);
+
+            const interval = setInterval(function () {
+                setErrorMsg('');
+                clearInterval(interval);
+            }, 2000)
         })
     };
 
