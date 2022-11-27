@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\{
     User,
@@ -113,5 +114,14 @@ class UserController extends Controller
         } else {
             return response()->json(['error' => 'Грешна парола'], 401);
         }
+    }
+
+    public function logout()
+    {
+        $user = Auth::user();
+        $user->token()->revoke();
+        $user->AauthAcessToken()->delete();
+
+        return response()->json(['message' => 'Successfully logged out'], 200);
     }
 }
