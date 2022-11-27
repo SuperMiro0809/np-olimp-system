@@ -5,7 +5,7 @@ function register(data) {
     const url = `${servicesHelper.url}/users/register`;
 
     return axios.post(url, data, {
-        headers: servicesHelper.header
+        headers: servicesHelper.header()
     });
 }
 
@@ -13,13 +13,22 @@ function login(data) {
     const url = `${servicesHelper.url}/users/login`;
 
     return axios.post(url, data, {
-        headers: servicesHelper.header
+        headers: servicesHelper.header()
+    });
+}
+
+function logout() {
+    const url = `${servicesHelper.url}/users/logout`;
+
+    return axios.get(url, {
+        headers: servicesHelper.header()
     });
 }
 
 const userService = {
     register,
-    login
+    login,
+    logout
 }
 
 export default userService;

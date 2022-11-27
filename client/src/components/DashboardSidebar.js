@@ -22,6 +22,7 @@ import {
   Users as UsersIcon
 } from 'react-feather';
 import NavItem from './NavItem';
+import LogoutItem from './logout/LogoutItem';
 
 const user = {
   avatar: '/static/images/avatars/avatar_6.png',
@@ -133,8 +134,12 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           ))}
         </List>
       </Box>
-      <Box sx={{ flexGrow: 1 }} />
-      <Box
+      <Divider />
+      <Box sx={{ p: 2 }}>
+        <LogoutItem />
+      </Box>
+      {/* <Box sx={{ flexGrow: 1 }} /> */}
+      {/* <Box
         sx={{
           backgroundColor: 'background.default',
           m: 2,
@@ -170,7 +175,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
             See PRO version
           </Button>
         </Box>
-      </Box>
+      </Box> */}
     </Box>
   );
 
