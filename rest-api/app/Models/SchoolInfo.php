@@ -10,4 +10,10 @@ class SchoolInfo extends Model
     use HasFactory;
 
     protected $table = 'school_info';
+
+    protected $fillable = [
+        'name',
+        'address',
+        'key'
+    ];
 }

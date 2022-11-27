@@ -10,4 +10,8 @@ class TeacherInfo extends Model
     use HasFactory;
 
     protected $table = 'teacher_info';
+
+    protected $fillable = [
+        'name'
+    ];
 }

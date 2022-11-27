@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->tinyInteger('verified')->default('0')->comment('-1 - unverified, 1 - verified');
+            $table->tinyInteger('verified')->default('-1')->comment('-1 - unverified, 1 - verified');
             $table->string('password');
             $table->string('type');
             $table->integer('parent_id');

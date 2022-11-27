@@ -10,4 +10,8 @@ class AdministratorInfo extends Model
     use HasFactory;
 
     protected $table = 'administrator_info';
+
+    protected $fillable = [
+        'name'
+    ];
 }

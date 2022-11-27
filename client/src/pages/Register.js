@@ -11,7 +11,8 @@ import {
   TextField,
   Typography,
   Tabs,
-  Tab
+  Tab,
+  Alert
 } from '@mui/material';
 import TabPanel from '../components/TabPanel';
 import EducationalOrganizationForm from '../components/register-forms/EducationalOrganizationForm';
@@ -20,6 +21,8 @@ import TeacherForm from '../components/register-forms/TeacherForm';
 const Register = () => {
   const navigate = useNavigate();
   const [mode, setMode] = useState(0);
+  const [successMsg, setSuccessMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState();
 
   const handleModeChange = (event, newValue) => {
     setMode(newValue);
@@ -55,6 +58,16 @@ const Register = () => {
               Въведете данните за регистрация на учител или обучителна организация
             </Typography>
           </Box>
+          {successMsg &&
+            <Box sx={{ my: 1 }}>
+              <Alert severity="success">{successMsg}</Alert>
+            </Box>
+          }
+          {errorMsg &&
+            <Box sx={{ my: 1 }}>
+              <Alert severity="error">{errorMsg}</Alert>
+            </Box>
+          }
           <Box sx={{ mt: 2 }}>
             <Tabs
               value={mode}
@@ -73,8 +86,8 @@ const Register = () => {
             </Tabs>
           </Box>
           
-          <TabPanel children={<EducationalOrganizationForm />} value={mode} index={0} />
-          <TabPanel children={<TeacherForm />} value={mode} index={1} />
+          <TabPanel children={<EducationalOrganizationForm setSuccessMsg={setSuccessMsg} setErrorMsg={setErrorMsg} />} value={mode} index={0} />
+          <TabPanel children={<TeacherForm setSuccessMsg={setSuccessMsg} setErrorMsg={setErrorMsg} />} value={mode} index={1} />
 
           <Typography
             color="textSecondary"

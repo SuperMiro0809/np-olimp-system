@@ -1,7 +1,8 @@
-import FormBuilder from "../FormBuilder";
+import FormBuilder from '../FormBuilder';
 import * as Yup from 'yup';
+import userService from '../../services/user';
 
-const TeacherForm = () => {
+const TeacherForm = ({ setSuccessMsg, setErrorMsg }) => {
     const initialValues = {
         key: '',
         name: '',
@@ -18,8 +19,27 @@ const TeacherForm = () => {
         repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Паролите не съвпадат'),
     });
 
-    const onSubmit = () => {
-        console.log('test');
+    const onSubmit = (values, { setSubmitting }) => {
+        userService.register({ mode: 1, ...values })
+        .then((res) => {
+            setSuccessMsg('Успешна регистрация! Очаквайте удобрение от администратор.');
+            setSubmitting(false);
+            const interval = setInterval(function () {
+                setSuccessMsg('');
+                clearInterval(interval);
+            }, 2000)
+        })
+        .catch((error) => {
+            if(error.response.status == 422) {
+                setErrorMsg(error.response.data.errors[0]);
+            }
+            setSubmitting(false);
+            
+            const interval = setInterval(function () {
+                setErrorMsg('');
+                clearInterval(interval);
+            }, 2000)
+        })
     };
 
     const fields = [
