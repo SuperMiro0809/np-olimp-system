@@ -10,10 +10,12 @@ import ProductList from './pages/ProductList';
 import Register from './pages/Register';
 import Settings from './pages/Settings';
 
+import AuthGuard from './hoc/AuthGuard';
+
 const routes = [
   {
     path: 'app',
-    element: <DashboardLayout />,
+    element: <AuthGuard component={DashboardLayout} isLoggedFromRoute={true}/>,
     children: [
       { path: 'account', element: <Account /> },
       { path: 'customers', element: <CustomerList /> },

@@ -25,10 +25,19 @@ function logout() {
     });
 }
 
+function profile() {
+    const url = `${servicesHelper.url}/users/profile`;
+
+    return axios.get(url, {
+        headers: servicesHelper.header()
+    });
+}
+
 const userService = {
     register,
     login,
-    logout
+    logout,
+    profile
 }
 
 export default userService;

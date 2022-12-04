@@ -22,6 +22,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/register', [UserController::class, 'register'])->withoutMiddleware('auth:api');
         Route::post('/login', [UserController::class, 'login'])->withoutMiddleware('auth:api');
 
+        Route::get('/profile', [UserController::class, 'profile']);
         Route::get('/logout', [UserController::class, 'logout']);
     });
 });

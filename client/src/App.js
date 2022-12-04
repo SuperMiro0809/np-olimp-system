@@ -1,9 +1,10 @@
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import { useRoutes } from 'react-router-dom';
-import { ThemeProvider, StyledEngineProvider  } from '@mui/material';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material';
 import GlobalStyles from './components/GlobalStyles';
 import theme from './theme';
 import routes from './routes';
+import AuthProvider from './providers/AuthProvider';
 
 const App = () => {
   const content = useRoutes(routes);
@@ -12,7 +13,9 @@ const App = () => {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        {content}
+        <AuthProvider>
+          {content}
+        </AuthProvider>
       </ThemeProvider>
     </StyledEngineProvider>
   );
