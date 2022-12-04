@@ -3,20 +3,22 @@ import { Button } from '@mui/material';
 import userServices from '../../services/user';
 import { useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
+import useAuth from '../../hooks/useAuth';
 
 const LogoutItem = () => {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+    const { setUser } = useAuth();
 
     const logout = () => {
         userServices.logout()
         .then((res) => {
-            //userContext[1]({});
+            setUser(null);
             localStorage.removeItem('refresh-token');
             navigate('/login', { replace: true });
         })
         .catch(err => {
             if(err.message === 'Unauthorized') {
-                // userContext[1]({});
+                setUser(null);
                 localStorage.removeItem('refresh-token');
                 navigate('/login');
             }

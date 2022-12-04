@@ -2,9 +2,11 @@ import FormBuilder from "../FormBuilder";
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import userService from '../../services/user';
+import useAuth from '../../hooks/useAuth';
 
 const LoginForm = ({ setSuccessMsg, setErrorMsg }) => {
     const navigate = useNavigate();
+    const { setUser } = useAuth();
     const initialValues = {
         email: '',
         password: ''
@@ -19,6 +21,7 @@ const LoginForm = ({ setSuccessMsg, setErrorMsg }) => {
         userService.login(values)
         .then((res) => {
             localStorage.setItem('refresh-token', res.data.token);
+            setUser(res.data.user);
             navigate('/app/dashboard', { replace: true });
         })
         .catch((error) => {
