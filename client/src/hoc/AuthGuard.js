@@ -8,10 +8,14 @@ const AuthGuard = ({ component: Component, isLoggedFromRoute, ...rest }) => {
 
     useEffect(() => {
         if(isLoggedFromRoute !== !!user) {
-            navigate('/login');
+            if(isLoggedFromRoute) {
+                navigate('/login');
+            }else {
+                navigate(-1);
+            }
         }
 
-    }, []);
+    }, [user]);
 
     return <Component />
 };

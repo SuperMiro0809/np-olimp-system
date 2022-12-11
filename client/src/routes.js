@@ -29,8 +29,8 @@ const routes = [
     path: '/',
     element: <MainLayout />,
     children: [
-      { path: 'login', element: <Login /> },
-      { path: 'register', element: <Register /> },
+      { path: 'login', element: <AuthGuard component={Login} isLoggedFromRoute={false}/> },
+      { path: 'register', element: <AuthGuard component={Register} isLoggedFromRoute={false}/> },
       { path: '404', element: <NotFound /> },
       { path: '/', element: <Navigate to="/app/dashboard" /> },
       { path: '*', element: <Navigate to="/404" /> }

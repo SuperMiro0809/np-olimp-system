@@ -12,7 +12,7 @@ export default function AuthProvider({ children }) {
     useEffect(() => {
         userService.profile()
         .then((res) => {
-            setUser(user.data);
+            setUser(res.data);
         })
         .catch((error) => {
             setUser(null)
