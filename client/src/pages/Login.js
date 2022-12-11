@@ -8,7 +8,7 @@ import {
     Typography,
     Alert
 } from '@mui/material';
-import LoginForm from '../modules/login/components/LoginForm/LoginForm';
+import LoginForm from '@modules/login/components/LoginForm/LoginForm';
 
 const Login = () => {
     const [successMsg, setSuccessMsg] = useState('');

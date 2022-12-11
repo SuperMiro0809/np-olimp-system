@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
-import DashboardLayout from './modules/dashboard/layouts/DashboardLayout';
-import MainLayout from './modules/main/layouts/MainLayout';
+import DashboardLayout from '@modules/dashboard/layouts/DashboardLayout';
+import MainLayout from '@modules/main/layouts/MainLayout';
 import Account from './pages/Account';
 import CustomerList from './pages/CustomerList';
 import Dashboard from './pages/Dashboard';
@@ -10,7 +10,7 @@ import ProductList from './pages/ProductList';
 import Register from './pages/Register';
 import Settings from './pages/Settings';
 
-import AuthGuard from './modules/common/hoc/AuthGuard';
+import AuthGuard from '@modules/common/hoc/AuthGuard';
 
 const routes = [
   {

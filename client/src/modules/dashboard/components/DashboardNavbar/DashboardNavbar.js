@@ -12,7 +12,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/NotificationsOutlined';
 import InputIcon from '@mui/icons-material/Input';
-import Logo from './common/components/Logo/Logo';
+import Logo from '@modules/common/components/Logo/Logo';
 
 const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
   const [notifications] = useState([]);
