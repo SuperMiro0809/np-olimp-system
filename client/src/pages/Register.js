@@ -14,9 +14,9 @@ import {
   Tab,
   Alert
 } from '@mui/material';
-import TabPanel from '../components/TabPanel';
-import EducationalOrganizationForm from '../components/register-forms/EducationalOrganizationForm';
-import TeacherForm from '../components/register-forms/TeacherForm';
+import TabPanel from '../modules/common/components/TabPanel/TabPanel';
+import EducationalOrganizationForm from '../modules/register/components/EducationalOrganizationForm/EducationalOrganizationForm';
+import TeacherForm from '../modules/register/components/TeacherForm/TeacherForm';
 
 const Register = () => {
   const navigate = useNavigate();

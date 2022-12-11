@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { styled } from '@mui/styles';
-import MainNavbar from './MainNavbar';
+import MainNavbar from '../components/MainNavbar/MainNavbar';
 
 const MainLayoutRoot = styled('div')(
   ({ theme }) => ({

@@ -4,8 +4,8 @@ import {
   Container,
   Grid
 } from '@mui/material';
-import AccountProfile from '../components/account/AccountProfile';
-import AccountProfileDetails from '../components/account/AccountProfileDetails';
+import AccountProfile from '../modules/account/AccountProfile';
+import AccountProfileDetails from '../modules/account/AccountProfileDetails';
 
 const Account = () => (
   <>

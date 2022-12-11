@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { styled } from '@mui/styles';
-import DashboardNavbar from './DashboardNavbar';
-import DashboardSidebar from './DashboardSidebar';
+import DashboardNavbar from '../../DashboardNavbar';
+import DashboardSidebar from '../components/DashboardSidebar/DashboardSidebar';
 
 const DashboardLayoutRoot = styled('div')(
   ({ theme }) => ({

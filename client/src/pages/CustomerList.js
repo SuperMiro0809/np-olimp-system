@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@mui/material';
-import CustomerListResults from '../components/customer/CustomerListResults';
-import CustomerListToolbar from '../components/customer/CustomerListToolbar';
+import CustomerListResults from '../modules/customer/CustomerListResults';
+import CustomerListToolbar from '../modules/customer/CustomerListToolbar';
 import customers from '../__mocks__/customers';
 
 const CustomerList = () => (

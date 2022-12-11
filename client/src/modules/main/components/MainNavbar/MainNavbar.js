@@ -1,6 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { AppBar, Toolbar } from '@mui/material';
-import Logo from './Logo';
+import Logo from '../../../common/components/Logo/Logo';
 
 const MainNavbar = (props) => (
   <AppBar

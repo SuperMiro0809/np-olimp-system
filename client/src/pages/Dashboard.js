@@ -1,13 +1,13 @@
 import { Helmet } from 'react-helmet';
 import { Box, Container, Grid } from '@mui/material';
-import Budget from '../components/dashboard/Budget';
-import LatestOrders from '../components/dashboard/LatestOrders';
-import LatestProducts from '../components/dashboard/LatestProducts';
-import Sales from '../components/dashboard/Sales';
-import TasksProgress from '../components/dashboard/TasksProgress';
-import TotalCustomers from '../components/dashboard/TotalCustomers';
-import TotalProfit from '../components/dashboard/TotalProfit';
-import TrafficByDevice from '../components/dashboard/TrafficByDevice';
+import Budget from '../modules/dashboard/components/Budget';
+import LatestOrders from '../modules/dashboard/components/LatestOrders';
+import LatestProducts from '../modules/dashboard/components/LatestProducts';
+import Sales from '../modules/dashboard/components/Sales';
+import TasksProgress from '../modules/dashboard/components/TasksProgress';
+import TotalCustomers from '../modules/dashboard/components/TotalCustomers';
+import TotalProfit from '../modules/dashboard/components/TotalProfit';
+import TrafficByDevice from '../modules/dashboard/components/TrafficByDevice';
 
 const Dashboard = () => (
   <>

@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import { Button } from '@mui/material';
-import userServices from '../../services/user';
+import userServices from '../../../../services/user';
 import { useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
-import useAuth from '../../hooks/useAuth';
+import useAuth from '../../../common/hooks/useAuth';
 
 const LogoutItem = () => {
     const navigate = useNavigate();

@@ -5,8 +5,8 @@ import {
   Grid,
   Pagination
 } from '@mui/material';
-import ProductListToolbar from '../components/product/ProductListToolbar';
-import ProductCard from '../components/product/ProductCard';
+import ProductListToolbar from '../modules/product/ProductListToolbar';
+import ProductCard from '../modules/product/ProductCard';
 import products from '../__mocks__/products';
 
 const ProductList = () => (
