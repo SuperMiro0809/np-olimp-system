@@ -24,7 +24,7 @@ const EducationalOrganizationForm = ({ setSuccessMsg, setErrorMsg }) => {
     const onSubmit = (values, { setSubmitting }) => {
         userService.register({ mode: 0, ...values})
         .then((res) => {
-            setSuccessMsg('Успешна регистрация! Очаквайте удобрение от администратор.');
+            setSuccessMsg('Успешна регистрация! Очаквайте одобрение от администратор.');
             setSubmitting(false);
             const interval = setInterval(function () {
                 setSuccessMsg('');

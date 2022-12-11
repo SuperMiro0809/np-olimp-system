@@ -104,7 +104,7 @@ class UserController extends Controller
         }
 
         if($u->verified != 1) {
-            return response()->json(['error' => 'Регистрацията все още не е удобрена'], 401);
+            return response()->json(['error' => 'Регистрацията все още не е одобрена'], 401);
         }
 
         if (auth()->attempt($data)) {
