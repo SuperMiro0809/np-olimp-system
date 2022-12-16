@@ -41,12 +41,18 @@ const LoginForm = ({ setSuccessMsg, setErrorMsg }) => {
         { type: 'password', name: 'password', label: 'Парола' }
     ];
 
+    const submitButton = {
+        label: 'Влизане',
+        color: 'lightBlue'
+    };
+
     return (
         <FormBuilder
             fields={fields}
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
+            submitButton={submitButton}
         />
     );
 }

@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const FormBuilder = ({ fields, initialValues, validationSchema, onSubmit }) => {
+const FormBuilder = ({ fields, initialValues, validationSchema, onSubmit, submitButton }) => {
 
     return (
         <Formik
@@ -54,14 +54,14 @@ const FormBuilder = ({ fields, initialValues, validationSchema, onSubmit }) => {
                     )} */}
                     <Box sx={{ py: 2 }}>
                         <Button
-                            color="lightBlue"
+                            color={submitButton && submitButton.color ? submitButton.color : 'primary'}
+                            size={submitButton && submitButton.size ? submitButton.size : 'large'}
+                            variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
+                            fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
                             disabled={isSubmitting}
-                            fullWidth
-                            size="large"
                             type="submit"
-                            variant="contained"
                         >
-                            Регистриране
+                            {submitButton ? submitButton.label : 'Добавяне'}
                         </Button>
                     </Box>
                 </form>
@@ -74,7 +74,8 @@ FormBuilder.propTypes = {
     fields: PropTypes.array.isRequired,
     initialValues: PropTypes.object,
     validationSchema: PropTypes.object,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    submitButton: PropTypes.object
 };
 
 export default FormBuilder;

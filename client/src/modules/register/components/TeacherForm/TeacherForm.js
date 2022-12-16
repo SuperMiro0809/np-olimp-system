@@ -50,12 +50,18 @@ const TeacherForm = ({ setSuccessMsg, setErrorMsg }) => {
         { type: 'password', name: 'repeatPassword', label: 'Повторете паролата' },
     ];
 
+    const submitButton = {
+        label: 'Регистриране',
+        color: 'lightBlue'
+    };
+
     return (
         <FormBuilder
             fields={fields}
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
+            submitButton={submitButton}
         />
     );
 }
