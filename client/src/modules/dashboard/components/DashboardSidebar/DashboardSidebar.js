@@ -24,6 +24,13 @@ import {
 import NavItem from './NavItem';
 import LogoutItem from './LogoutItem';
 
+
+import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
+
+//training-organizations
+import SchoolIcon from '@mui/icons-material/School';
+import DescriptionIcon from '@mui/icons-material/Description';
+
 const user = {
   avatar: '/static/images/avatars/avatar_6.png',
   jobTitle: 'Senior Developer',
@@ -33,9 +40,19 @@ const user = {
 const items = [
   {
     href: '/app/dashboard',
-    icon: BarChartIcon,
-    title: 'Dashboard'
+    icon: SignalCellularAltIcon,
+    title: 'Начало'
   },
+  {
+    href: '/app/training-organizations',
+    icon: SchoolIcon,
+    title: 'Обучителни организации'
+  },
+  {
+    href: '/app/training-organizations/requests',
+    icon: DescriptionIcon,
+    title: 'Заявки'
+  }
   // {
   //   href: '/app/customers',
   //   icon: UsersIcon,

@@ -10,6 +10,9 @@ import ProductList from './pages/ProductList';
 import Register from './pages/Register';
 import Settings from './pages/Settings';
 
+import TrainingOrganizationsList from './pages/TrainingOrganizations/Index';
+import TrainingOrganizationsRequestList from './pages/TrainingOrganizations/RequestList';
+
 import AuthGuard from '@modules/common/hoc/AuthGuard';
 
 const routes = [
@@ -18,7 +21,13 @@ const routes = [
     element: <AuthGuard component={DashboardLayout} isLoggedFromRoute={true}/>,
     children: [
       { path: 'account', element: <Account /> },
-      { path: 'customers', element: <CustomerList /> },
+      { 
+        path: 'training-organizations',
+        children: [
+          { path: '', element: <TrainingOrganizationsList /> },
+          { path: 'requests', element: <TrainingOrganizationsRequestList /> }
+        ]
+      },
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'products', element: <ProductList /> },
       { path: 'settings', element: <Settings /> },
