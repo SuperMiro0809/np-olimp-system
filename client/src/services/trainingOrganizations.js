@@ -9,8 +9,8 @@ function getVerified() {
     });
 }
 
-function getNotVerified() {
-    const url = `${servicesHelper.url}/training-organizations/requests`;
+function getNotVerified(page, rows) {
+    const url = `${servicesHelper.url}/training-organizations/requests?page=${page}&total=${rows}`;
 
     return axios.get(url, {
         headers: servicesHelper.header()

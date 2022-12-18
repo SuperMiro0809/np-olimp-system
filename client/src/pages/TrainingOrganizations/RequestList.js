@@ -7,6 +7,7 @@ import Pagination from '@modules/common/components/Pagination/Pagination';
 
 const RequestList = () => {
     const [requests, setRequests] = useState([]);
+    const [total, setTotal] = useState(0);
     const [page, setPage] = useState(1);
     const [rows, setRows] = useState(10);
 
@@ -17,7 +18,8 @@ const RequestList = () => {
     const getNotVerifiedOrganizations = () => {
         trainingOrganizationsService.getNotVerified(page, rows)
         .then((res) => {
-            setRequests(res.data);
+            setRequests(res.data.data);
+            setTotal(res.data.total);
         })
         .catch((err) => {
             console.log(err);
@@ -44,7 +46,7 @@ const RequestList = () => {
                         />
                     </Box>
                     <Pagination
-                        total={100}
+                        total={total}
                         page={page}
                         setPage={setPage}
                         rows={rows}

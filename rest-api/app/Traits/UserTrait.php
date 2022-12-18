@@ -17,7 +17,13 @@ trait UserTrait {
             }
         });
 
-        return $query->get();
+        if(request()->query('total')) {
+            $schoolInfo = $query->paginate(request()->query('total'))->withQueryString();
+        }else {
+            $schoolInfo = $query->paginate(10)->withQueryString();
+        }
+
+        return $schoolInfo;
     }
 
     public function verifySchoolInfo($id, $accept) {
