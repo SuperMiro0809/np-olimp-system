@@ -2,12 +2,16 @@ import { Stack } from '@mui/material';
 import AcceptanceCard from "@modules/common/components/AcceptanceCard/AcceptanceCard";
 import SchoolIcon from '@mui/icons-material/School';
 import trainingOrganizationsService from '@services/trainingOrganizations';
+import useMessage from '@modules/common/hooks/useMessage';
 
 const RequestListResult = ({ items, getNotVerifiedOrganizations }) => {
+    const { addMessage } = useMessage();
+
     const onAccept = (id) => {
         trainingOrganizationsService.accept(id)
         .then((res) => {
             console.log(res.data);
+            addMessage('Регистрацията е одобрена', 'success');
             getNotVerifiedOrganizations();
         })
         .catch((err) => {
@@ -19,6 +23,7 @@ const RequestListResult = ({ items, getNotVerifiedOrganizations }) => {
         trainingOrganizationsService.reject(id)
         .then((res) => {
             console.log(res.data);
+            addMessage('Регистрацията е отказана', 'success');
             getNotVerifiedOrganizations();
         })
         .catch((err) => {
