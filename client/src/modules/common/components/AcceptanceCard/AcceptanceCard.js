@@ -11,7 +11,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 import PropTypes from 'prop-types';
 
-const AcceptanceCard = ({ data }) => {
+const AcceptanceCard = ({ data, onAccept, onReject }) => {
     const { icon: Icon } = data;
 
     return (
@@ -36,10 +36,10 @@ const AcceptanceCard = ({ data }) => {
             </CardContent>
             <Box>
                 <Stack direction="row" spacing={2}>
-                    <Button variant="outlined" startIcon={<ClearIcon />} color="error">
+                    <Button variant="outlined" startIcon={<ClearIcon />} color="error" onClick={onReject}>
                         Отказ
                     </Button>
-                    <Button variant="contained" startIcon={<CheckIcon />} color="lightBlue">
+                    <Button variant="contained" startIcon={<CheckIcon />} color="lightBlue" onClick={onAccept}>
                         Прием
                     </Button>
                 </Stack>
@@ -49,7 +49,9 @@ const AcceptanceCard = ({ data }) => {
 }
 
 AcceptanceCard.propTypes = {
-    data: PropTypes.object.isRequired
+    data: PropTypes.object.isRequired,
+    onAccept: PropTypes.func.isRequired,
+    onReject: PropTypes.func.isRequired
 };
 
 export default AcceptanceCard;
