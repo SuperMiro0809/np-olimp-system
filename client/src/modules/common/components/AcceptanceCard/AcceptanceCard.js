@@ -37,10 +37,10 @@ const AcceptanceCard = ({ data, onAccept, onReject }) => {
             <Box>
                 <Stack direction="row" spacing={2}>
                     <Button variant="outlined" startIcon={<ClearIcon />} color="error" onClick={() => onReject(data.id)}>
-                        Отказ
+                        Откажи
                     </Button>
                     <Button variant="contained" startIcon={<CheckIcon />} color="lightBlue" onClick={() => onAccept(data.id)}>
-                        Прием
+                        Приеми
                     </Button>
                 </Stack>
             </Box>
