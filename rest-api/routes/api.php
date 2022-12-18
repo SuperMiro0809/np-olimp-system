@@ -3,7 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
-    UserController
+    UserController,
+    TrainingOrganizationsController
 };
 
 /*
@@ -24,5 +25,10 @@ Route::middleware('auth:api')->group(function () {
 
         Route::get('/profile', [UserController::class, 'profile']);
         Route::get('/logout', [UserController::class, 'logout']);
+    });
+
+    Route::prefix('training-organizations')->group(function () {
+        Route::get('/', [TrainingOrganizationsController::class, 'index']);
+        Route::get('/requests', [TrainingOrganizationsController::class, 'requests']);
     });
 });

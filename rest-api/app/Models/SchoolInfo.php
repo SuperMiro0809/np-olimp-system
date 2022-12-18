@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\User;
+
 class SchoolInfo extends Model
 {
     use HasFactory;
@@ -16,4 +18,8 @@ class SchoolInfo extends Model
         'address',
         'key'
     ];
+
+    public function user() {
+        return $this->morphOne(User::class, 'parent', 'type');
+    }
 }
