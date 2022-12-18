@@ -8,6 +8,10 @@ const RequestList = () => {
     const [requests, setRequests] = useState([]);
 
     useEffect(() => {
+        getNotVerifiedOrganizations();
+    }, []);
+
+    const getNotVerifiedOrganizations = () => {
         trainingOrganizationsService.getNotVerified()
         .then((res) => {
             setRequests(res.data);
@@ -15,7 +19,7 @@ const RequestList = () => {
         .catch((err) => {
             console.log(err);
         })
-    }, []);
+    };
 
     return (
         <>
@@ -31,7 +35,7 @@ const RequestList = () => {
             >
                 <Container maxWidth={false}>
                     <Box sx={{ mt: 3 }}>
-                        <RequestListResult items={requests}/>
+                        <RequestListResult items={requests} getNotVerifiedOrganizations={getNotVerifiedOrganizations} />
                     </Box>
                 </Container>
             </Box>

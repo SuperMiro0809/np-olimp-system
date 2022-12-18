@@ -17,9 +17,27 @@ function getNotVerified() {
     });
 }
 
+function accept(id) {
+    const url = `${servicesHelper.url}/training-organizations/accept/${id}`;
+
+    return axios.put(url, {}, {
+        headers: servicesHelper.header()
+    });
+}
+
+function reject(id) {
+    const url = `${servicesHelper.url}/training-organizations/reject/${id}`;
+
+    return axios.put(url, {}, {
+        headers: servicesHelper.header()
+    });
+}
+
 const trainingOrganizationsService = {
     getVerified,
-    getNotVerified
+    getNotVerified,
+    accept,
+    reject
 }
 
 export default trainingOrganizationsService;
