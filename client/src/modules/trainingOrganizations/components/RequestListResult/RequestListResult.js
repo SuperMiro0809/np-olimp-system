@@ -10,7 +10,6 @@ const RequestListResult = ({ items, getNotVerifiedOrganizations }) => {
     const onAccept = (id) => {
         trainingOrganizationsService.accept(id)
             .then((res) => {
-                console.log(res.data);
                 addMessage('Регистрацията е одобрена', 'success');
                 getNotVerifiedOrganizations();
             })
@@ -22,7 +21,6 @@ const RequestListResult = ({ items, getNotVerifiedOrganizations }) => {
     const onReject = (id) => {
         trainingOrganizationsService.reject(id)
             .then((res) => {
-                console.log(res.data);
                 addMessage('Регистрацията е отказана', 'success');
                 getNotVerifiedOrganizations();
             })
@@ -48,8 +46,6 @@ const RequestListResult = ({ items, getNotVerifiedOrganizations }) => {
                 <Typography component='div' variant='h4' textAlign='center'>Няма заявки</Typography>
             }
         </>
-
-
     );
 };
 

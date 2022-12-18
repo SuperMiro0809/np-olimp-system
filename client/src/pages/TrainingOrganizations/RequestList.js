@@ -3,16 +3,19 @@ import { Helmet } from 'react-helmet';
 import { Box, Container } from '@mui/material';
 import RequestListResult from '@modules/trainingOrganizations/components/RequestListResult/RequestListResult';
 import trainingOrganizationsService from '@services/trainingOrganizations';
+import Pagination from '@modules/common/components/Pagination/Pagination';
 
 const RequestList = () => {
     const [requests, setRequests] = useState([]);
+    const [page, setPage] = useState(1);
+    const [rows, setRows] = useState(10);
 
     useEffect(() => {
         getNotVerifiedOrganizations();
-    }, []);
+    }, [page, rows]);
 
     const getNotVerifiedOrganizations = () => {
-        trainingOrganizationsService.getNotVerified()
+        trainingOrganizationsService.getNotVerified(page, rows)
         .then((res) => {
             setRequests(res.data);
         })
@@ -35,8 +38,18 @@ const RequestList = () => {
             >
                 <Container maxWidth={false}>
                     <Box sx={{ mt: 3 }}>
-                        <RequestListResult items={requests} getNotVerifiedOrganizations={getNotVerifiedOrganizations} />
+                        <RequestListResult
+                            items={requests}
+                            getNotVerifiedOrganizations={getNotVerifiedOrganizations}
+                        />
                     </Box>
+                    <Pagination
+                        total={100}
+                        page={page}
+                        setPage={setPage}
+                        rows={rows}
+                        setRows={setRows}
+                    />
                 </Container>
             </Box>
         </>
