@@ -5,6 +5,7 @@ import GlobalStyles from '@modules/common/components/GlobalStyles/GlobalStyles';
 import theme from './theme';
 import routes from './routes';
 import AuthProvider from '@modules/common/providers/AuthProvider';
+import MessageProvider from '@modules/common/providers/MessageProvider';
 
 const App = () => {
   const content = useRoutes(routes);
@@ -14,7 +15,9 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <GlobalStyles />
         <AuthProvider>
-          {content}
+          <MessageProvider>
+            {content}
+          </MessageProvider>
         </AuthProvider>
       </ThemeProvider>
     </StyledEngineProvider>
