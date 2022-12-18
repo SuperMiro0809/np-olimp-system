@@ -22,7 +22,15 @@ class TrainingOrganizationsController extends Controller
         return $schoolInfo;
     }
 
-    public function verify() {
+    public function accept($id) {
+        $msg = $this->verifySchoolInfo($id, true);
 
+        return response()->json(['message' => $msg], 200);
+    }
+
+    public function reject($id) {
+        $msg = $this->verifySchoolInfo($id, false);
+
+        return response()->json(['message' => $msg], 200);
     }
 }
