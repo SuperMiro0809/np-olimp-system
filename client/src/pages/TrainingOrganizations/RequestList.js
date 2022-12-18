@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@mui/material';
 import RequestListResult from '@modules/trainingOrganizations/components/RequestListResult/RequestListResult';
-import trainingOrganizationsService from '../../services/trainingOrganizations';
+import trainingOrganizationsService from '@services/trainingOrganizations';
 
 const RequestList = () => {
     const [requests, setRequests] = useState([]);

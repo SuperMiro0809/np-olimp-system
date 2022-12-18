@@ -1,8 +1,8 @@
-import FormBuilder from "../../../common/components/FormBuilder/FormBuilder";
+import FormBuilder from '@modules/common/components/FormBuilder/FormBuilder';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import userService from '../../../../services/user';
-import useAuth from '../../../common/hooks/useAuth';
+import userService from '@services/user';
+import useAuth from '@modules/common/hooks/useAuth';
 
 const LoginForm = ({ setSuccessMsg, setErrorMsg }) => {
     const navigate = useNavigate();

@@ -1,6 +1,6 @@
-import FormBuilder from '../../../common/components/FormBuilder/FormBuilder';
+import FormBuilder from '@modules/common/components/FormBuilder/FormBuilder';
 import * as Yup from 'yup';
-import userService from '../../../../services/user';
+import userService from '@services/user';
 
 const EducationalOrganizationForm = ({ setSuccessMsg, setErrorMsg }) => {
     const initialValues = {

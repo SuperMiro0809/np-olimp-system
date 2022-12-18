@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@mui/material';
-import trainingOrganizationsService from '../../services/trainingOrganizations';
+import trainingOrganizationsService from '@services/trainingOrganizations';
 
 const TrainingOrganizationsList = () => {
 
