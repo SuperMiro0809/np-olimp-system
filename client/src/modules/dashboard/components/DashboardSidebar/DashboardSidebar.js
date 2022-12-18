@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
@@ -23,6 +23,7 @@ import {
 } from 'react-feather';
 import NavItem from './NavItem';
 import LogoutItem from './LogoutItem';
+import trainingOrganizationsService from '@services/trainingOrganizations';
 
 
 import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
@@ -37,66 +38,42 @@ const user = {
   name: 'Katarina Smith'
 };
 
-const items = [
-  {
-    href: '/app/dashboard',
-    icon: SignalCellularAltIcon,
-    title: 'Начало'
-  },
-  {
-    href: '/app/training-organizations',
-    icon: SchoolIcon,
-    title: 'Обучителни организации'
-  },
-  {
-    href: '/app/training-organizations/requests',
-    icon: DescriptionIcon,
-    title: 'Заявки'
-  }
-  // {
-  //   href: '/app/customers',
-  //   icon: UsersIcon,
-  //   title: 'Customers'
-  // },
-  // {
-  //   href: '/app/products',
-  //   icon: ShoppingBagIcon,
-  //   title: 'Products'
-  // },
-  // {
-  //   href: '/app/account',
-  //   icon: UserIcon,
-  //   title: 'Account'
-  // },
-  // {
-  //   href: '/app/settings',
-  //   icon: SettingsIcon,
-  //   title: 'Settings'
-  // },
-  // {
-  //   href: '/login',
-  //   icon: LockIcon,
-  //   title: 'Login'
-  // },
-  // {
-  //   href: '/register',
-  //   icon: UserPlusIcon,
-  //   title: 'Register'
-  // },
-  // {
-  //   href: '/404',
-  //   icon: AlertCircleIcon,
-  //   title: 'Error'
-  // }
-];
-
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
+  const [trainingOrganizationsRequestCount, setTrainingOrganizationsRequestCount] = useState(0);
+
+  const items = [
+    {
+      href: '/app/dashboard',
+      icon: SignalCellularAltIcon,
+      title: 'Начало'
+    },
+    {
+      href: '/app/training-organizations',
+      icon: SchoolIcon,
+      title: 'Обучителни организации'
+    },
+    {
+      href: '/app/training-organizations/requests',
+      icon: DescriptionIcon,
+      title: 'Заявки',
+      badge: {
+        content: trainingOrganizationsRequestCount,
+        color: 'primary'
+      }
+    }
+  ];
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
+
+    trainingOrganizationsService.requestsCount()
+    .then((res) => {
+      setTrainingOrganizationsRequestCount(res.data);
+    })
+
   }, [location.pathname]);
 
   const content = (
@@ -147,6 +124,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
               key={item.title}
               title={item.title}
               icon={item.icon}
+              {...item}
             />
           ))}
         </List>

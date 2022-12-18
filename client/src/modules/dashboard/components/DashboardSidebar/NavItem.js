@@ -4,7 +4,7 @@ import {
   useLocation
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Button, ListItem } from '@mui/material';
+import { Button, ListItem, Badge, styled } from '@mui/material';
 
 const NavItem = ({
   href,
@@ -19,13 +19,21 @@ const NavItem = ({
     end: true
   }, location.pathname) : false;
 
+  const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+      marginRight: '25px'
+    },
+  }));
+
   return (
     <ListItem
       disableGutters
       sx={{
         display: 'flex',
-        py: 0
+        py: 0,
+        pr: 0
       }}
+      secondaryAction={!!rest.badge && <StyledBadge badgeContent={rest.badge.content} color={rest.badge.color} />}
       {...rest}
     >
       <Button

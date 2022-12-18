@@ -10,27 +10,41 @@ class TrainingOrganizationsController extends Controller
 {
     use UserTrait;
 
-    public function index() {
+    public function index()
+    {
         $schoolInfo = $this->getSchoolInfo(true);
 
         return $schoolInfo;
     }
 
-    public function requests() {
+    public function requests()
+    {
         $schoolInfo = $this->getSchoolInfo(false);
 
         return $schoolInfo;
     }
 
-    public function accept($id) {
+    public function accept($id)
+    {
         $msg = $this->verifySchoolInfo($id, true);
 
         return response()->json(['message' => $msg], 200);
     }
 
-    public function reject($id) {
+    public function reject($id)
+    {
         $msg = $this->verifySchoolInfo($id, false);
 
         return response()->json(['message' => $msg], 200);
+    }
+
+    public function requestsCount()
+    {
+        $count = SchoolInfo::whereHas('user', function ($q) {
+                    $q->IsNotVerified();
+                })
+                ->count();
+
+        return $count;
     }
 }

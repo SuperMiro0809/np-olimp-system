@@ -33,11 +33,20 @@ function reject(id) {
     });
 }
 
+function requestsCount() {
+    const url = `${servicesHelper.url}/training-organizations/requests/count`;
+
+    return axios.get(url, {
+        headers: servicesHelper.header()
+    });
+}
+
 const trainingOrganizationsService = {
     getVerified,
     getNotVerified,
     accept,
-    reject
+    reject,
+    requestsCount
 }
 
 export default trainingOrganizationsService;
