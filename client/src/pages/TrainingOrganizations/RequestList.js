@@ -1,8 +1,22 @@
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@mui/material';
 import RequestListResult from '@modules/trainingOrganizations/components/RequestListResult/RequestListResult';
+import trainingOrganizationsService from '../../services/trainingOrganizations';
 
 const RequestList = () => {
+    const [requests, setRequests] = useState([]);
+
+    useEffect(() => {
+        trainingOrganizationsService.getNotVerified()
+        .then((res) => {
+            setRequests(res.data);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }, []);
+
     return (
         <>
             <Helmet>
@@ -17,7 +31,7 @@ const RequestList = () => {
             >
                 <Container maxWidth={false}>
                     <Box sx={{ mt: 3 }}>
-                        <RequestListResult items={[1, 2, 3, 4]}/>
+                        <RequestListResult items={requests}/>
                     </Box>
                 </Container>
             </Box>
