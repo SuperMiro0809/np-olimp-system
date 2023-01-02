@@ -1,6 +1,9 @@
 import { Navigate } from 'react-router-dom';
+
 import DashboardLayout from '@modules/dashboard/layouts/DashboardLayout';
+import DashboardPageLayout from '@modules/dashboard/layouts/DashboardPageLayout';
 import MainLayout from '@modules/main/layouts/MainLayout';
+
 import Account from './pages/Account';
 import CustomerList from './pages/CustomerList';
 import Dashboard from './pages/Dashboard';
@@ -23,6 +26,7 @@ const routes = [
       { path: 'account', element: <Account /> },
       { 
         path: 'training-organizations',
+        element: <DashboardPageLayout title='Обучителни организации' />,
         children: [
           { path: '', element: <TrainingOrganizationsList /> },
           { path: 'requests', element: <TrainingOrganizationsRequestList /> }
