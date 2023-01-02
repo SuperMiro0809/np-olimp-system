@@ -42,7 +42,7 @@ const Pagination = ({
                 </FormControl>
             </Box>
             <PaginationMUI
-                count={Math.ceil(total / rows)}
+                count={Math.ceil(total / rows) || 1}
                 color='primary'
                 page={page}
                 onChange={handlePageChange}
