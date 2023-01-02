@@ -23,7 +23,8 @@ class User extends Authenticatable
         'password',
         'role_id',
         'type',
-        'parent_id'
+        'parent_id',
+        'verified'
     ];
 
     /**

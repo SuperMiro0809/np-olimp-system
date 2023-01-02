@@ -14,6 +14,7 @@ import Register from './pages/Register';
 import Settings from './pages/Settings';
 
 import TrainingOrganizationsList from './pages/TrainingOrganizations/Index';
+import TrainingOrganizationsAdd from './pages/TrainingOrganizations/Create';
 import TrainingOrganizationsRequestList from './pages/TrainingOrganizations/RequestList';
 
 import AuthGuard from '@modules/common/hoc/AuthGuard';
@@ -29,6 +30,7 @@ const routes = [
         element: <DashboardPageLayout title='Обучителни организации' />,
         children: [
           { path: '', element: <TrainingOrganizationsList /> },
+          { path: 'create', element: <TrainingOrganizationsAdd /> },
           { path: 'requests', element: <TrainingOrganizationsRequestList /> }
         ]
       },

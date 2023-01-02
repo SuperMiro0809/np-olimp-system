@@ -19,6 +19,14 @@ function getVerified(pagination, filters, order) {
     });
 }
 
+function create(data) {
+    const url = `${servicesHelper.url}/training-organizations`;
+
+    return axios.post(url, data, {
+        headers: servicesHelper.header()
+    });
+}
+
 function getNotVerified(page, rows) {
     const url = `${servicesHelper.url}/training-organizations/requests?page=${page}&total=${rows}`;
 
@@ -53,6 +61,7 @@ function requestsCount() {
 
 const trainingOrganizationsService = {
     getVerified,
+    create,
     getNotVerified,
     accept,
     reject,
