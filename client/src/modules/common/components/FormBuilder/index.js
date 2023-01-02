@@ -10,6 +10,12 @@ import PropTypes from 'prop-types';
 
 const FormBuilder = ({ fields, initialValues = {}, validationSchema, onSubmit, submitButton, enableReinitialize = false }) => {
 
+    if(Object.keys(initialValues).length === 0) {
+        fields.forEach((field) => {
+            initialValues[field.name] = '';
+        });
+    }
+
     return (
         <Formik
             initialValues={initialValues}
