@@ -3,14 +3,6 @@ import * as Yup from 'yup';
 import userService from '@services/user';
 
 const TeacherForm = ({ setSuccessMsg, setErrorMsg }) => {
-    const initialValues = {
-        key: '',
-        name: '',
-        email: '',
-        password: '',
-        repeatPassword: ''
-    };
-
     const validationSchema = Yup.object().shape({
         key: Yup.string().max(255).required('Кодът по НЕИСПУО е задължителен'),
         name: Yup.string().max(255).required('Трите имена са задължителни'),
@@ -58,7 +50,6 @@ const TeacherForm = ({ setSuccessMsg, setErrorMsg }) => {
     return (
         <FormBuilder
             fields={fields}
-            initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
             submitButton={submitButton}

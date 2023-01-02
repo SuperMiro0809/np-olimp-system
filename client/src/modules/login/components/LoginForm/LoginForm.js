@@ -7,10 +7,6 @@ import useAuth from '@modules/common/hooks/useAuth';
 const LoginForm = ({ setSuccessMsg, setErrorMsg }) => {
     const navigate = useNavigate();
     const { setUser } = useAuth();
-    const initialValues = {
-        email: '',
-        password: ''
-    };
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен'),
@@ -49,7 +45,6 @@ const LoginForm = ({ setSuccessMsg, setErrorMsg }) => {
     return (
         <FormBuilder
             fields={fields}
-            initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
             submitButton={submitButton}
