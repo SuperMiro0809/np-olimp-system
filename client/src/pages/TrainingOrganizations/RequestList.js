@@ -17,13 +17,13 @@ const RequestList = () => {
 
     const getNotVerifiedOrganizations = () => {
         trainingOrganizationsService.getNotVerified(page, rows)
-        .then((res) => {
-            setRequests(res.data.data);
-            setTotal(res.data.total);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+            .then((res) => {
+                setRequests(res.data.data);
+                setTotal(res.data.total);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     };
 
     return (
@@ -38,21 +38,19 @@ const RequestList = () => {
                     py: 3
                 }}
             >
-                <Container maxWidth={false}>
-                    <Box sx={{ mt: 3 }}>
-                        <RequestListResult
-                            items={requests}
-                            getNotVerifiedOrganizations={getNotVerifiedOrganizations}
-                        />
-                    </Box>
-                    <Pagination
-                        total={total}
-                        page={page}
-                        setPage={setPage}
-                        rows={rows}
-                        setRows={setRows}
+                <Box>
+                    <RequestListResult
+                        items={requests}
+                        getNotVerifiedOrganizations={getNotVerifiedOrganizations}
                     />
-                </Container>
+                </Box>
+                <Pagination
+                    total={total}
+                    page={page}
+                    setPage={setPage}
+                    rows={rows}
+                    setRows={setRows}
+                />
             </Box>
         </>
     );

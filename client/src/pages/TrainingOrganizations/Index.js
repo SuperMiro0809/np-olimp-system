@@ -53,28 +53,26 @@ const TrainingOrganizationsList = () => {
                     py: 3
                 }}
             >
-                <Container maxWidth={false}>
-                    <Card sx={{ p: 2 }}>
-                        <PerfectScrollbar>
-                            <Box>
-                                <MainTable
-                                    headings={headings}
-                                    headFilters={headFilters}
-                                    rows={data}
-                                    total={total}
-                                    method={get}
-                                    deleteHandler={deleteHandler}
-                                    options={{
-                                        checkbox: true,
-                                        add: true,
-                                        delete: true,
-                                        edit: true
-                                    }}
-                                />
-                            </Box>
-                        </PerfectScrollbar>
-                    </Card>
-                </Container>
+                <Card sx={{ p: 2 }}>
+                    <PerfectScrollbar>
+                        <Box>
+                            <MainTable
+                                headings={headings}
+                                headFilters={headFilters}
+                                rows={data}
+                                total={total}
+                                method={get}
+                                deleteHandler={deleteHandler}
+                                options={{
+                                    checkbox: true,
+                                    add: true,
+                                    delete: true,
+                                    edit: true
+                                }}
+                            />
+                        </Box>
+                    </PerfectScrollbar>
+                </Card>
             </Box>
         </>
     );
