@@ -4,10 +4,12 @@ import { Box, Container, Card } from '@mui/material';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import trainingOrganizationsService from '@services/trainingOrganizations';
 import MainTable from '@modules/common/components/MainTable';
+import useMessage from '@modules/common/hooks/useMessage';
 
 const TrainingOrganizationsList = () => {
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
+    const { addMessage } = useMessage();
 
     const get = (page, total, filters = [], order = {}) => {
         const pagination = {
@@ -37,8 +39,14 @@ const TrainingOrganizationsList = () => {
         'email': { type: 'search', name: 'email', placeholder: 'Търси по Имейл' }
     }
 
-    const deleteHandler = () => {
-
+    const deleteHandler = (selected) => {
+        trainingOrganizationsService.deleteTrainingOrganizations(selected)
+            .then((res) => {
+                addMessage('Обучителната организация е изтрита успешно', 'success')
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
     return (

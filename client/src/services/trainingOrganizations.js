@@ -27,6 +27,15 @@ function create(data) {
     });
 }
 
+function deleteTrainingOrganizations(selected) {
+    const url = `${servicesHelper.url}/training-organizations`;
+
+    return axios.delete(url, {
+        data: { selected: selected },
+        headers: servicesHelper.header()
+    });
+}
+
 function getNotVerified(page, rows) {
     const url = `${servicesHelper.url}/training-organizations/requests?page=${page}&total=${rows}`;
 
@@ -62,6 +71,7 @@ function requestsCount() {
 const trainingOrganizationsService = {
     getVerified,
     create,
+    deleteTrainingOrganizations,
     getNotVerified,
     accept,
     reject,

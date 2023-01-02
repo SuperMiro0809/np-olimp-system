@@ -30,6 +30,7 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('training-organizations')->group(function () {
         Route::get('/', [TrainingOrganizationsController::class, 'index']);
         Route::post('/', [TrainingOrganizationsController::class, 'store']);
+        Route::delete('/', [TrainingOrganizationsController::class, 'delete']);
         Route::get('/requests', [TrainingOrganizationsController::class, 'requests']);
         Route::get('/requests/count', [TrainingOrganizationsController::class, 'requestsCount']);
         Route::put('/accept/{id}', [TrainingOrganizationsController::class, 'accept']);

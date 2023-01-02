@@ -60,6 +60,17 @@ class TrainingOrganizationsController extends Controller
         return response()->json($user, 200);
     }
 
+    public function delete(Request $request)
+    {
+        $ids = $request->selected;
+        $type = SchoolInfo::class;
+
+        SchoolInfo::whereIn('id', $ids)->delete();
+        User::whereIn('parent_id', $ids)->where('type', $type)->delete();
+
+        return response()->json(['message' => 'Deleted'], 200);
+    }
+
     public function requests()
     {
         $schoolInfo = $this->getSchoolInfo(false);
