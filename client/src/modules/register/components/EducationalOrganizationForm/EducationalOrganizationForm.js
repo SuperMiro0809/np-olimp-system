@@ -1,4 +1,4 @@
-import FormBuilder from '@modules/common/components/FormBuilder/FormBuilder';
+import FormBuilder from '@modules/common/components/FormBuilder';
 import * as Yup from 'yup';
 import userService from '@services/user';
 
