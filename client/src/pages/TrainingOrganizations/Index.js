@@ -1,16 +1,45 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Box, Container } from '@mui/material';
+import { Box, Container, Card } from '@mui/material';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 import trainingOrganizationsService from '@services/trainingOrganizations';
+import MainTable from '@modules/common/components/MainTable';
 
 const TrainingOrganizationsList = () => {
+    const [data, setData] = useState([]);
+    const [total, setTotal] = useState(0);
 
-    useEffect(() => {
-        trainingOrganizationsService.getVerified()
-        .then((res) => {
-            console.log(res);
-        })
-    }, []);
+    const get = (page, total, filters = [], order = {}) => {
+        const pagination = {
+            page: page || 1,
+            total: total || 10
+        }
+
+        trainingOrganizationsService.getVerified(pagination, filters, order)
+            .then((res) => {
+                setData(res.data.data);
+                setTotal(res.data.total);
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const headings = [
+        { id: 'id', label: 'ID', order: true },
+        { id: 'name', label: 'Име', order: true },
+        { id: 'email', label: 'Имейл', order: true },
+    ];
+
+    const headFilters = {
+        'id': { type: 'search', name: 'id', placeholder: 'Търси по ID' },
+        'name': { type: 'search', name: 'name', placeholder: 'Търси по Име' },
+        'email': { type: 'search', name: 'email', placeholder: 'Търси по Имейл' }
+    }
+
+    const deleteHandler = () => {
+
+    }
 
     return (
         <>
@@ -25,7 +54,26 @@ const TrainingOrganizationsList = () => {
                 }}
             >
                 <Container maxWidth={false}>
-
+                    <Card sx={{ p: 2 }}>
+                        <PerfectScrollbar>
+                            <Box>
+                                <MainTable
+                                    headings={headings}
+                                    headFilters={headFilters}
+                                    rows={data}
+                                    total={total}
+                                    method={get}
+                                    deleteHandler={deleteHandler}
+                                    options={{
+                                        checkbox: true,
+                                        add: true,
+                                        delete: true,
+                                        edit: true
+                                    }}
+                                />
+                            </Box>
+                        </PerfectScrollbar>
+                    </Card>
                 </Container>
             </Box>
         </>
