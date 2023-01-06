@@ -52,8 +52,12 @@ function edit(data, id) {
     });
 }
 
-function getNotVerified(page, rows) {
-    const url = `${servicesHelper.url}/training-organizations/requests?page=${page}&total=${rows}`;
+function getNotVerified(page, rows, order) {
+    let url = `${servicesHelper.url}/training-organizations/requests?page=${page}&total=${rows}`;
+
+    if(order) {
+        url += `&field=${order.field}&direction=${order.direction}`;
+    }
 
     return axios.get(url, {
         headers: servicesHelper.header()

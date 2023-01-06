@@ -14,6 +14,7 @@ trait UserTrait {
                                 'school_info.name',
                                 'school_info.key',
                                 'school_info.address',
+                                'school_info.created_at as created_at',
                                 'users.email',
                                 'users.id as user_id'
                             )
