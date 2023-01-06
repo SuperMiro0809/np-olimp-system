@@ -29,12 +29,14 @@ const TrainingOrganizationsList = () => {
 
     const headings = [
         { id: 'id', label: 'ID', order: true },
+        { id: 'key', label: 'Код по НЕИСПУО' },
         { id: 'name', label: 'Име', order: true },
         { id: 'email', label: 'Имейл', order: true },
     ];
 
     const headFilters = {
         'id': { type: 'search', name: 'id', placeholder: 'Търси по ID' },
+        'key': { type: 'search', name: 'key', placeholder: 'Търси по Код по НЕИСПУО' },
         'name': { type: 'search', name: 'name', placeholder: 'Търси по Име' },
         'email': { type: 'search', name: 'email', placeholder: 'Търси по Имейл' }
     }

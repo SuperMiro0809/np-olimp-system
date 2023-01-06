@@ -34,6 +34,10 @@ trait UserTrait {
             $query->where('school_info.id', 'LIKE', '%'.request()->query('id').'%');
         }
 
+        if(request()->query('key')) {
+            $query->where('school_info.key', 'LIKE', '%'.request()->query('key').'%');
+        }
+
         if(request()->query('name')) {
             $query->where('school_info.name', 'LIKE', '%'.request()->query('name').'%');
         }
