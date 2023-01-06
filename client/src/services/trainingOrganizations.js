@@ -36,6 +36,22 @@ function deleteTrainingOrganizations(selected) {
     });
 }
 
+function getById(id) {
+    const url = `${servicesHelper.url}/training-organizations/${id}`;
+
+    return axios.get(url, {
+        headers: servicesHelper.header()
+    });
+}
+
+function edit(data, id) {
+    const url = `${servicesHelper.url}/training-organizations/${id}`;
+
+    return axios.put(url, data, {
+        headers: servicesHelper.header()
+    });
+}
+
 function getNotVerified(page, rows) {
     const url = `${servicesHelper.url}/training-organizations/requests?page=${page}&total=${rows}`;
 
@@ -72,6 +88,8 @@ const trainingOrganizationsService = {
     getVerified,
     create,
     deleteTrainingOrganizations,
+    getById,
+    edit,
     getNotVerified,
     accept,
     reject,

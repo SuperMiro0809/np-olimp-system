@@ -101,4 +101,43 @@ class TrainingOrganizationsController extends Controller
 
         return $count;
     }
+
+    public function getById($id)
+    {
+        $schoolInfo = $this->getSchoolInfo(true, $id);
+
+        return $schoolInfo;
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $schoolInfo = SchoolInfo::findOrFail($id);
+
+        $validator = validator($request->only('email', 'key'), 
+            [
+                'email' => 'required|string|email|max:255|unique:users,email,' . $schoolInfo->user->id,
+                'key' => 'required|string|unique:school_info,key,' . $id,
+            ],
+            [
+                'email' => 'Имейлът вече е регистриран',
+                'key' => 'Вече е регистрирана организация с този НЕИСПУО код'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
+
+        $schoolInfo->update([
+            'key' => $request->key,
+            'name' => $request->name,
+            'address' => $request->address
+        ]);
+
+        $schoolInfo->user()->update([
+            'email' => $request->email
+        ]);
+
+        return response()->json($schoolInfo, 200);
+    }
 }

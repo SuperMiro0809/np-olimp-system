@@ -16,6 +16,7 @@ import Settings from './pages/Settings';
 import TrainingOrganizationsList from './pages/TrainingOrganizations/Index';
 import TrainingOrganizationsAdd from './pages/TrainingOrganizations/Create';
 import TrainingOrganizationsRequestList from './pages/TrainingOrganizations/RequestList';
+import TrainingOrganizationsEdit from './pages/TrainingOrganizations/Edit';
 
 import AuthGuard from '@modules/common/hoc/AuthGuard';
 
@@ -31,7 +32,8 @@ const routes = [
         children: [
           { path: '', element: <TrainingOrganizationsList /> },
           { path: 'create', element: <TrainingOrganizationsAdd /> },
-          { path: 'requests', element: <TrainingOrganizationsRequestList /> }
+          { path: 'requests', element: <TrainingOrganizationsRequestList /> },
+          { path: 'edit/:id', element: <TrainingOrganizationsEdit /> }
         ]
       },
       { path: 'dashboard', element: <Dashboard /> },

@@ -35,5 +35,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/requests/count', [TrainingOrganizationsController::class, 'requestsCount']);
         Route::put('/accept/{id}', [TrainingOrganizationsController::class, 'accept']);
         Route::put('/reject/{id}', [TrainingOrganizationsController::class, 'reject']);
+        Route::get('/{id}', [TrainingOrganizationsController::class, 'getById']);
+        Route::put('/{id}', [TrainingOrganizationsController::class, 'edit']);
     });
 });

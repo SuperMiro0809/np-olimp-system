@@ -8,7 +8,7 @@ use App\Models\{
 
 trait UserTrait {
 
-    public function getSchoolInfo($verified) {
+    public function getSchoolInfo($verified, $id=null) {
         $query = SchoolInfo::select(
                                 'school_info.id',
                                 'school_info.name',
@@ -30,11 +30,11 @@ trait UserTrait {
                             });
 
         if(request()->query('id')) {
-            $query->where('id', 'LIKE', '%'.request()->query('id').'%');
+            $query->where('school_info.id', 'LIKE', '%'.request()->query('id').'%');
         }
 
         if(request()->query('name')) {
-            $query->where('name', 'LIKE', '%'.request()->query('name').'%');
+            $query->where('school_info.name', 'LIKE', '%'.request()->query('name').'%');
         }
 
         if(request()->query('email')) {
@@ -47,10 +47,14 @@ trait UserTrait {
             $query->orderBy(request()->query('field'), request()->query('direction'));
         }
 
-        if(request()->query('total')) {
-            $schoolInfo = $query->paginate(request()->query('total'))->withQueryString();
+        if($id) {
+            $schoolInfo = $query->where('school_info.id', $id)->first();
         }else {
-            $schoolInfo = $query->paginate(10)->withQueryString();
+            if(request()->query('total')) {
+                $schoolInfo = $query->paginate(request()->query('total'))->withQueryString();
+            }else {
+                $schoolInfo = $query->paginate(10)->withQueryString();
+            }
         }
 
         return $schoolInfo;
