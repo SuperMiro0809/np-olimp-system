@@ -69,6 +69,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
       onMobileClose();
     }
 
+    //requests on every path change
     trainingOrganizationsService.requestsCount()
     .then((res) => {
       setTrainingOrganizationsRequestCount(res.data);
