@@ -83,7 +83,7 @@ trait UserTrait {
         $query = TeacherInfo::select(
                                 'teacher_info.id',
                                 'teacher_info.name',
-                                'school_info.created_at as created_at',
+                                'teacher_info.created_at as created_at',
                                 'users.email',
                                 'users.id as user_id'
                             )->whereHas('user', function ($q) use ($verified) {

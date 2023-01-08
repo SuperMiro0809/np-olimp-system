@@ -20,6 +20,7 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
+        User::truncate();
         AdministratorInfo::truncate();
 
         $info = AdministratorInfo::create([

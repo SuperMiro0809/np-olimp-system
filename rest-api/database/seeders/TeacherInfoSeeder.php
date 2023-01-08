@@ -5,11 +5,11 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\{
-    SchoolInfo,
+    TeacherInfo,
     Role
 };
 
-class SchoolInfoSeeder extends Seeder
+class TeacherInfoSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,11 +18,11 @@ class SchoolInfoSeeder extends Seeder
      */
     public function run()
     {
-        SchoolInfo::truncate();
+        TeacherInfo::truncate();
         
         $roleId = Role::where('name', 'Admin')->first()->id;
 
-        SchoolInfo::factory()
+        TeacherInfo::factory()
                 ->count(50)
                 ->hasUser(1, ['role_id' => $roleId])
                 ->create();
