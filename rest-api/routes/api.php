@@ -42,9 +42,15 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('teachers')->group(function () {
         Route::get('/', [TeacherController::class, 'index']);
+        Route::post('/', [TeacherController::class, 'store']);
+        Route::delete('/', [TeacherController::class, 'delete']);
+
         Route::get('/requests', [TeacherController::class, 'requests']);
         Route::get('/requests/count', [TeacherController::class, 'requestsCount']);
         Route::put('/accept/{id}', [TeacherController::class, 'accept']);
         Route::put('/reject/{id}', [TeacherController::class, 'reject']);
+
+        Route::put('/{id}', [TeacherController::class, 'edit']);
+        Route::get('/{id}', [TeacherController::class, 'getById']);
     });
 });
