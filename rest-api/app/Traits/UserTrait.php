@@ -117,7 +117,7 @@ trait UserTrait {
         }
         
         if($id) {
-            $teacherInfo = $query->where('id', $id)->first();
+            $teacherInfo = $query->where('teacher_info.id', $id)->first();
         }else {
             if(request()->query('total')) {
                 $teacherInfo = $query->paginate(request()->query('total'))->withQueryString();
