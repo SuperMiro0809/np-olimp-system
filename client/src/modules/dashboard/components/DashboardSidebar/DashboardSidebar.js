@@ -24,6 +24,7 @@ import {
 import NavItem from './NavItem';
 import LogoutItem from './LogoutItem';
 import trainingOrganizationsService from '@services/trainingOrganizations';
+import teacherService from '@services/teacher';
 import useAuth from '@modules/common/hooks/useAuth';
 
 import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
@@ -136,9 +137,11 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                         setTrainingOrganizationsRequestCount(res.data);
                     })
             } else if (user.role.name === 'Admin') {
-                setTeachersRequestCount(1)
+                teacherService.requestsCount()
+                    .then((res) => {
+                        setTeachersRequestCount(res.data);
+                    })
             }
-
         }
 
     }, [location.pathname]);

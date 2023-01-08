@@ -47,7 +47,8 @@ const RequestList = () => {
                 sx={{
                     backgroundColor: 'background.default',
                     minHeight: '100%',
-                    py: 3
+                    pt: 3,
+                    pb: 6
                 }}
             >
                 <Box sx={{ mb: 2 }}>
