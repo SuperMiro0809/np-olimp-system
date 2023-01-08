@@ -40,7 +40,13 @@ const TeachersList = () => {
     }
 
     const deleteHandler = (selected) => {
-        
+        teacherService.deleteTeachers(selected)
+            .then((res) => {
+                addMessage('Обучителната организация е изтрита успешно', 'success')
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     return (

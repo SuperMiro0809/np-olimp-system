@@ -29,7 +29,7 @@ class TeacherController extends Controller
     public function delete(Request $request)
     {
         $ids = $request->selected;
-        $type = SchoolInfo::class;
+        $type = TeacherInfo::class;
 
         TeacherInfo::whereIn('id', $ids)->delete();
         User::whereIn('parent_id', $ids)->where('type', $type)->delete();
