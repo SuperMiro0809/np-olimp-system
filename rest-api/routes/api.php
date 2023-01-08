@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     UserController,
     TrainingOrganizationsController,
-    TeacherController
+    TeacherController,
+    SubjectController
 };
 
 /*
@@ -52,5 +53,14 @@ Route::middleware('auth:api')->group(function () {
 
         Route::put('/{id}', [TeacherController::class, 'edit']);
         Route::get('/{id}', [TeacherController::class, 'getById']);
+    });
+
+    Route::prefix('subjects')->group(function () {
+        Route::get('/', [SubjectController::class, 'index']);
+        Route::post('/', [SubjectController::class, 'store']);
+        Route::delete('/', [SubjectController::class, 'delete']);
+        Route::put('/{id}', [SubjectController::class, 'edit']);
+        Route::get('/all',[SubjectController::class, 'getAll']);
+        Route::get('/{id}', [SubjectController::class, 'getById']);
     });
 });
