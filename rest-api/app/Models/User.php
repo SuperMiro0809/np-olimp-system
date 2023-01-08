@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use App\Traits\UserVerified;
+use App\Models\Role;
 
 class User extends Authenticatable
 {
@@ -48,5 +49,13 @@ class User extends Authenticatable
 
     public function AauthAcessToken(){
         return $this->hasMany(OauthAccessToken::class);
+    }
+
+    public function info() {
+        return $this->morphTo(__FUNCTION__, 'type', 'parent_id');
+    }
+
+    public function role() {
+        return $this->hasOne(Role::class, 'id', 'role_id');
     }
 }

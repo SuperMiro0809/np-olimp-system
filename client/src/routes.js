@@ -36,6 +36,26 @@ const routes = [
           { path: 'edit/:id', element: <TrainingOrganizationsEdit /> }
         ]
       },
+      {
+        path: 'teachers',
+        element: <DashboardPageLayout title='Учители' />,
+        children: [
+          { path: '', element: <TrainingOrganizationsList /> },
+          { path: 'create', element: <TrainingOrganizationsAdd /> },
+          { path: 'requests', element: <TrainingOrganizationsRequestList /> },
+          { path: 'edit/:id', element: <TrainingOrganizationsEdit /> }
+        ]
+      },
+      {
+        path: 'subjects',
+        element: <DashboardPageLayout title='Учебни предмети' />,
+        children: [
+          { path: '', element: <TrainingOrganizationsList /> },
+          { path: 'create', element: <TrainingOrganizationsAdd /> },
+          { path: 'edit/:id', element: <TrainingOrganizationsEdit /> }
+        ]
+      },
+      { path: 'school-data', element: <Account /> },
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'products', element: <ProductList /> },
       { path: 'settings', element: <Settings /> },

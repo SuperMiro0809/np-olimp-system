@@ -108,7 +108,7 @@ class UserController extends Controller
         }
 
         if (auth()->attempt($data)) {
-            $user = auth()->user();
+            $user = auth()->user()->load(['info', 'role']);
             $token = auth()->user()->createToken('authToken')->accessToken;
             return response()->json(['token' => $token, 'user' => $user], 200);
         } else {
@@ -127,7 +127,7 @@ class UserController extends Controller
 
     public function profile()
     {
-        $user = auth()->user();
+        $user = auth()->user()->load(['info', 'role']);
 
         return response()->json($user, 200);
     }
