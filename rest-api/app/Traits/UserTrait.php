@@ -79,16 +79,35 @@ trait UserTrait {
         }
     }
       
-    public function getTeacherInfo($verified) {
-        $query = TeacherInfo::whereHas('user', function ($q) use ($verified) {
-            if($verified == true) {
-                $q->IsVerified();
-            }else {
-                $q->IsNotVerified();
-            }
-        });
+    public function getTeacherInfo($verified, $id=null) {
+        $query = TeacherInfo::select(
+                                'teacher_info.id',
+                                'teacher_info.name',
+                                'school_info.created_at as created_at',
+                                'users.email',
+                                'users.id as user_id'
+                            )->whereHas('user', function ($q) use ($verified) {
+                                if($verified == true) {
+                                    $q->IsVerified();
+                                }else {
+                                    $q->IsNotVerified();
+                                }
+                            })
+                            ->leftJoin('users', function($q) {
+                                $q->on('users.parent_id', 'teacher_info.id');
+                                $q->where('users.type', 'App\Models\TeacherInfo');
+                            });
 
-        return $query->get();
+        if($id) {
+            $teacherInfo = $query->where('id', $id)->first();
+        }else {
+            if(request()->query('total')) {
+                $teacherInfo = $query->paginate(request()->query('total'))->withQueryString();
+            }else {
+                $teacherInfo = $query->paginate(10)->withQueryString();
+            }
+        }
+        return $teacherInfo;
     }
 
     public function verifyTeacherInfo($id, $accept) {

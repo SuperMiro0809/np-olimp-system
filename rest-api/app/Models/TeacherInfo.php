@@ -14,4 +14,8 @@ class TeacherInfo extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function user() {
+        return $this->morphOne(User::class, 'parent', 'type');
+    }
 }
