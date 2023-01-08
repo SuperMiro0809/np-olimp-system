@@ -41,4 +41,14 @@ class TeacherController extends Controller
 
         return response()->json(['message' => $msg], 200);
     }
+
+    public function requestsCount()
+    {
+        $count = TeacherInfo::whereHas('user', function ($q) {
+                    $q->IsNotVerified();
+                })
+                ->count();
+
+        return $count;
+    }
 }
