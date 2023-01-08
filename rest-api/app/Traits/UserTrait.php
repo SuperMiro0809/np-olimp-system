@@ -97,7 +97,25 @@ trait UserTrait {
                                 $q->on('users.parent_id', 'teacher_info.id');
                                 $q->where('users.type', 'App\Models\TeacherInfo');
                             });
+        
+        if(request()->query('id')) {
+            $query->where('teacher_info.id', 'LIKE', '%'.request()->query('id').'%');
+        }
 
+        if(request()->query('name')) {
+            $query->where('teacher_info.name', 'LIKE', '%'.request()->query('name').'%');
+        }
+
+        if(request()->query('email')) {
+            $query->whereHas('user', function ($q) {
+                $q->where('email', 'LIKE', '%'.request()->query('email').'%');
+            });
+        }
+
+        if(request()->has(['field', 'direction'])){
+            $query->orderBy(request()->query('field'), request()->query('direction'));
+        }
+        
         if($id) {
             $teacherInfo = $query->where('id', $id)->first();
         }else {

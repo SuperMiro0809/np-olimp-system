@@ -18,7 +18,8 @@ import TrainingOrganizationsAdd from './pages/TrainingOrganizations/Create';
 import TrainingOrganizationsRequestList from './pages/TrainingOrganizations/RequestList';
 import TrainingOrganizationsEdit from './pages/TrainingOrganizations/Edit';
 
-import TeacherRequestList from './pages/Teachers/RequestList';
+import TeachersList from './pages/Teachers/Index';
+import TeachersRequestList from './pages/Teachers/RequestList';
 
 import AuthGuard from '@modules/common/hoc/AuthGuard';
 
@@ -42,9 +43,9 @@ const routes = [
         path: 'teachers',
         element: <DashboardPageLayout title='Учители' />,
         children: [
-          { path: '', element: <TrainingOrganizationsList /> },
+          { path: '', element: <TeachersList /> },
           { path: 'create', element: <TrainingOrganizationsAdd /> },
-          { path: 'requests', element: <TeacherRequestList /> },
+          { path: 'requests', element: <TeachersRequestList /> },
           { path: 'edit/:id', element: <TrainingOrganizationsEdit /> }
         ]
       },
