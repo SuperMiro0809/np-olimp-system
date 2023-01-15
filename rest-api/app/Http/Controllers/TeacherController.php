@@ -23,6 +23,38 @@ class TeacherController extends Controller
 
     public function store(Request $request, $schoolId)
     {
+        $validator = validator($request->only('email', 'password'), 
+            [
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:8'
+            ],
+            [
+                'email' => 'Имейлът вече е регистриран',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
+
+        $roleId = Role::where('name', 'User')->first()->id;
+
+        $type = TeacherInfo::class;
+        $info = TeacherInfo::create([
+            'name' => $request->name,
+            'school_id' => $schoolId
+        ]);
+
+        $user = User::create([
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role_id' => $roleId,
+            'type' => $type,
+            'parent_id' => $info->id,
+            'verified' => 1
+        ]);
+
+        return response()->json($user, 200);
 
     }
 
@@ -37,9 +69,32 @@ class TeacherController extends Controller
         return response()->json(['message' => 'Deleted'], 200);
     }
 
-    public function edit(Request $request, $id, $schoolId)
+    public function edit(Request $request, $schoolId, $id)
     {
+        $teacherInfo = TeacherInfo::findOrFail($id);
 
+        $validator = validator($request->only('email'), 
+            [
+                'email' => 'required|string|email|max:255|unique:users,email,' . $teacherInfo->user->id
+            ],
+            [
+                'email' => 'Имейлът вече е регистриран'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
+
+        $teacherInfo->update([
+            'name' => $request->name
+        ]);
+
+        $teacherInfo->user()->update([
+            'email' => $request->email
+        ]);
+
+        return response()->json($teacherInfo, 200);
     }
 
     public function getById($schoolId, $id)

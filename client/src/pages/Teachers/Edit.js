@@ -42,17 +42,19 @@ const TeachersEdit = () => {
     ];
 
     const onSubmit = (values, { setSubmitting }) => {
-        teacherService.edit(values, id)
-            .then((res) => {
-                addMessage('Учителят е редактиран успешно', 'success');
-                navigate('/app/teachers');
-            })
-            .catch((error) => {
-                if (error.response.status == 422) {
-                    addMessage(error.response.data.errors[0], 'error');
-                }
-                setSubmitting(false);
-            })
+        if (user) {
+            teacherService.edit(user.info.id, values, id)
+                .then((res) => {
+                    addMessage('Учителят е редактиран успешно', 'success');
+                    navigate('/app/teachers');
+                })
+                .catch((error) => {
+                    if (error.response.status == 422) {
+                        addMessage(error.response.data.errors[0], 'error');
+                    }
+                    setSubmitting(false);
+                })
+        }
     }
 
     const submitButton = {
