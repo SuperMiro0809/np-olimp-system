@@ -72,10 +72,12 @@ class UserController extends Controller
             }
 
             $roleId = Role::where('name', 'User')->first()->id;
+            $schoolId = SchoolInfo::where('key', $request->key)->first()->id;
 
             $type = TeacherInfo::class;
             $info = TeacherInfo::create([
-                'name' => $request->name
+                'name' => $request->name,
+                'school_id' => $schoolId
             ]);
         }
 

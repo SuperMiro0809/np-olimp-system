@@ -16,7 +16,8 @@ class TeacherInfo extends Model
     protected $table = 'teacher_info';
 
     protected $fillable = [
-        'name'
+        'name',
+        'school_id'
     ];
 
     public function user() {

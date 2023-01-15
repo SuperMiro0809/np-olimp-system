@@ -41,26 +41,28 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/{id}', [TrainingOrganizationsController::class, 'edit']);
     });
 
-    Route::prefix('teachers')->group(function () {
-        Route::get('/', [TeacherController::class, 'index']);
-        Route::post('/', [TeacherController::class, 'store']);
-        Route::delete('/', [TeacherController::class, 'delete']);
-
-        Route::get('/requests', [TeacherController::class, 'requests']);
-        Route::get('/requests/count', [TeacherController::class, 'requestsCount']);
-        Route::put('/accept/{id}', [TeacherController::class, 'accept']);
-        Route::put('/reject/{id}', [TeacherController::class, 'reject']);
-
-        Route::put('/{id}', [TeacherController::class, 'edit']);
-        Route::get('/{id}', [TeacherController::class, 'getById']);
-    });
-
-    Route::prefix('subjects')->group(function () {
-        Route::get('/', [SubjectController::class, 'index']);
-        Route::post('/', [SubjectController::class, 'store']);
-        Route::delete('/', [SubjectController::class, 'delete']);
-        Route::put('/{id}', [SubjectController::class, 'edit']);
-        Route::get('/all',[SubjectController::class, 'getAll']);
-        Route::get('/{id}', [SubjectController::class, 'getById']);
+    Route::prefix('{schoolId}')->group(function () {
+        Route::prefix('teachers')->group(function () {
+            Route::get('/', [TeacherController::class, 'index']);
+            Route::post('/', [TeacherController::class, 'store']);
+            Route::delete('/', [TeacherController::class, 'delete']);
+    
+            Route::get('/requests', [TeacherController::class, 'requests']);
+            Route::get('/requests/count', [TeacherController::class, 'requestsCount']);
+            Route::put('/accept/{id}', [TeacherController::class, 'accept']);
+            Route::put('/reject/{id}', [TeacherController::class, 'reject']);
+    
+            Route::put('/{id}', [TeacherController::class, 'edit']);
+            Route::get('/{id}', [TeacherController::class, 'getById']);
+        });
+    
+        Route::prefix('subjects')->group(function () {
+            Route::get('/', [SubjectController::class, 'index']);
+            Route::post('/', [SubjectController::class, 'store']);
+            Route::delete('/', [SubjectController::class, 'delete']);
+            Route::put('/{id}', [SubjectController::class, 'edit']);
+            Route::get('/all',[SubjectController::class, 'getAll']);
+            Route::get('/{id}', [SubjectController::class, 'getById']);
+        });
     });
 });

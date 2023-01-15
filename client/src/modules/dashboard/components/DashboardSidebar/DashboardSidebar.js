@@ -137,7 +137,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                         setTrainingOrganizationsRequestCount(res.data);
                     })
             } else if (user.role.name === 'Admin') {
-                teacherService.requestsCount()
+                teacherService.requestsCount(user.info.id)
                     .then((res) => {
                         setTeachersRequestCount(res.data);
                     })

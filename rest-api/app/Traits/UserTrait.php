@@ -79,14 +79,18 @@ trait UserTrait {
         }
     }
       
-    public function getTeacherInfo($verified, $id=null) {
+    public function getTeacherInfo($verified, $schoolId, $id=null) {
+
         $query = TeacherInfo::select(
                                 'teacher_info.id',
                                 'teacher_info.name',
+                                'teacher_info.school_id',
                                 'teacher_info.created_at as created_at',
                                 'users.email',
                                 'users.id as user_id'
-                            )->whereHas('user', function ($q) use ($verified) {
+                            )
+                            ->where('school_id', $schoolId)
+                            ->whereHas('user', function ($q) use ($verified) {
                                 if($verified == true) {
                                     $q->IsVerified();
                                 }else {

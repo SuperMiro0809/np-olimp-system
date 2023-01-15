@@ -6,10 +6,12 @@ import teacherService from '@services/teacher';
 import FormBuilder from '@modules/common/components/FormBuilder';
 import * as Yup from 'yup';
 import useMessage from '@modules/common/hooks/useMessage';
+import useAuth from '@modules/common/hooks/useAuth';
 
 const TeachersAdd = () => {
     const { addMessage } = useMessage();
     const navigate = useNavigate();
+    const { user } = useAuth();
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().max(255).required('Името на учителя е задължително'),
@@ -26,17 +28,19 @@ const TeachersAdd = () => {
     ];
 
     const onSubmit = (values, { setSubmitting }) => {
-        teacherService.create(values)
-            .then((res) => {
-                addMessage('Учителят е създаден успешно', 'success');
-                navigate('/app/teachers');
-            })
-            .catch((error) => {
-                if(error.response.status == 422) {
-                    addMessage(error.response.data.errors[0], 'error');
-                }
-                setSubmitting(false);
-            })
+        if (user) {
+            teacherService.create(user.info.id, values)
+                .then((res) => {
+                    addMessage('Учителят е създаден успешно', 'success');
+                    navigate('/app/teachers');
+                })
+                .catch((error) => {
+                    if (error.response.status == 422) {
+                        addMessage(error.response.data.errors[0], 'error');
+                    }
+                    setSubmitting(false);
+                })
+        }
     }
 
     return (

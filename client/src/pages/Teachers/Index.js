@@ -5,11 +5,13 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import teacherService from '@services/teacher';
 import MainTable from '@modules/common/components/MainTable';
 import useMessage from '@modules/common/hooks/useMessage';
+import useAuth from '@modules/common/hooks/useAuth';
 
 const TeachersList = () => {
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
     const { addMessage } = useMessage();
+    const { user } = useAuth();
 
     const get = (page, total, filters = [], order = {}) => {
         const pagination = {
@@ -17,14 +19,16 @@ const TeachersList = () => {
             total: total || 10
         }
 
-        teacherService.getVerified(pagination, filters, order)
-            .then((res) => {
-                setData(res.data.data);
-                setTotal(res.data.total);
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+        if (user) {
+            teacherService.getVerified(user.info.id, pagination, filters, order)
+                .then((res) => {
+                    setData(res.data.data);
+                    setTotal(res.data.total);
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
     }
 
     const headings = [

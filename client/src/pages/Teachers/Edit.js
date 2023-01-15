@@ -7,24 +7,28 @@ import teacherService from '@services/teacher';
 import FormBuilder from '@modules/common/components/FormBuilder';
 import * as Yup from 'yup';
 import useMessage from '@modules/common/hooks/useMessage';
+import useAuth from '@modules/common/hooks/useAuth';
 
 const TeachersEdit = () => {
     const { addMessage } = useMessage();
     const { id } = useParams();
     const navigate = useNavigate();
     const [initialValues, setInitialValues] = useState({ name: '', email: '' });
+    const { user } = useAuth();
 
     useEffect(() => {
-        teacherService.getById(id)
-            .then((res) => {
-                setInitialValues({
-                    name: res.data.name,
-                    email: res.data.email
+        if (user) {
+            teacherService.getById(user.info.id, id)
+                .then((res) => {
+                    setInitialValues({
+                        name: res.data.name,
+                        email: res.data.email
+                    })
                 })
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
     }, []);
 
     const validationSchema = Yup.object().shape({
@@ -38,13 +42,13 @@ const TeachersEdit = () => {
     ];
 
     const onSubmit = (values, { setSubmitting }) => {
-        trainingOrganizationsService.edit(values, id)
+        teacherService.edit(values, id)
             .then((res) => {
                 addMessage('Учителят е редактиран успешно', 'success');
                 navigate('/app/teachers');
             })
             .catch((error) => {
-                if(error.response.status == 422) {
+                if (error.response.status == 422) {
                     addMessage(error.response.data.errors[0], 'error');
                 }
                 setSubmitting(false);

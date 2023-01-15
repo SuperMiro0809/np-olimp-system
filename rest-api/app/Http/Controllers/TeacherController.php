@@ -14,14 +14,14 @@ class TeacherController extends Controller
 {
     use UserTrait;
 
-    public function index()
+    public function index($schoolId)
     {
-        $teacherInfo = $this->getTeacherInfo(true);
-
+        $teacherInfo = $this->getTeacherInfo(true, $schoolId);
+        
         return $teacherInfo;
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $schoolId)
     {
 
     }
@@ -37,21 +37,21 @@ class TeacherController extends Controller
         return response()->json(['message' => 'Deleted'], 200);
     }
 
-    public function edit(Request $request, $id)
+    public function edit(Request $request, $id, $schoolId)
     {
 
     }
 
-    public function getById($id)
+    public function getById($schoolId, $id)
     {
-        $teacherInfo = $this->getTeacherInfo(true, $id);
+        $teacherInfo = $this->getTeacherInfo(true, $schoolId, $id);
 
         return $teacherInfo;
     }
 
-    public function requests()
+    public function requests($schoolId)
     {
-        $schoolInfo = $this->getTeacherInfo(false);
+        $schoolInfo = $this->getTeacherInfo(false, $schoolId);
 
         return $schoolInfo;
     }
@@ -70,9 +70,9 @@ class TeacherController extends Controller
         return response()->json(['message' => $msg], 200);
     }
 
-    public function requestsCount()
+    public function requestsCount($schoolId)
     {
-        $count = TeacherInfo::whereHas('user', function ($q) {
+        $count = TeacherInfo::where('school_id', $schoolId)->whereHas('user', function ($q) {
                     $q->IsNotVerified();
                 })
                 ->count();
