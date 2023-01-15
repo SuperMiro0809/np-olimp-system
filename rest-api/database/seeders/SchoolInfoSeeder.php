@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 use App\Models\{
     SchoolInfo,
+    TeacherInfo,
     Role
 };
 
@@ -23,12 +24,13 @@ class SchoolInfoSeeder extends Seeder
         SchoolInfo::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        $roleId = Role::where('name', 'Admin')->first()->id;
+        $adminRoleId = Role::where('name', 'Admin')->first()->id;
+        $userRoleId = Role::where('name', 'User')->first()->id;
 
         SchoolInfo::factory()
                 ->count(50)
-                ->hasUser(1, ['role_id' => $roleId])
-                ->hasTeachers(5)
+                ->hasUser(1, ['role_id' => $adminRoleId])
+                ->has(TeacherInfo::factory()->hasUser(1, ['role_id' => $userRoleId])->count(5), 'teachers')
                 ->create();
     }
 }
