@@ -44,13 +44,15 @@ const TeachersList = () => {
     }
 
     const deleteHandler = (selected) => {
-        teacherService.deleteTeachers(selected)
-            .then((res) => {
-                addMessage('Обучителната организация е изтрита успешно', 'success')
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        if (user) {
+            teacherService.deleteTeachers(user.info.id, selected)
+                .then((res) => {
+                    addMessage('Учителят е изтрит успешно', 'success')
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
     }
 
     return (
