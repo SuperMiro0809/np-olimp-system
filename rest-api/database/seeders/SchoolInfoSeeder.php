@@ -30,6 +30,7 @@ class SchoolInfoSeeder extends Seeder
         SchoolInfo::factory()
                 ->count(50)
                 ->hasUser(1, ['role_id' => $adminRoleId])
+                ->hasSubjects(10)
                 ->has(TeacherInfo::factory()->hasUser(1, ['role_id' => $userRoleId])->count(5), 'teachers')
                 ->create();
     }

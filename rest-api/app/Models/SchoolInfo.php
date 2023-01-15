@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\{
     User,
-    TeacherInfo
+    TeacherInfo,
+    Subject
 };
 
 class SchoolInfo extends Model
@@ -28,5 +29,9 @@ class SchoolInfo extends Model
 
     public function teachers() {
         return $this->hasMany(TeacherInfo::class, 'school_id');
+    }
+
+    public function subjects() {
+        return $this->hasMany(Subject::class, 'school_id');
     }
 }
