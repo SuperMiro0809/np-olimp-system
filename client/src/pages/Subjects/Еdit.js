@@ -7,23 +7,27 @@ import subjectService from '@services/subject';
 import FormBuilder from '@modules/common/components/FormBuilder';
 import * as Yup from 'yup';
 import useMessage from '@modules/common/hooks/useMessage';
+import useAuth from '@modules/common/hooks/useAuth';
 
 const SubjectsEdit = () => {
     const { addMessage } = useMessage();
     const { id } = useParams();
     const navigate = useNavigate();
     const [initialValues, setInitialValues] = useState({ name: '' });
+    const { user } = useAuth();
 
     useEffect(() => {
-        subjectService.getById(id)
-            .then((res) => {
-                setInitialValues({
-                    name: res.data.name
+        if (user) {
+            subjectService.getById(user.info.id, id)
+                .then((res) => {
+                    setInitialValues({
+                        name: res.data.name
+                    })
                 })
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
     }, []);
 
     const validationSchema = Yup.object().shape({
@@ -35,17 +39,19 @@ const SubjectsEdit = () => {
     ];
 
     const onSubmit = (values, { setSubmitting }) => {
-        subjectService.edit(values, id)
-            .then((res) => {
-                addMessage('Предметът е редактиран успешно', 'success');
-                navigate('/app/subjects');
-            })
-            .catch((error) => {
-                if(error.response.status == 422) {
-                    addMessage(error.response.data.errors[0], 'error');
-                }
-                setSubmitting(false);
-            })
+        if (user) {
+            subjectService.edit(user.info.id, values, id)
+                .then((res) => {
+                    addMessage('Предметът е редактиран успешно', 'success');
+                    navigate('/app/subjects');
+                })
+                .catch((error) => {
+                    if (error.response.status == 422) {
+                        addMessage(error.response.data.errors[0], 'error');
+                    }
+                    setSubmitting(false);
+                })
+        }
     }
 
     const submitButton = {

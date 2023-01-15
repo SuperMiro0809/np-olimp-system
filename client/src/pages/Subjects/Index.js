@@ -5,11 +5,13 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import subjectService from '@services/subject';
 import MainTable from '@modules/common/components/MainTable';
 import useMessage from '@modules/common/hooks/useMessage';
+import useAuth from '@modules/common/hooks/useAuth';
 
 const SubjectsList = () => {
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
     const { addMessage } = useMessage();
+    const { user } = useAuth();
 
     const get = (page, total, filters = [], order = {}) => {
         const pagination = {
@@ -17,14 +19,16 @@ const SubjectsList = () => {
             total: total || 10
         }
 
-        subjectService.getSubjects(pagination, filters, order)
-            .then((res) => {
-                setData(res.data.data);
-                setTotal(res.data.total);
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+        if (user) {
+            subjectService.getSubjects(user.info.id, pagination, filters, order)
+                .then((res) => {
+                    setData(res.data.data);
+                    setTotal(res.data.total);
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
     }
 
     const headings = [
@@ -38,13 +42,15 @@ const SubjectsList = () => {
     }
 
     const deleteHandler = (selected) => {
-        subjectService.deleteSubjects(selected)
-            .then((res) => {
-                addMessage('Предметът е изтрита успешно', 'success')
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        if (user) {
+            subjectService.deleteSubjects(user.info.id, selected)
+                .then((res) => {
+                    addMessage('Предметът е изтрита успешно', 'success')
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
     }
 
     return (
