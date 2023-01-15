@@ -23,6 +23,10 @@ import TeachersAdd from './pages/Teachers/Create';
 import TeachersRequestList from './pages/Teachers/RequestList';
 import TeachersEdit from './pages/Teachers/Edit';
 
+import SubjectsList from './pages/Subjects/Index';
+import SubjectsAdd from './pages/Subjects/Create';
+import SubjectsEdit from './pages/Subjects/Еdit';
+
 import AuthGuard from '@modules/common/hoc/AuthGuard';
 
 const routes = [
@@ -55,9 +59,9 @@ const routes = [
         path: 'subjects',
         element: <DashboardPageLayout title='Учебни предмети' />,
         children: [
-          { path: '', element: <TrainingOrganizationsList /> },
-          { path: 'create', element: <TrainingOrganizationsAdd /> },
-          { path: 'edit/:id', element: <TrainingOrganizationsEdit /> }
+          { path: '', element: <SubjectsList /> },
+          { path: 'create', element: <SubjectsAdd /> },
+          { path: 'edit/:id', element: <SubjectsEdit /> }
         ]
       },
       { path: 'school-data', element: <Account /> },
