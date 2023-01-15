@@ -10,7 +10,9 @@ import {
     Checkbox,
     IconButton,
     Button,
-    TextField
+    TextField,
+    Grid,
+    Chip
 } from '@mui/material';
 import { makeStyles, withStyles } from '@mui/styles';
 import { Link as RouterLink } from 'react-router-dom';
@@ -307,13 +309,36 @@ const MainTable = ({
                                         {headings.map((heading) => {
                                             const value = row[heading.id];
 
-                                            return (
-                                                <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
-                                                    <Tooltip title={value}>
-                                                        <span>{value}</span>
-                                                    </Tooltip>
-                                                </TableCell>
-                                            );
+                                            if (Array.isArray(value)) {
+                                                return (
+                                                    <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
+                                                        <Grid container spacing={1}>
+
+                                                            {value.map((element, index) => {
+                                                                const name = element[heading.arrayId][heading.selector];
+                                                                console.log(typeof (name));
+                                                                return (
+                                                                    <Grid item key={index}>
+                                                                        <Tooltip title={name}>
+                                                                            <Chip label={name} sx={{ maxWidth: '150px' }} />
+                                                                        </Tooltip>
+                                                                    </Grid>
+                                                                );
+                                                            })}
+
+                                                        </Grid>
+                                                    </TableCell>
+                                                );
+                                            } else {
+
+                                                return (
+                                                    <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
+                                                        <Tooltip title={value}>
+                                                            <span>{value}</span>
+                                                        </Tooltip>
+                                                    </TableCell>
+                                                );
+                                            }
                                         })}
                                         {options.edit && (
                                             <TableCell align='right'>
