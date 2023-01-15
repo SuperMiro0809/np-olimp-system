@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\{
+    User,
+    SchoolInfo
+};
 
 class TeacherInfo extends Model
 {
@@ -17,5 +21,9 @@ class TeacherInfo extends Model
 
     public function user() {
         return $this->morphOne(User::class, 'parent', 'type');
+    }
+
+    public function school() {
+        return $this->belongsTo(SchoolInfo::class, 'school_id');
     }
 }
