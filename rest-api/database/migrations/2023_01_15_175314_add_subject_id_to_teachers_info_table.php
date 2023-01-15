@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('teachers_info', function (Blueprint $table) {
-            $table->foreignID('subject_id')->constrained('subjects');
+        Schema::table('teacher_info', function (Blueprint $table) {
+            $table->integer('subject_id')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('teachers_info', function (Blueprint $table) {
+        Schema::table('teacher_info', function (Blueprint $table) {
             $table->dropColumn('subject_id');
         });
     }
