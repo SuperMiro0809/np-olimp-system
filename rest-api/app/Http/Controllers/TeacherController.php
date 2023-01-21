@@ -42,7 +42,8 @@ class TeacherController extends Controller
         $type = TeacherInfo::class;
         $info = TeacherInfo::create([
             'name' => $request->name,
-            'school_id' => $schoolId
+            'school_id' => $schoolId,
+            'subject_id' => $request->subject['value']
         ]);
 
         $user = User::create([
@@ -87,7 +88,8 @@ class TeacherController extends Controller
         }
 
         $teacherInfo->update([
-            'name' => $request->name
+            'name' => $request->name,
+            'subject_id' => $request->subject['value']
         ]);
 
         $teacherInfo->user()->update([

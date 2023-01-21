@@ -87,16 +87,21 @@ trait UserTrait {
                                 'teacher_info.school_id',
                                 'teacher_info.form_permission',
                                 'teacher_info.created_at as created_at',
+                                'subjects.id as subject_id',
+                                'subjects.name as subject_name',
                                 'users.email',
                                 'users.id as user_id'
                             )
-                            ->where('school_id', $schoolId)
+                            ->where('teacher_info.school_id', $schoolId)
                             ->whereHas('user', function ($q) use ($verified) {
                                 if($verified == true) {
                                     $q->IsVerified();
                                 }else {
                                     $q->IsNotVerified();
                                 }
+                            })
+                            ->leftJoin('subjects', function($q) {
+                                $q->on('subjects.id', 'teacher_info.subject_id');
                             })
                             ->leftJoin('users', function($q) {
                                 $q->on('users.parent_id', 'teacher_info.id');

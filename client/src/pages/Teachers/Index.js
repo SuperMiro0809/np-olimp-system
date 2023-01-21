@@ -49,13 +49,15 @@ const TeachersList = () => {
         { id: 'id', label: 'ID', order: true },
         { id: 'name', label: 'Име', order: true },
         { id: 'email', label: 'Имейл', order: true },
+        { id: 'subject_name', label: 'Предмет' },
         { id: 'form_permission', label: 'Права за формуляр', type: 'switch', handler: handleSwitch }
     ];
 
     const headFilters = {
         'id': { type: 'search', name: 'id', placeholder: 'Търси по ID' },
         'name': { type: 'search', name: 'name', placeholder: 'Търси по Име' },
-        'email': { type: 'search', name: 'email', placeholder: 'Търси по Имейл' }
+        'email': { type: 'search', name: 'email', placeholder: 'Търси по Имейл' },
+        'subject_name': { type: 'search', name: 'subject_name', placeholder: 'Търси по Предмет' }
     }
 
     const deleteHandler = (selected) => {

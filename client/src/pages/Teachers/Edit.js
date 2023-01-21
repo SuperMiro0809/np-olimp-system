@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Card } from '@mui/material';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import teacherService from '@services/teacher';
+import subjectService from '@services/subject';
 import FormBuilder from '@modules/common/components/FormBuilder';
 import * as Yup from 'yup';
 import useMessage from '@modules/common/hooks/useMessage';
@@ -13,8 +13,9 @@ const TeachersEdit = () => {
     const { addMessage } = useMessage();
     const { id } = useParams();
     const navigate = useNavigate();
-    const [initialValues, setInitialValues] = useState({ name: '', email: '' });
+    const [initialValues, setInitialValues] = useState({ name: '', email: '', subject: '' });
     const { user } = useAuth();
+    const [subjectOptions, setSubjectOptions] = useState([]);
 
     useEffect(() => {
         if (user) {
@@ -22,8 +23,18 @@ const TeachersEdit = () => {
                 .then((res) => {
                     setInitialValues({
                         name: res.data.name,
-                        email: res.data.email
+                        email: res.data.email,
+                        subject: res.data.subject_name && res.data.subject_id ? { label: res.data.subject_name, value: res.data.subject_id } : ''
                     })
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+
+            subjectService.getAll(user.info.id)
+                .then((res) => {
+                    const options = res.data.map((el) => ({ label: el.name, value: el.id }));
+                    setSubjectOptions(options);
                 })
                 .catch((error) => {
                     console.log(error)
@@ -38,7 +49,8 @@ const TeachersEdit = () => {
 
     const fields = [
         { type: 'text', name: 'name', label: 'Име на учителя' },
-        { type: 'email', name: 'email', label: 'Имейл' }
+        { type: 'email', name: 'email', label: 'Имейл' },
+        { type: 'autocomplete', name: 'subject', label: 'Предмет', options: subjectOptions }
     ];
 
     const onSubmit = (values, { setSubmitting }) => {
@@ -74,18 +86,16 @@ const TeachersEdit = () => {
                 }}
             >
                 <Card sx={{ p: 2 }}>
-                    <PerfectScrollbar>
-                        <Box>
-                            <FormBuilder
-                                fields={fields}
-                                initialValues={initialValues}
-                                validationSchema={validationSchema}
-                                onSubmit={onSubmit}
-                                submitButton={submitButton}
-                                enableReinitialize
-                            />
-                        </Box>
-                    </PerfectScrollbar>
+                    <Box>
+                        <FormBuilder
+                            fields={fields}
+                            initialValues={initialValues}
+                            validationSchema={validationSchema}
+                            onSubmit={onSubmit}
+                            submitButton={submitButton}
+                            enableReinitialize
+                        />
+                    </Box>
                 </Card>
             </Box>
         </>
