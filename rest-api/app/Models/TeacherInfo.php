@@ -18,7 +18,8 @@ class TeacherInfo extends Model
     protected $fillable = [
         'name',
         'school_id',
-        'subject_id'
+        'subject_id',
+        'form_permission'
     ];
 
     public function user() {

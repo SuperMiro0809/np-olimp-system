@@ -134,4 +134,15 @@ class TeacherController extends Controller
 
         return $count;
     }
+
+    public function changeFormPermission(Request $request, $schoolId, $id)
+    {
+        $teacherInfo = TeacherInfo::findOrFail($id);
+
+        $teacherInfo->update([
+            'form_permission' => $request->formPermission
+        ]);
+
+        return response()->json($teacherInfo, 200);
+    }
 }

@@ -85,6 +85,7 @@ trait UserTrait {
                                 'teacher_info.id',
                                 'teacher_info.name',
                                 'teacher_info.school_id',
+                                'teacher_info.form_permission',
                                 'teacher_info.created_at as created_at',
                                 'users.email',
                                 'users.id as user_id'

@@ -31,10 +31,25 @@ const TeachersList = () => {
         }
     }
 
+    const handleSwitch = (event, id) => {
+        const data = {
+            formPermission: event.target.checked
+        };
+
+        teacherService.changeFormPermission(data, user.info.id, id)
+            .then((res) => {
+                addMessage('Правата на учителя са редактирани успешно', 'success');
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    };
+
     const headings = [
         { id: 'id', label: 'ID', order: true },
         { id: 'name', label: 'Име', order: true },
         { id: 'email', label: 'Имейл', order: true },
+        { id: 'form_permission', label: 'Права за формуляр', type: 'switch', handler: handleSwitch }
     ];
 
     const headFilters = {

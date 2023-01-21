@@ -88,6 +88,14 @@ function requestsCount(schoolId) {
     });
 }
 
+function changeFormPermission(data, schoolId, id) {
+    const url = `${servicesHelper.url}/${schoolId}/teachers/form-permission/${id}`;
+
+    return axios.put(url, data, {
+        headers: servicesHelper.header()
+    });
+}
+
 const teacherService = {
     getVerified,
     create,
@@ -97,7 +105,8 @@ const teacherService = {
     getNotVerified,
     accept,
     reject,
-    requestsCount
+    requestsCount,
+    changeFormPermission
 }
 
 export default teacherService;
