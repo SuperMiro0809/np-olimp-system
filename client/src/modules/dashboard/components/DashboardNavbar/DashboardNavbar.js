@@ -13,7 +13,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/NotificationsOutlined';
 import InputIcon from '@mui/icons-material/Input';
 import Logo from '@modules/common/components/Logo/Logo';
-import Message from '@modules/common/components/Message/Message';
 
 const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
   const [notifications] = useState([]);
@@ -29,7 +28,6 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
         </RouterLink>
         <Box sx={{ flexGrow: 1 }} />
         <Hidden xlDown>
-          <Message />
           {/* <IconButton color="inherit" size="large">
             <Badge
               badgeContent={notifications.length}
