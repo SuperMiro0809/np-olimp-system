@@ -27,6 +27,8 @@ import SubjectsList from './pages/Subjects/Index';
 import SubjectsAdd from './pages/Subjects/Create';
 import SubjectsEdit from './pages/Subjects/Еdit';
 
+import SchoolData from './pages/SchoolData/Index';
+
 import AuthGuard from '@modules/common/hoc/AuthGuard';
 
 const routes = [
@@ -64,7 +66,13 @@ const routes = [
           { path: 'edit/:id', element: <SubjectsEdit /> }
         ]
       },
-      { path: 'school-data', element: <Account /> },
+      {
+        path: 'school-data',
+        element: <DashboardPageLayout title='Данни за училището'/>,
+        children: [
+          { path: '', element: <SchoolData /> }
+        ]
+      },
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'products', element: <ProductList /> },
       { path: 'settings', element: <Settings /> },

@@ -140,4 +140,34 @@ class TrainingOrganizationsController extends Controller
 
         return response()->json($schoolInfo, 200);
     }
+
+    public function editSchoolData(Request $request, $id)
+    {
+        $schoolInfo = SchoolInfo::findOrFail($id);
+
+        $validator = validator($request->only('key'), 
+            [
+                'key' => 'required|string|unique:school_info,key,' . $id,
+            ],
+            [
+                'key' => 'Вече е регистрирана организация с този НЕИСПУО код'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
+
+        $schoolInfo->update([
+            'key' => $request->key,
+            'fullName' => $request->fullName,
+            'type' => $request->type,
+            'address' => $request->address,
+            'contacts' => $request->contacts,
+            'contact-person' => $request->contactPerson,
+            'director' => $request->director
+        ]);
+
+        return response()->json($schoolInfo, 200);
+    }
 }

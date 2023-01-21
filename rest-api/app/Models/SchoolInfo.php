@@ -20,7 +20,13 @@ class SchoolInfo extends Model
     protected $fillable = [
         'name',
         'address',
-        'key'
+        'key',
+        'fullName',
+        'type',
+        'address',
+        'contacts',
+        'contact-person',
+        'director'
     ];
 
     public function user() {

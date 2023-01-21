@@ -88,6 +88,14 @@ function requestsCount() {
     });
 }
 
+function editSchoolData(data, id) {
+    const url = `${servicesHelper.url}/training-organizations/school-data/${id}`;
+
+    return axios.put(url, data, {
+        headers: servicesHelper.header()
+    });
+}
+
 const trainingOrganizationsService = {
     getVerified,
     create,
@@ -97,7 +105,8 @@ const trainingOrganizationsService = {
     getNotVerified,
     accept,
     reject,
-    requestsCount
+    requestsCount,
+    editSchoolData
 }
 
 export default trainingOrganizationsService;

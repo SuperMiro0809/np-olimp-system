@@ -17,7 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('key')->unique();
             $table->string('name');
+            $table->string('fullName')->nullable();
+            $table->string('type')->nullable();
             $table->string('address');
+            $table->string('contacts')->nullable();
+            $table->string('contact-person')->nullable();
+            $table->string('director')->nullable();
             $table->timestamps();
         });
     }
