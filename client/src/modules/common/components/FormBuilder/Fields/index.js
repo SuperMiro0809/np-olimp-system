@@ -44,7 +44,7 @@ const Fields = ({ field, baseProps, setFieldValue, values, touched, errors, upda
             {field.type === 'autocomplete' && (
                 <Autocomplete
                     multiple={Object.hasOwn(field, 'multiple') ? field.multiple : false}
-                    value={baseProps.value || []}
+                    value={baseProps.value || (field.multiple ? [] : '')}
                     disablePortal
                     options={field.options}
                     onChange={(e, value) => (
