@@ -43,7 +43,7 @@ const FormBuilder = ({
             })
 
             initialValues[field.name] = [base];
-        }else if (Object.hasOwn(field, 'fields')) {
+        }else if(field.type === 'lang') {
             initialValues[field.name] = {};
 
             field.selectors.forEach((selector) => {
@@ -52,6 +52,12 @@ const FormBuilder = ({
                 field.fields.forEach((f) => {
                     initialValues[field.name][selector][f.name] = '';
                 });
+            });
+        }else if (Object.hasOwn(field, 'fields')) {
+            initialValues[field.name] = {};
+
+            field.fields.forEach((f) => {
+                initialValues[field.name][f.name] = '';
             });
         } else {
             initialValues[field.name] = '';
@@ -71,6 +77,8 @@ const FormBuilder = ({
             }
         }
     }
+
+    console.log(initialValues)
 
     return (
         <Formik

@@ -102,8 +102,7 @@ const ArrayItem = ({
                         value: values[name][index][field.name],
                         variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
                         helperText: getIn(otherProps.touched, fieldName) && getIn(otherProps.errors, fieldName),
-                        key: i,
-                        color: 'bordoRed',
+                        key: i
                     };
 
                     return (

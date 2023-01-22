@@ -2,12 +2,16 @@ import {
     TextField,
     Autocomplete,
     MenuItem,
-    Divider
+    Divider,
+    Box,
+    Typography
 } from '@mui/material';
 import RichTextEditor from './RichTextEditor';
 import LangFields from './LangFields';
 import FileUpload from './FileUpload';
 import ArrayField from './ArrayField';
+import FieldGroup from './FieldGroup';
+import GroupHeading from './FieldGroup/GroupHeading';
 import PropTypes from 'prop-types';
 
 const Fields = ({ field, baseProps, setFieldValue, values, touched, errors, updateUploadedFiles }) => {
@@ -56,7 +60,7 @@ const Fields = ({ field, baseProps, setFieldValue, values, touched, errors, upda
                         <TextField
                             {...params}
                             {...baseProps}
-                            onChange={() => {}}
+                            onChange={() => { }}
                         />
                     )}
                 />
@@ -94,6 +98,24 @@ const Fields = ({ field, baseProps, setFieldValue, values, touched, errors, upda
                     fields={field.fields}
                     baseProps={baseProps}
                     itemLabel={field.itemLabel}
+                    setFieldValue={setFieldValue}
+                    values={values}
+                    touched={touched}
+                    errors={errors}
+                />
+            )}
+
+            {field.type === 'heading' && (
+                <GroupHeading
+                    title={field.title}
+                    variant={field.variant || 'h4'}
+                />
+            )}
+
+            {field.type === 'group' && (
+                <FieldGroup
+                    field={field}
+                    baseProps={baseProps}
                     setFieldValue={setFieldValue}
                     values={values}
                     touched={touched}
