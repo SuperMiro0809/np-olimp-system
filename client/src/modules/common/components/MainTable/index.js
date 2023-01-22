@@ -343,7 +343,6 @@ const MainTable = ({
                                         )}
                                         {headings.map((heading) => {
                                             const value = row[heading.id];
-                                            console.log(value)
                                             const { type = 'text' } = heading;
 
                                             if (type === 'array') {
@@ -353,7 +352,7 @@ const MainTable = ({
 
                                                             {value.map((element, index) => {
                                                                 const name = element[heading.arrayId][heading.selector];
-                                                                console.log(typeof (name));
+
                                                                 return (
                                                                     <Grid item key={index}>
                                                                         <Tooltip title={name}>
