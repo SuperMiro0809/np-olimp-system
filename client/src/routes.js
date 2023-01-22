@@ -30,6 +30,7 @@ import SubjectsEdit from './pages/Subjects/Еdit';
 import SchoolData from './pages/SchoolData/Index';
 
 import AuthGuard from '@modules/common/hoc/AuthGuard';
+import RoleGuard from '@modules/common/hoc/RoleGuard';
 
 const routes = [
   {
@@ -39,7 +40,7 @@ const routes = [
       { path: 'account', element: <Account /> },
       { 
         path: 'training-organizations',
-        element: <DashboardPageLayout title='Обучителни организации' />,
+        element: <RoleGuard component={<DashboardPageLayout title='Обучителни организации' />} accessRolesFromRoute={['SuperAdmin']} />,
         children: [
           { path: '', element: <TrainingOrganizationsList /> },
           { path: 'create', element: <TrainingOrganizationsAdd /> },
@@ -49,7 +50,7 @@ const routes = [
       },
       {
         path: 'teachers',
-        element: <DashboardPageLayout title='Учители' />,
+        element: <RoleGuard component={<DashboardPageLayout title='Учители' />} accessRolesFromRoute={['Admin']} />,
         children: [
           { path: '', element: <TeachersList /> },
           { path: 'create', element: <TeachersAdd /> },
@@ -59,7 +60,7 @@ const routes = [
       },
       {
         path: 'subjects',
-        element: <DashboardPageLayout title='Учебни предмети' />,
+        element: <RoleGuard component={<DashboardPageLayout title='Учебни предмети' />} accessRolesFromRoute={['Admin']} />,
         children: [
           { path: '', element: <SubjectsList /> },
           { path: 'create', element: <SubjectsAdd /> },
@@ -68,7 +69,7 @@ const routes = [
       },
       {
         path: 'school-data',
-        element: <DashboardPageLayout title='Данни за училището'/>,
+        element: <RoleGuard component={<DashboardPageLayout title='Данни за училището'/>} accessRolesFromRoute={['Admin']} />,
         children: [
           { path: '', element: <SchoolData /> }
         ]
