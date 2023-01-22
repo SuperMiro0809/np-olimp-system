@@ -9,6 +9,7 @@ use App\Models\{
     User,
     Role,
     SchoolInfo,
+    SchoolAddress,
     TeacherInfo
 };
 
@@ -52,8 +53,12 @@ class UserController extends Controller
             $type = SchoolInfo::class;
             $info = SchoolInfo::create([
                 'key' => $request->key,
-                'name' => $request->name,
-                'address' => $request->address
+                'name' => $request->name
+            ]);
+
+            SchoolAddress::create([
+                'address' => $request->address,
+                'school_id' => $info->id
             ]);
             
         }else {
