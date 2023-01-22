@@ -13,8 +13,16 @@ trait UserTrait {
                                 'school_info.id',
                                 'school_info.name',
                                 'school_info.key',
-                                'school_info.address',
+                                'school_info.fullName',
+                                'school_info.type',
+                                'school_info.director',
                                 'school_info.created_at as created_at',
+                                'school_address.address',
+                                'school_address.phone as school_phone',
+                                'school_address.email as school_email',
+                                'school_contact.name as contact_name',
+                                'school_contact.phone as contact_phone',
+                                'school_contact.email as contact_email',
                                 'users.email',
                                 'users.id as user_id'
                             )
@@ -24,6 +32,12 @@ trait UserTrait {
                                 }else {
                                     $q->IsNotVerified();
                                 }
+                            })
+                            ->leftJoin('school_address', function($q) {
+                                $q->on('school_address.school_id', 'school_info.id');
+                            })
+                            ->leftJoin('school_contact', function($q) {
+                                $q->on('school_contact.school_id', 'school_info.id');
                             })
                             ->leftJoin('users', function($q) {
                                 $q->on('users.parent_id', 'school_info.id');

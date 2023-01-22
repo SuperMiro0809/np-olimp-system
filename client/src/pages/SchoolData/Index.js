@@ -15,15 +15,37 @@ const SchoolData = () => {
 
     useEffect(() => {
         if (user) {
-            setInitialValues({
-                fullName: user.info.fullName || '',
-                type: user.info.type || '',
-                key: user.info.key,
-                address: user.info.address,
-                contacts: user.info.contacts || '',
-                contactPerson: user.info['contact-person'] || '',
-                director: user.info.director || ''
-            })
+            trainingOrganizationsService.getById(user.info.id)
+                .then((res) => {
+                    setInitialValues({
+                        fullName: res.data.fullName || '',
+                        type: res.data.type || '',
+                        key: res.data.key,
+                        address: {
+                            address: res.data.address,
+                            phone: res.data.school_phone || '',
+                            email: res.data.school_email || ''
+                        },
+                        contact: {
+                            name: res.data.contact_name || '',
+                            phone: res.data.contact_phone || '',
+                            email: res.data.contact_email || ''
+                        },
+                        director: res.data.director || ''
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+            // setInitialValues({
+            //     fullName: user.info.fullName || '',
+            //     type: user.info.type || '',
+            //     key: user.info.key,
+            //     address: user.info.address,
+            //     contacts: user.info.contacts || '',
+            //     contactPerson: user.info['contact-person'] || '',
+            //     director: user.info.director || ''
+            // })
         }
     }, [user])
 
@@ -31,9 +53,16 @@ const SchoolData = () => {
         fullName: Yup.string().max(255).required('Пълното име е задължително'),
         type: Yup.string().required('Tипът е задължителен'),
         key: Yup.string().max(255).required('Кодът по НЕИСПУО е задължителен'),
-        address: Yup.string().required('Адресът е задължителен'),
-        contacts: Yup.string().required('Контактите са задължителни'),
-        contactPerson: Yup.string().max(255).required('Лицето за контакт е задължително'),
+        address: Yup.object().shape({
+            address: Yup.string().required('Адресът е задължителен'),
+            phone: Yup.string().required('Телефонът е задължителен'),
+            email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен')
+        }),
+        contact: Yup.object().shape({
+            name: Yup.string().required('Името е задължително'),
+            phone: Yup.string().required('Телефонът е задължителен'),
+            email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен')
+        }),
         director: Yup.string().max(255).required('Директорът е задължителен'),
     });
 
@@ -47,9 +76,20 @@ const SchoolData = () => {
             ]
         },
         { type: 'text', name: 'key', label: 'Код по НЕИСПУО' },
-        { type: 'text', name: 'address', label: 'Адрес' },
-        { type: 'text', name: 'contacts', label: 'Kонтакти' },
-        { type: 'text', name: 'contactPerson', label: 'Лице за контакти' },
+        {
+            type: 'group', name: 'address', title: 'Aдрес за кореспонденция', fields: [
+                { type: 'text', name: 'address', label: 'Адрес' },
+                { type: 'text', name: 'phone', label: 'Телефон' },
+                { type: 'email', name: 'email', label: 'Имейл' },
+            ]
+        },
+        {
+            type: 'group', name: 'contact', title: 'Лице за контакти', fields: [
+                { type: 'text', name: 'name', label: 'Име' },
+                { type: 'text', name: 'phone', label: 'Телефон' },
+                { type: 'email', name: 'email', label: 'Имейл' },
+            ]
+        },
         { type: 'text', name: 'director', label: 'Директор' }
     ];
 

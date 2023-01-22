@@ -150,13 +150,6 @@ class TrainingOrganizationsController extends Controller
         return response()->json($schoolInfo, 200);
     }
 
-    public function getSchoolData($id)
-    {
-        $schoolInfo = SchoolInfo::findOrFail($id);
-
-        return $schoolInfo;
-    }
-
     public function editSchoolData(Request $request, $id)
     {
         $schoolInfo = SchoolInfo::findOrFail($id);
@@ -182,15 +175,15 @@ class TrainingOrganizationsController extends Controller
         ]);
 
         SchoolAddress::updateOrCreate(['school_id' => $id],[
-            'address' => $request->address->address,
-            'phone' => $request->address->phone,
-            'email' => $request->address->email
+            'address' => $request->address['address'],
+            'phone' => $request->address['phone'],
+            'email' => $request->address['email']
 		]);
 
         SchoolContact::updateOrCreate(['school_id' => $id],[
-            'name' => $request->contact->name,
-            'phone' => $request->contact->phone,
-            'email' => $request->contact->email
+            'name' => $request->contact['name'],
+            'phone' => $request->contact['phone'],
+            'email' => $request->contact['email']
 		]);
 
         return response()->json($schoolInfo, 200);
