@@ -96,6 +96,14 @@ function changeFormPermission(data, schoolId, id) {
     });
 }
 
+function changeSubject(data, schoolId, id) {
+    const url = `${servicesHelper.url}/${schoolId}/teachers/subject/${id}`;
+
+    return axios.put(url, data, {
+        headers: servicesHelper.header()
+    });
+}
+
 const teacherService = {
     getVerified,
     create,
@@ -106,7 +114,8 @@ const teacherService = {
     accept,
     reject,
     requestsCount,
-    changeFormPermission
+    changeFormPermission,
+    changeSubject
 }
 
 export default teacherService;

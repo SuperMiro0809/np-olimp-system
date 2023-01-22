@@ -19,6 +19,7 @@ import { makeStyles, withStyles, styled } from '@mui/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import EnhancedTableHead from './EnhancedTableHead';
 import DeleteDialog from './DeleteDialog';
+import ChipColumn from './ChipColumn';
 import Pagination from '@modules/common/components/Pagination/Pagination';
 import PropTypes from 'prop-types';
 
@@ -376,6 +377,19 @@ const MainTable = ({
                                                                 handler(event, row.id);
                                                                 newRequest();
                                                             }}
+                                                        />
+                                                    </TableCell>
+                                                );
+                                            } else if (type === 'chip') {
+                                                return (
+                                                    <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
+                                                        <ChipColumn
+                                                            value={value}
+                                                            select={heading.select}
+                                                            options={heading.options}
+                                                            handler={heading.handler}
+                                                            newRequest={newRequest}
+                                                            row={row}
                                                         />
                                                     </TableCell>
                                                 );

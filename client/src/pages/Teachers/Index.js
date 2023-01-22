@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Card } from '@mui/material';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import teacherService from '@services/teacher';
+import subjectService from '@services/subject';
 import MainTable from '@modules/common/components/MainTable';
 import useMessage from '@modules/common/hooks/useMessage';
 import useAuth from '@modules/common/hooks/useAuth';
@@ -12,6 +13,20 @@ const TeachersList = () => {
     const [total, setTotal] = useState(0);
     const { addMessage } = useMessage();
     const { user } = useAuth();
+    const [subjectOptions, setSubjectOptions] = useState([]);
+
+    useEffect(() => {
+        if (user) {
+            subjectService.getAll(user.info.id)
+                .then((res) => {
+                    const options = res.data.map((el) => ({ label: el.name, value: el.id }));
+                    setSubjectOptions(options);
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
+    }, [user])
 
     const get = (page, total, filters = [], order = {}) => {
         const pagination = {
@@ -45,11 +60,25 @@ const TeachersList = () => {
             })
     };
 
+    const handleSubject = (value, id) => {
+        const data = {
+            subject: value
+        };
+
+        teacherService.changeSubject(data, user.info.id, id)
+            .then((res) => {
+                addMessage('Предметът на учителя е редактиран успешно', 'success');
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
     const headings = [
         { id: 'id', label: 'ID', order: true },
         { id: 'name', label: 'Име', order: true },
         { id: 'email', label: 'Имейл', order: true },
-        { id: 'subject_name', label: 'Предмет' },
+        { id: 'subject_name', label: 'Предмет', type: 'chip', select: true, options: subjectOptions, handler: handleSubject },
         { id: 'form_permission', label: 'Права за формуляр', type: 'switch', handler: handleSwitch }
     ];
 
