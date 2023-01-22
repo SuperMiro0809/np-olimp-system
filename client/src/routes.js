@@ -29,6 +29,9 @@ import SubjectsEdit from './pages/Subjects/Еdit';
 
 import SchoolData from './pages/SchoolData/Index';
 
+import FormsList from './pages/Forms/Index';
+import FormsAdd from './pages/Forms/Create';
+
 import AuthGuard from '@modules/common/hoc/AuthGuard';
 import RoleGuard from '@modules/common/hoc/RoleGuard';
 
@@ -72,6 +75,15 @@ const routes = [
         element: <RoleGuard component={<DashboardPageLayout title='Данни за училището'/>} accessRolesFromRoute={['Admin']} />,
         children: [
           { path: '', element: <SchoolData /> }
+        ]
+      },
+      {
+        path: 'forms',
+        element: <RoleGuard component={<DashboardPageLayout title='Формуляри'/>} accessRolesFromRoute={['Admin', 'User']} />,
+        children: [
+          { path: '', element: <FormsList /> },
+          { path: 'create', element: <FormsAdd /> },
+          { path: 'edit/:id', element: <SubjectsEdit /> }
         ]
       },
       { path: 'dashboard', element: <Dashboard /> },

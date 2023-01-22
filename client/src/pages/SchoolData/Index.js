@@ -37,15 +37,6 @@ const SchoolData = () => {
                 .catch((error) => {
                     console.log(error);
                 })
-            // setInitialValues({
-            //     fullName: user.info.fullName || '',
-            //     type: user.info.type || '',
-            //     key: user.info.key,
-            //     address: user.info.address,
-            //     contacts: user.info.contacts || '',
-            //     contactPerson: user.info['contact-person'] || '',
-            //     director: user.info.director || ''
-            // })
         }
     }, [user])
 

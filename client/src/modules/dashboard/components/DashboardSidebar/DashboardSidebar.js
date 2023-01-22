@@ -39,6 +39,9 @@ import GroupIcon from '@mui/icons-material/Group';
 //subjects
 import BookIcon from '@mui/icons-material/Book';
 
+//forms
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+
 const formatRole = (role) => {
     if (role === 'SuperAdmin') {
         return 'Системен администратор';
@@ -119,7 +122,14 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                     }
                 ]);
             } else if (user.role.name === 'User') {
-                //teacher profile menu
+                setMenuItems([
+                    ...baseMenuItems,
+                    {
+                        href: '/app/forms',
+                        icon: InsertDriveFileIcon,
+                        title: 'Mои формуляри'
+                    }
+                ]);
             }
         }
     }, [trainingOrganizationsRequestCount, teachersRequestCount]);
