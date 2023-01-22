@@ -122,6 +122,10 @@ trait UserTrait {
             });
         }
 
+        if(request()->query('subject_name')) {
+            $query->where('subjects.name', 'LIKE', '%'.request()->query('subject_name').'%');
+        }
+
         if(request()->has(['field', 'direction'])){
             $query->orderBy(request()->query('field'), request()->query('direction'));
         }
