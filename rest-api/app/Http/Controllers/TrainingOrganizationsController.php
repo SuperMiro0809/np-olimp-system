@@ -71,8 +71,17 @@ class TrainingOrganizationsController extends Controller
         $ids = $request->selected;
         $type = SchoolInfo::class;
 
-        SchoolInfo::whereIn('id', $ids)->delete();
-        User::whereIn('parent_id', $ids)->where('type', $type)->delete();
+        foreach($ids as $id) {
+            $schoolInfo = SchoolInfo::findOrFail($id);
+
+            $schoolInfo->teachers()->get()->each(function ($teacher) {
+                $teacher->user()->delete();
+                $teacher->delete();
+            });
+
+            $schoolInfo->user()->delete();
+            $schoolInfo->delete();
+        }
 
         return response()->json(['message' => 'Deleted'], 200);
     }

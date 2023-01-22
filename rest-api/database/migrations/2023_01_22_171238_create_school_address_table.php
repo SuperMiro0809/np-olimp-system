@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
-            $table->foreignId('school_id')->constrained('school_info');
+            $table->foreignId('school_id')->constrained('school_info')->onDelete('cascade');
             $table->timestamps();
         });
     }
