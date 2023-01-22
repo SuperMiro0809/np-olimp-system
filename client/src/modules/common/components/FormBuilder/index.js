@@ -35,50 +35,54 @@ const FormBuilder = ({
     };
 
     const constructInitialValues = (field) => {
-        if(field.type === 'array') {
+        if (field.type === 'array') {
             let base = {};
 
             field.fields.forEach((f) => {
                 base[f.name] = '';
             })
 
-            initialValues[field.name] = [base];
-        }else if(field.type === 'lang') {
-            initialValues[field.name] = {};
+            if (!initialValues[field.name]) {
+                initialValues[field.name] = [base];
+            }
+        } else if (field.type === 'lang') {
+            if (!initialValues[field.name]) {
+                initialValues[field.name] = {};
 
-            field.selectors.forEach((selector) => {
-                initialValues[field.name][selector] = {};
+                field.selectors.forEach((selector) => {
+                    initialValues[field.name][selector] = {};
+
+                    field.fields.forEach((f) => {
+                        initialValues[field.name][selector][f.name] = '';
+                    });
+                });
+            }
+        } else if (Object.hasOwn(field, 'fields')) {
+            if (!initialValues[field.name]) {
+                initialValues[field.name] = {};
 
                 field.fields.forEach((f) => {
-                    initialValues[field.name][selector][f.name] = '';
+                    initialValues[field.name][f.name] = '';
                 });
-            });
-        }else if (Object.hasOwn(field, 'fields')) {
-            initialValues[field.name] = {};
-
-            field.fields.forEach((f) => {
-                initialValues[field.name][f.name] = '';
-            });
+            }
         } else {
-            initialValues[field.name] = '';
-        }
-    }
-
-    if (Object.keys(initialValues).length === 0) {
-        if (Array.isArray(fields)) {
-            fields.forEach((field) => {
-                constructInitialValues(field);
-            });
-        } else {
-            for (let key in fields) {
-                fields[key].forEach((field) => {
-                    constructInitialValues(field);
-                });
+            if (!initialValues[field.name]) {
+                initialValues[field.name] = '';
             }
         }
     }
 
-    console.log(initialValues)
+    if (Array.isArray(fields)) {
+        fields.forEach((field) => {
+            constructInitialValues(field);
+        });
+    } else {
+        for (let key in fields) {
+            fields[key].forEach((field) => {
+                constructInitialValues(field);
+            });
+        }
+    }
 
     return (
         <Formik
@@ -149,7 +153,7 @@ const FormBuilder = ({
                                                 field={field}
                                                 baseProps={baseProps}
                                                 setFieldValue={setFieldValue}
-                                                updateUploadedFiles={() => {}}
+                                                updateUploadedFiles={() => { }}
                                                 key={index}
                                                 values={values}
                                                 touched={touched}
@@ -218,7 +222,7 @@ const FormBuilder = ({
                                         field={field}
                                         baseProps={baseProps}
                                         setFieldValue={setFieldValue}
-                                        updateUploadedFiles={() => {}}
+                                        updateUploadedFiles={() => { }}
                                         key={index}
                                         values={values}
                                         touched={touched}
