@@ -95,7 +95,7 @@ const FormBuilder = ({
                             flexGrow: 1,
                             bgcolor: "",
                             display: "flex",
-
+                            gap: 3
                         }}>
                             <Tabs
                                 orientation="vertical"
@@ -106,9 +106,9 @@ const FormBuilder = ({
                                 sx={{
                                     borderRight: 1,
                                     borderColor: 'divider',
-                                    '& .MuiTabs-indicator': { backgroundColor: '#96011c!important' },
+                                    '& .MuiTabs-indicator': { backgroundColor: '#ff7701!important' },
                                     //'& .MuiTab-root': { color: blue[700] },
-                                    '& .Mui-selected': { color: '#96011c!important' },
+                                    //'& .Mui-selected': { color: '#96011c!important' },
                                 }}
                             >
                                 {menus.map((menu, index) => {
@@ -133,8 +133,7 @@ const FormBuilder = ({
                                             value: values[field.name],
                                             variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
                                             helperText: touched[field.name] && errors[field.name],
-                                            key: index,
-                                            color: 'bordoRed'
+                                            key: index
                                         };
 
                                         return (
