@@ -93,7 +93,7 @@ trait UserTrait {
         }
     }
       
-    public function getTeacherInfo($verified, $schoolId, $id=null) {
+    public function getTeacherInfo($verified, $schoolId, $id=null, $all=false) {
 
         $query = TeacherInfo::select(
                                 'teacher_info.id',
@@ -141,12 +141,22 @@ trait UserTrait {
             $query->where('subjects.name', 'LIKE', '%'.request()->query('subject_name').'%');
         }
 
+        if(request()->query('active')) {
+            $query->where('teacher_info.active', request()->query('active'));
+        }
+
+        if(request()->query('subject_id')) {
+            $query->where('subjects.id', request()->query('subject_id'));
+        }
+
         if(request()->has(['field', 'direction'])){
             $query->orderBy(request()->query('field'), request()->query('direction'));
         }
         
         if($id) {
             $teacherInfo = $query->where('teacher_info.id', $id)->first();
+        }else if($all) {
+            $teacherInfo = $query->get();
         }else {
             if(request()->query('total')) {
                 $teacherInfo = $query->paginate(request()->query('total'))->withQueryString();
@@ -154,6 +164,7 @@ trait UserTrait {
                 $teacherInfo = $query->paginate(10)->withQueryString();
             }
         }
+
         return $teacherInfo;
     }
 

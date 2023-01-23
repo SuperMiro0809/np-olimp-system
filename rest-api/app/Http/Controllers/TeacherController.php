@@ -169,4 +169,11 @@ class TeacherController extends Controller
 
         return response()->json($teacherInfo, 200);
     }
+
+    public function getAll($schoolId)
+    {
+        $teacherInfo = $this->getTeacherInfo(true, $schoolId, null, true);
+        
+        return $teacherInfo;
+    }
 }
