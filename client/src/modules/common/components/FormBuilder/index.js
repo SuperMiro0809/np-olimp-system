@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import Fields from './Fields';
+import FormObserver from './FormObserver';
 import TabPanel from '@modules/common/components/TabPanel';
 
 function a11yProps(index) {
@@ -26,7 +27,8 @@ const FormBuilder = ({
     validationSchema,
     onSubmit,
     submitButton,
-    enableReinitialize = false
+    enableReinitialize = false,
+    handleOnChange = () => {}
 }) => {
     const [selectedMenu, setSelectedMenu] = useState(0);
 
@@ -102,6 +104,7 @@ const FormBuilder = ({
                 values
             }) => (
                 <form onSubmit={handleSubmit}>
+                    <FormObserver handleOnChange={handleOnChange} />
                     {menus && menus.length > 0 ? (
                         <Box sx={{
                             flexGrow: 1,
@@ -266,7 +269,8 @@ FormBuilder.propTypes = {
     validationSchema: PropTypes.object,
     onSubmit: PropTypes.func.isRequired,
     submitButton: PropTypes.object,
-    enableReinitialize: PropTypes.bool
+    enableReinitialize: PropTypes.bool,
+    handleOnChange: PropTypes.func
 };
 
 export default FormBuilder;
