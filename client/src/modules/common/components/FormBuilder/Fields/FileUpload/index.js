@@ -95,7 +95,6 @@ const FileUpload = ({
 
                 <Button
                     variant="outlined"
-                    color="bordoRed"
                     type="button"
                     startIcon={<UploadIcon />}
                     size='large'
