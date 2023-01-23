@@ -96,6 +96,14 @@ function changeFormPermission(data, schoolId, id) {
     });
 }
 
+function changeActive(data, schoolId, id) {
+    const url = `${servicesHelper.url}/${schoolId}/teachers/active/${id}`;
+
+    return axios.put(url, data, {
+        headers: servicesHelper.header()
+    });
+}
+
 function changeSubject(data, schoolId, id) {
     const url = `${servicesHelper.url}/${schoolId}/teachers/subject/${id}`;
 
@@ -115,6 +123,7 @@ const teacherService = {
     reject,
     requestsCount,
     changeFormPermission,
+    changeActive,
     changeSubject
 }
 

@@ -46,12 +46,26 @@ const TeachersList = () => {
         }
     }
 
-    const handleSwitch = (event, id) => {
+    const handleFormSwitch = (event, id) => {
         const data = {
             formPermission: event.target.checked
         };
 
         teacherService.changeFormPermission(data, user.info.id, id)
+            .then((res) => {
+                addMessage('Правата на учителя са редактирани успешно', 'success');
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    };
+
+    const handleActiveSwitch = (event, id) => {
+        const data = {
+            active: event.target.checked
+        };
+
+        teacherService.changeActive(data, user.info.id, id)
             .then((res) => {
                 addMessage('Правата на учителя са редактирани успешно', 'success');
             })
@@ -79,7 +93,8 @@ const TeachersList = () => {
         { id: 'name', label: 'Име', order: true },
         { id: 'email', label: 'Имейл', order: true },
         { id: 'subject_name', label: 'Предмет', type: 'chip', select: true, options: subjectOptions, handler: handleSubject },
-        { id: 'form_permission', label: 'Права за формуляр', type: 'switch', handler: handleSwitch }
+        { id: 'form_permission', label: 'Права за формуляр', type: 'switch', handler: handleFormSwitch },
+        { id: 'active', label: 'Aктивен/Действащ', type: 'switch', handler: handleActiveSwitch }
     ];
 
     const headFilters = {

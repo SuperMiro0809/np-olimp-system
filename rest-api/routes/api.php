@@ -55,6 +55,7 @@ Route::middleware('auth:api')->group(function () {
 
             Route::put('/form-permission/{id}', [TeacherController::class, 'changeFormPermission']);
             Route::put('/subject/{id}', [TeacherController::class, 'changeSubject']);
+            Route::put('/active/{id}', [TeacherController::class, 'changeActive']);
     
             Route::put('/{id}', [TeacherController::class, 'edit']);
             Route::get('/{id}', [TeacherController::class, 'getById']);

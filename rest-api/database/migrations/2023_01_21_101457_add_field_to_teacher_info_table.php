@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('teacher_info', function (Blueprint $table) {
             $table->boolean('form_permission')->default(false);
+            $table->boolean('active')->default(false);
         });
     }
 
@@ -27,6 +28,7 @@ return new class extends Migration
     {
         Schema::table('teacher_info', function (Blueprint $table) {
             $table->dropColumn('form_permission');
+            $table->dropColumn('active');
         });
     }
 };

@@ -148,6 +148,17 @@ class TeacherController extends Controller
         return response()->json($teacherInfo, 200);
     }
 
+    public function changeActive(Request $request, $schoolId, $id)
+    {
+        $teacherInfo = TeacherInfo::findOrFail($id);
+
+        $teacherInfo->update([
+            'active' => $request->active
+        ]);
+
+        return response()->json($teacherInfo, 200);
+    }
+
     public function changeSubject(Request $request, $schoolId, $id)
     {
         $teacherInfo = TeacherInfo::findOrFail($id);

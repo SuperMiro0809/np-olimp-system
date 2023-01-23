@@ -100,6 +100,7 @@ trait UserTrait {
                                 'teacher_info.name',
                                 'teacher_info.school_id',
                                 'teacher_info.form_permission',
+                                'teacher_info.active',
                                 'teacher_info.created_at as created_at',
                                 'subjects.id as subject_id',
                                 'subjects.name as subject_name',
