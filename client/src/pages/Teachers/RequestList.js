@@ -5,6 +5,7 @@ import RequestListResult from '@modules/teachers/components/RequestListResult';
 import teacherService from '@services/teacher';
 import Pagination from '@modules/common/components/Pagination/Pagination';
 import Select from '@modules/common/components/filters/Select';
+import useAuth from '@modules/common/hooks/useAuth';
 
 const RequestList = () => {
     const [requests, setRequests] = useState([]);
@@ -12,6 +13,7 @@ const RequestList = () => {
     const [page, setPage] = useState(1);
     const [rows, setRows] = useState(10);
     const [sort, setSort] = useState('desc');
+    const { user } = useAuth();
 
     const options = [
         { label: 'Първо по-новите', value: 'desc' },
@@ -28,14 +30,16 @@ const RequestList = () => {
             direction: sort
         }
 
-        teacherService.getNotVerified(page, rows, order)
-            .then((res) => {
-                setRequests(res.data.data);
-                setTotal(res.data.total);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        if (user) {
+            teacherService.getNotVerified(user.info.id, page, rows, order)
+                .then((res) => {
+                    setRequests(res.data.data);
+                    setTotal(res.data.total);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
     };
 
     return (

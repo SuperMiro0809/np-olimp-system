@@ -14,7 +14,7 @@ import {
   Tab,
   Alert
 } from '@mui/material';
-import TabPanel from '@modules/common/components/TabPanel/TabPanel';
+import TabPanel from '@modules/common/components/TabPanel';
 import EducationalOrganizationForm from '@modules/register/components/EducationalOrganizationForm/EducationalOrganizationForm';
 import TeacherForm from '@modules/register/components/TeacherForm/TeacherForm';
 

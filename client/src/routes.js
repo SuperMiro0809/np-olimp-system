@@ -23,7 +23,17 @@ import TeachersAdd from './pages/Teachers/Create';
 import TeachersRequestList from './pages/Teachers/RequestList';
 import TeachersEdit from './pages/Teachers/Edit';
 
+import SubjectsList from './pages/Subjects/Index';
+import SubjectsAdd from './pages/Subjects/Create';
+import SubjectsEdit from './pages/Subjects/Еdit';
+
+import SchoolData from './pages/SchoolData/Index';
+
+import FormsList from './pages/Forms/Index';
+import FormsAdd from './pages/Forms/Create';
+
 import AuthGuard from '@modules/common/hoc/AuthGuard';
+import RoleGuard from '@modules/common/hoc/RoleGuard';
 
 const routes = [
   {
@@ -33,7 +43,7 @@ const routes = [
       { path: 'account', element: <Account /> },
       { 
         path: 'training-organizations',
-        element: <DashboardPageLayout title='Обучителни организации' />,
+        element: <RoleGuard component={<DashboardPageLayout title='Обучителни организации' />} accessRolesFromRoute={['SuperAdmin']} />,
         children: [
           { path: '', element: <TrainingOrganizationsList /> },
           { path: 'create', element: <TrainingOrganizationsAdd /> },
@@ -43,7 +53,7 @@ const routes = [
       },
       {
         path: 'teachers',
-        element: <DashboardPageLayout title='Учители' />,
+        element: <RoleGuard component={<DashboardPageLayout title='Учители' />} accessRolesFromRoute={['Admin']} />,
         children: [
           { path: '', element: <TeachersList /> },
           { path: 'create', element: <TeachersAdd /> },
@@ -53,14 +63,29 @@ const routes = [
       },
       {
         path: 'subjects',
-        element: <DashboardPageLayout title='Учебни предмети' />,
+        element: <RoleGuard component={<DashboardPageLayout title='Учебни предмети' />} accessRolesFromRoute={['Admin']} />,
         children: [
-          { path: '', element: <TrainingOrganizationsList /> },
-          { path: 'create', element: <TrainingOrganizationsAdd /> },
-          { path: 'edit/:id', element: <TrainingOrganizationsEdit /> }
+          { path: '', element: <SubjectsList /> },
+          { path: 'create', element: <SubjectsAdd /> },
+          { path: 'edit/:id', element: <SubjectsEdit /> }
         ]
       },
-      { path: 'school-data', element: <Account /> },
+      {
+        path: 'school-data',
+        element: <RoleGuard component={<DashboardPageLayout title='Данни за училището'/>} accessRolesFromRoute={['Admin']} />,
+        children: [
+          { path: '', element: <SchoolData /> }
+        ]
+      },
+      {
+        path: 'forms',
+        element: <RoleGuard component={<DashboardPageLayout title='Формуляри'/>} accessRolesFromRoute={['Admin', 'User']} />,
+        children: [
+          { path: '', element: <FormsList /> },
+          { path: 'create', element: <FormsAdd /> },
+          { path: 'edit/:id', element: <SubjectsEdit /> }
+        ]
+      },
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'products', element: <ProductList /> },
       { path: 'settings', element: <Settings /> },

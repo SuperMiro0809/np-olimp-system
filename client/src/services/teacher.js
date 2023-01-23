@@ -1,8 +1,8 @@
 import servicesHelper from ".";
 import axios from "axios";
 
-function getVerified(pagination, filters, order) {
-    let url = `${servicesHelper.url}/teachers?page=${pagination.page}&total=${pagination.total}`;
+function getVerified(schoolId, pagination, filters, order) {
+    let url = `${servicesHelper.url}/${schoolId}/teachers?page=${pagination.page}&total=${pagination.total}`;
 
     if(filters.length > 0) {
         filters.forEach((filter) => {
@@ -19,16 +19,16 @@ function getVerified(pagination, filters, order) {
     });
 }
 
-function create(data) {
-    const url = `${servicesHelper.url}/teachers`;
+function create(schoolId, data) {
+    const url = `${servicesHelper.url}/${schoolId}/teachers`;
 
     return axios.post(url, data, {
         headers: servicesHelper.header()
     });
 }
 
-function deleteTeachers(selected) {
-    const url = `${servicesHelper.url}/teachers`;
+function deleteTeachers(schoolId, selected) {
+    const url = `${servicesHelper.url}/${schoolId}/teachers`;
 
     return axios.delete(url, {
         data: { selected: selected },
@@ -36,24 +36,24 @@ function deleteTeachers(selected) {
     });
 }
 
-function edit(data, id) {
-    const url = `${servicesHelper.url}/teachers/${id}`;
+function edit(schoolId, data, id) {
+    const url = `${servicesHelper.url}/${schoolId}/teachers/${id}`;
 
     return axios.put(url, data, {
         headers: servicesHelper.header()
     });
 }
 
-function getById(id) {
-    const url = `${servicesHelper.url}/teachers/${id}`;
+function getById(schoolId, id) {
+    const url = `${servicesHelper.url}/${schoolId}/teachers/${id}`;
 
     return axios.get(url, {
         headers: servicesHelper.header()
     });
 }
 
-function getNotVerified(page, rows, order) {
-    let url = `${servicesHelper.url}/teachers/requests?page=${page}&total=${rows}`;
+function getNotVerified(schoolId, page, rows, order) {
+    let url = `${servicesHelper.url}/${schoolId}/teachers/requests?page=${page}&total=${rows}`;
 
     if(order) {
         url += `&field=${order.field}&direction=${order.direction}`;
@@ -64,26 +64,42 @@ function getNotVerified(page, rows, order) {
     });
 }
 
-function accept(id) {
-    const url = `${servicesHelper.url}/teachers/accept/${id}`;
+function accept(schoolId, id) {
+    const url = `${servicesHelper.url}/${schoolId}/teachers/accept/${id}`;
 
     return axios.put(url, {}, {
         headers: servicesHelper.header()
     });
 }
 
-function reject(id) {
-    const url = `${servicesHelper.url}/teachers/reject/${id}`;
+function reject(schoolId, id) {
+    const url = `${servicesHelper.url}/${schoolId}/teachers/reject/${id}`;
 
     return axios.put(url, {}, {
         headers: servicesHelper.header()
     });
 }
 
-function requestsCount() {
-    const url = `${servicesHelper.url}/teachers/requests/count`;
+function requestsCount(schoolId) {
+    const url = `${servicesHelper.url}/${schoolId}/teachers/requests/count`;
 
     return axios.get(url, {
+        headers: servicesHelper.header()
+    });
+}
+
+function changeFormPermission(data, schoolId, id) {
+    const url = `${servicesHelper.url}/${schoolId}/teachers/form-permission/${id}`;
+
+    return axios.put(url, data, {
+        headers: servicesHelper.header()
+    });
+}
+
+function changeSubject(data, schoolId, id) {
+    const url = `${servicesHelper.url}/${schoolId}/teachers/subject/${id}`;
+
+    return axios.put(url, data, {
         headers: servicesHelper.header()
     });
 }
@@ -97,7 +113,9 @@ const teacherService = {
     getNotVerified,
     accept,
     reject,
-    requestsCount
+    requestsCount,
+    changeFormPermission,
+    changeSubject
 }
 
 export default teacherService;

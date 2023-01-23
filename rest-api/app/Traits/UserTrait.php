@@ -13,8 +13,16 @@ trait UserTrait {
                                 'school_info.id',
                                 'school_info.name',
                                 'school_info.key',
-                                'school_info.address',
+                                'school_info.fullName',
+                                'school_info.type',
+                                'school_info.director',
                                 'school_info.created_at as created_at',
+                                'school_address.address',
+                                'school_address.phone as school_phone',
+                                'school_address.email as school_email',
+                                'school_contact.name as contact_name',
+                                'school_contact.phone as contact_phone',
+                                'school_contact.email as contact_email',
                                 'users.email',
                                 'users.id as user_id'
                             )
@@ -24,6 +32,12 @@ trait UserTrait {
                                 }else {
                                     $q->IsNotVerified();
                                 }
+                            })
+                            ->leftJoin('school_address', function($q) {
+                                $q->on('school_address.school_id', 'school_info.id');
+                            })
+                            ->leftJoin('school_contact', function($q) {
+                                $q->on('school_contact.school_id', 'school_info.id');
                             })
                             ->leftJoin('users', function($q) {
                                 $q->on('users.parent_id', 'school_info.id');
@@ -79,19 +93,29 @@ trait UserTrait {
         }
     }
       
-    public function getTeacherInfo($verified, $id=null) {
+    public function getTeacherInfo($verified, $schoolId, $id=null) {
+
         $query = TeacherInfo::select(
                                 'teacher_info.id',
                                 'teacher_info.name',
+                                'teacher_info.school_id',
+                                'teacher_info.form_permission',
                                 'teacher_info.created_at as created_at',
+                                'subjects.id as subject_id',
+                                'subjects.name as subject_name',
                                 'users.email',
                                 'users.id as user_id'
-                            )->whereHas('user', function ($q) use ($verified) {
+                            )
+                            ->where('teacher_info.school_id', $schoolId)
+                            ->whereHas('user', function ($q) use ($verified) {
                                 if($verified == true) {
                                     $q->IsVerified();
                                 }else {
                                     $q->IsNotVerified();
                                 }
+                            })
+                            ->leftJoin('subjects', function($q) {
+                                $q->on('subjects.id', 'teacher_info.subject_id');
                             })
                             ->leftJoin('users', function($q) {
                                 $q->on('users.parent_id', 'teacher_info.id');
@@ -110,6 +134,10 @@ trait UserTrait {
             $query->whereHas('user', function ($q) {
                 $q->where('email', 'LIKE', '%'.request()->query('email').'%');
             });
+        }
+
+        if(request()->query('subject_name')) {
+            $query->where('subjects.name', 'LIKE', '%'.request()->query('subject_name').'%');
         }
 
         if(request()->has(['field', 'direction'])){

@@ -7,9 +7,9 @@ use App\Models\Subject;
 
 class SubjectController extends Controller
 {
-    public function index()
+    public function index($schoolId)
     {
-        $query = Subject::select('id', 'name');
+        $query = Subject::select('id', 'name')->where('school_id', $schoolId);
 
         if(request()->query('id')) {
             $query->where('id', 'LIKE', '%'.request()->query('id').'%');
@@ -32,10 +32,11 @@ class SubjectController extends Controller
         return $subjects;
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $schoolId)
     {
         $subject = Subject::create([
-            'name' => $request->name
+            'name' => $request->name,
+            'school_id' => $schoolId
         ]);
 
         return $subject;
@@ -50,7 +51,7 @@ class SubjectController extends Controller
         return response()->json(['message' => 'Deleted'], 200);
     }
 
-    public function edit(Request $request, $id)
+    public function edit(Request $request, $schoolId, $id)
     {
         $subject = Subject::findOrFail($id);
 
@@ -68,9 +69,9 @@ class SubjectController extends Controller
         return $subject;
     }
 
-    public function getAll()
+    public function getAll($schoolId)
     {
-        $subjects = Subject::all();
+        $subjects = Subject::where('school_id', $schoolId)->get();
 
         return $subjects;
     }

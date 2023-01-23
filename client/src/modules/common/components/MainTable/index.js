@@ -10,12 +10,16 @@ import {
     Checkbox,
     IconButton,
     Button,
-    TextField
+    TextField,
+    Grid,
+    Chip,
+    Switch
 } from '@mui/material';
-import { makeStyles, withStyles } from '@mui/styles';
+import { makeStyles, withStyles, styled } from '@mui/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import EnhancedTableHead from './EnhancedTableHead';
 import DeleteDialog from './DeleteDialog';
+import ChipColumn from './ChipColumn';
 import Pagination from '@modules/common/components/Pagination/Pagination';
 import PropTypes from 'prop-types';
 
@@ -47,6 +51,39 @@ const FiltersTableRow = withStyles(theme => ({
         backgroundColor: theme.palette.primary.grey
     }
 }))(TableRow);
+
+const CustomSwitch = styled(Switch)(({ theme }) => ({
+    padding: 8,
+    '& .MuiSwitch-track': {
+        borderRadius: 22 / 2,
+        '&:before, &:after': {
+            content: '""',
+            position: 'absolute',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            width: 16,
+            height: 16,
+        },
+        '&:before': {
+            backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
+                theme.palette.getContrastText(theme.palette.primary.main),
+            )}" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/></svg>')`,
+            left: 12,
+        },
+        '&:after': {
+            backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
+                theme.palette.getContrastText(theme.palette.primary.main),
+            )}" d="M19,13H5V11H19V13Z" /></svg>')`,
+            right: 12,
+        },
+    },
+    '& .MuiSwitch-thumb': {
+        boxShadow: 'none',
+        width: 16,
+        height: 16,
+        margin: 2,
+    },
+}));
 
 const MainTable = ({
     rows,
@@ -306,14 +343,65 @@ const MainTable = ({
                                         )}
                                         {headings.map((heading) => {
                                             const value = row[heading.id];
+                                            const { type = 'text' } = heading;
 
-                                            return (
-                                                <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
-                                                    <Tooltip title={value}>
-                                                        <span>{value}</span>
-                                                    </Tooltip>
-                                                </TableCell>
-                                            );
+                                            if (type === 'array') {
+                                                return (
+                                                    <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
+                                                        <Grid container spacing={1}>
+
+                                                            {value.map((element, index) => {
+                                                                const name = element[heading.arrayId][heading.selector];
+
+                                                                return (
+                                                                    <Grid item key={index}>
+                                                                        <Tooltip title={name}>
+                                                                            <Chip label={name} sx={{ maxWidth: '150px' }} />
+                                                                        </Tooltip>
+                                                                    </Grid>
+                                                                );
+                                                            })}
+
+                                                        </Grid>
+                                                    </TableCell>
+                                                );
+                                            } else if (type === 'switch') {
+                                                const handler = heading.handler;
+
+                                                return (
+                                                    <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
+                                                        <CustomSwitch
+                                                            checked={!!value}
+                                                            onChange={(event) => {
+                                                                handler(event, row.id);
+                                                                newRequest();
+                                                            }}
+                                                        />
+                                                    </TableCell>
+                                                );
+                                            } else if (type === 'chip') {
+                                                return (
+                                                    <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
+                                                        <ChipColumn
+                                                            value={value}
+                                                            select={heading.select}
+                                                            options={heading.options}
+                                                            handler={heading.handler}
+                                                            newRequest={newRequest}
+                                                            row={row}
+                                                        />
+                                                    </TableCell>
+                                                );
+                                            } else {
+
+                                                return (
+                                                    <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
+                                                        <Tooltip title={value}>
+                                                            <span>{value}</span>
+                                                        </Tooltip>
+                                                    </TableCell>
+                                                );
+                                            }
                                         })}
                                         {options.edit && (
                                             <TableCell align='right'>

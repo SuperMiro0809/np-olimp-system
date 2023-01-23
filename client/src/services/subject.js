@@ -1,8 +1,8 @@
 import servicesHelper from ".";
 import axios from "axios";
 
-function getSubjects(pagination, filters, order) {
-    let url = `${servicesHelper.url}/subjects?page=${pagination.page}&total=${pagination.total}`;
+function getSubjects(schoolId, pagination, filters, order) {
+    let url = `${servicesHelper.url}/${schoolId}/subjects?page=${pagination.page}&total=${pagination.total}`;
 
     if(filters.length > 0) {
         filters.forEach((filter) => {
@@ -19,16 +19,16 @@ function getSubjects(pagination, filters, order) {
     });
 }
 
-function create(data) {
-    const url = `${servicesHelper.url}/subjects`;
+function create(schoolId, data) {
+    const url = `${servicesHelper.url}/${schoolId}/subjects`;
 
     return axios.post(url, data, {
         headers: servicesHelper.header()
     });
 }
 
-function deleteSubjects(selected) {
-    const url = `${servicesHelper.url}/subjects`;
+function deleteSubjects(schoolId, selected) {
+    const url = `${servicesHelper.url}/${schoolId}/subjects`;
 
     return axios.delete(url, {
         data: { selected: selected },
@@ -36,24 +36,24 @@ function deleteSubjects(selected) {
     });
 }
 
-function edit(data, id) {
-    const url = `${servicesHelper.url}/subjects/${id}`;
+function edit(schoolId, data, id) {
+    const url = `${servicesHelper.url}/${schoolId}/subjects/${id}`;
 
     return axios.put(url, data, {
         headers: servicesHelper.header()
     });
 }
 
-function getById(id) {
-    const url = `${servicesHelper.url}/subjects/${id}`;
+function getById(schoolId, id) {
+    const url = `${servicesHelper.url}/${schoolId}/subjects/${id}`;
 
     return axios.get(url, {
         headers: servicesHelper.header()
     });
 }
 
-function getAll() {
-    const url = `${servicesHelper.url}/subjects/all`;
+function getAll(schoolId) {
+    const url = `${servicesHelper.url}/${schoolId}/subjects/all`;
 
     return axios.get(url, {
         headers: servicesHelper.header()

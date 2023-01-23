@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { Outlet, useLocation, Link as RouterLink, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-// import Message from "../Message";
+import Message from "@modules/common/components/Message";
 
 const DashboardPageLayout = ({ title }) => {
     const location = useLocation();
@@ -26,7 +26,7 @@ const DashboardPageLayout = ({ title }) => {
         }}>
             {/* HEADER */}
             <Box>
-                <Box sx={{ pb: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Box sx={{ pb: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '50px' }}>
                     <Breadcrumbs
                         aria-label="breadcrumb"
                         sx={{
@@ -55,7 +55,7 @@ const DashboardPageLayout = ({ title }) => {
                         })}
                     </Breadcrumbs>
                     
-                    {/* <Message /> */}
+                    <Message />
                 </Box>
                 <Divider sx={{ mb: 5 }} />
             </Box>

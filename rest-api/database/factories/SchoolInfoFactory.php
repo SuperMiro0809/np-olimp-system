@@ -18,7 +18,6 @@ class SchoolInfoFactory extends Factory
     {
         return [
             'name' => fake()->company(),
-            'address' => fake()->address(),
             'key' => fake()->unique()->randomNumber(5, false)
         ];
     }
