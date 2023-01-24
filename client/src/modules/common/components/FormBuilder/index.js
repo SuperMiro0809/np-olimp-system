@@ -28,7 +28,7 @@ const FormBuilder = ({
     onSubmit,
     submitButton,
     enableReinitialize = false,
-    handleOnChange = () => {}
+    handleOnChange = () => { }
 }) => {
     const [selectedMenu, setSelectedMenu] = useState(0);
 
@@ -36,17 +36,38 @@ const FormBuilder = ({
         setSelectedMenu(newValue);
     };
 
-    const constructInitialValues = (field) => {
-        if (field.type === 'array') {
-            let base = {};
+    const constructArrayFieldValues = (field, values) => {
+        if (values[field.name]) {
+            values[field.name] = values[field.name].map((el, index) => {
+
+                field.fields.forEach((f) => {
+                    if (!el[f.name]) {
+                        if(f.type === 'array') {
+                            constructArrayFieldValues(f, values[field.name][index]);
+                        }else {
+                            el[f.name] = '';
+                        }
+                    }
+                })
+
+                return el;
+            })
+        } else {
+            values[field.name] = [{}];
 
             field.fields.forEach((f) => {
-                base[f.name] = '';
+                if(f.type === 'array') {
+                    constructArrayFieldValues(f, values[field.name][0]);
+                }else {
+                    values[field.name][0][f.name] = '';
+                }
             })
+        }
+    }
 
-            if (!initialValues[field.name]) {
-                initialValues[field.name] = [base];
-            }
+    const constructInitialValues = (field) => {
+        if (field.type === 'array') {
+            constructArrayFieldValues(field, initialValues)
         } else if (field.type === 'lang') {
             if (!initialValues[field.name]) {
                 initialValues[field.name] = {};
@@ -86,6 +107,8 @@ const FormBuilder = ({
         }
     }
 
+    console.log(initialValues);
+
     return (
         <Formik
             initialValues={initialValues}
@@ -105,6 +128,7 @@ const FormBuilder = ({
             }) => (
                 <form onSubmit={handleSubmit}>
                     <FormObserver handleOnChange={handleOnChange} />
+
                     {menus && menus.length > 0 ? (
                         <Box sx={{
                             flexGrow: 1,
@@ -119,6 +143,7 @@ const FormBuilder = ({
                                 onChange={handleTabChange}
                                 aria-label="Vertical tabs example"
                                 sx={{
+                                    maxWidth: '200px',
                                     borderRight: 1,
                                     borderColor: 'divider',
                                     '& .MuiTabs-indicator': { backgroundColor: '#ff7701!important' },
