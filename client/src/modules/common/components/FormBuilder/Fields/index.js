@@ -96,6 +96,8 @@ const Fields = ({ field, baseProps, setFieldValue, values, touched, errors, upda
             {field.type === 'array' && (
                 <ArrayField
                     fields={field.fields}
+                    arrayVariant={field.arrayVariant || 'inline'}
+                    element={baseProps.element || values[baseProps.name]}
                     baseProps={baseProps}
                     itemLabel={field.itemLabel}
                     setFieldValue={setFieldValue}

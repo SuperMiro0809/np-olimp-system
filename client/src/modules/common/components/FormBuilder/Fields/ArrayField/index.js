@@ -1,8 +1,9 @@
 import { Box, Typography } from '@mui/material';
 import { FieldArray } from 'formik';
-import ArrayItem from './ArrayItem';
+import ArrayCollapseItem from './ArrayCollapseItem';
+import ArrayInlineItem from './ArrayInlineItem';
 
-const ArrayField = ({ itemLabel, fields, values, baseProps, ...otherProps }) => {
+const ArrayField = ({ arrayVariant, element, itemLabel, fields, values, baseProps, ...otherProps }) => {
     const { name, label } = baseProps;
 
     return (
@@ -20,19 +21,39 @@ const ArrayField = ({ itemLabel, fields, values, baseProps, ...otherProps }) => 
                 name={name}
                 render={arrayHelpers => (
                     <>
-                        {values[name].map((element, index) => (
-                            <ArrayItem
-                                arrayHelpers={arrayHelpers}
-                                name={name}
-                                itemLabel={itemLabel}
-                                fields={fields}
-                                baseProps={baseProps}
-                                index={index}
-                                values={values}
-                                key={index}
-                                {...otherProps}
-                            />
-                        ))}
+                        {element.map((el, index) => {
+                            if (arrayVariant === 'collapse') {
+                                return (
+                                    <ArrayCollapseItem
+                                        arrayHelpers={arrayHelpers}
+                                        element={element}
+                                        name={name}
+                                        itemLabel={itemLabel}
+                                        fields={fields}
+                                        baseProps={baseProps}
+                                        index={index}
+                                        values={values}
+                                        key={index}
+                                        {...otherProps}
+                                    />
+                                );
+                            } else if (arrayVariant === 'inline') {
+                                return (
+                                    <ArrayInlineItem
+                                        arrayHelpers={arrayHelpers}
+                                        element={element}
+                                        name={name}
+                                        itemLabel={itemLabel}
+                                        fields={fields}
+                                        baseProps={baseProps}
+                                        index={index}
+                                        values={values}
+                                        key={index}
+                                        {...otherProps}
+                                    />
+                                );
+                            }
+                        })}
                     </>
                 )}
             />

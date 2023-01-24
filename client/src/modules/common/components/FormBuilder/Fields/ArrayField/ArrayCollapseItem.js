@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/styles';
 import { getIn } from 'formik';
+import dataScheme from '../../utils/dataScheme';
 
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -37,8 +38,9 @@ const ControlsWrapper = styled(Box)({
 });
 
 
-const ArrayItem = ({
+const ArrayCollapseItem = ({
     arrayHelpers,
+    element,
     name,
     itemLabel,
     fields,
@@ -49,18 +51,8 @@ const ArrayItem = ({
 }) => {
     const [open, setOpen] = useState(true);
 
-    const dataScheme = () => {
-        let scheme = {};
-
-        Object.keys(values[name][0]).forEach((key) => {
-            scheme[key] = '';
-        });
-
-        return scheme;
-    }
-
     const onAdd = () => {
-        arrayHelpers.push(dataScheme());
+        arrayHelpers.push(dataScheme(element));
     }
 
     const onRemove = (index) => {
@@ -79,7 +71,7 @@ const ArrayItem = ({
                     <Fab onClick={() => onAdd()} size='small' color='primary' aria-label='add'>
                         <AddIcon />
                     </Fab>
-                    <Fab onClick={() => onRemove(index)} disabled={values[name].length == 1} sx={{ ml: 1 }} size='small' color='primary' aria-label='remove'>
+                    <Fab onClick={() => onRemove(index)} disabled={element.length == 1} sx={{ ml: 1 }} size='small' color='primary' aria-label='remove'>
                         <RemoveIcon />
                     </Fab>
                 </ControlsWrapper>
@@ -102,6 +94,7 @@ const ArrayItem = ({
                         value: values[name][index][field.name],
                         variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
                         helperText: getIn(otherProps.touched, fieldName) && getIn(otherProps.errors, fieldName),
+                        element: values[name][index][field.name],
                         key: i
                     };
 
@@ -122,4 +115,4 @@ const ArrayItem = ({
     );
 }
 
-export default ArrayItem;
+export default ArrayCollapseItem;

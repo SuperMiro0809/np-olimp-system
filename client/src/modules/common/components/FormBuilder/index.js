@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import Fields from './Fields';
 import FormObserver from './FormObserver';
 import TabPanel from '@modules/common/components/TabPanel';
+import { constructArrayFieldValues } from './utils/constructInitialValues';
 
 function a11yProps(index) {
     return {
@@ -35,35 +36,6 @@ const FormBuilder = ({
     const handleTabChange = (event, newValue) => {
         setSelectedMenu(newValue);
     };
-
-    const constructArrayFieldValues = (field, values) => {
-        if (values[field.name]) {
-            values[field.name] = values[field.name].map((el, index) => {
-
-                field.fields.forEach((f) => {
-                    if (!el[f.name]) {
-                        if(f.type === 'array') {
-                            constructArrayFieldValues(f, values[field.name][index]);
-                        }else {
-                            el[f.name] = '';
-                        }
-                    }
-                })
-
-                return el;
-            })
-        } else {
-            values[field.name] = [{}];
-
-            field.fields.forEach((f) => {
-                if(f.type === 'array') {
-                    constructArrayFieldValues(f, values[field.name][0]);
-                }else {
-                    values[field.name][0][f.name] = '';
-                }
-            })
-        }
-    }
 
     const constructInitialValues = (field) => {
         if (field.type === 'array') {
@@ -106,8 +78,6 @@ const FormBuilder = ({
             });
         }
     }
-
-    console.log(initialValues);
 
     return (
         <Formik
