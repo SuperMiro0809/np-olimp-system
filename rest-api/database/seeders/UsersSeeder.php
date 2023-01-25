@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\{
     User,
     AdministratorInfo,
+    SchoolInfo,
+    TeacherInfo,
     Role
 };
 
@@ -34,5 +36,15 @@ class UsersSeeder extends Seeder
             'parent_id' => $info->id,
             'verified' => 1
 		]);
+
+        $adminRoleId = Role::where('name', 'Admin')->first()->id;
+        $userRoleId = Role::where('name', 'User')->first()->id;
+
+        SchoolInfo::factory()
+                ->hasUser(1, ['role_id' => $adminRoleId, 'email' => 'zevs8@abv.bg'])
+                ->hasAddress()
+                ->hasSubjects(10)
+                ->has(TeacherInfo::factory()->hasUser(1, ['role_id' => $userRoleId])->count(5), 'teachers')
+                ->create();
     }
 }
