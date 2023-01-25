@@ -138,9 +138,41 @@ const FormBuilder = ({
 
                                     return (
                                         <TabPanel value={selectedMenu} index={index} key={index}>
-                                            <Component />
+                                            <Component
+                                                setFieldValue={setFieldValue}
+                                                values={values}
+                                                touched={touched}
+                                                errors={errors}
+                                            />
 
-
+                                            {index + 1 === menus.length ? (
+                                                <Box sx={{ py: 2 }}>
+                                                    <Button
+                                                        color={submitButton && submitButton.color ? submitButton.color : 'primary'}
+                                                        size={submitButton && submitButton.size ? submitButton.size : 'large'}
+                                                        variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
+                                                        fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
+                                                        disabled={isSubmitting}
+                                                        type="submit"
+                                                    >
+                                                        {submitButton && submitButton.label ? submitButton.label : 'Добави'}
+                                                    </Button>
+                                                </Box>
+                                            ) : (
+                                                <Box sx={{ py: 2 }}>
+                                                    <Button
+                                                        color={submitButton && submitButton.color ? submitButton.color : 'primary'}
+                                                        size={submitButton && submitButton.size ? submitButton.size : 'large'}
+                                                        variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
+                                                        fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
+                                                        disabled={isSubmitting}
+                                                        onClick={() => setSelectedMenu(index + 1)}
+                                                        type="button"
+                                                    >
+                                                        Напред
+                                                    </Button>
+                                                </Box>
+                                            )}
                                         </TabPanel>
                                     );
                                 } else {

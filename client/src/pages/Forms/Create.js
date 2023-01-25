@@ -9,13 +9,14 @@ import FormBuilder from '@modules/common/components/FormBuilder';
 import * as Yup from 'yup';
 import useMessage from '@modules/common/hooks/useMessage';
 import useAuth from '@modules/common/hooks/useAuth';
-import Account from '../Account';
 
 import InfoIcon from '@mui/icons-material/Info';
 import GroupsIcon from '@mui/icons-material/Groups';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import PaidIcon from '@mui/icons-material/Paid';
 import MoreIcon from '@mui/icons-material/More';
+
+import Additional from './FormMenus/Additional';
 
 const FormsAdd = () => {
     const { addMessage } = useMessage();
@@ -66,8 +67,8 @@ const FormsAdd = () => {
         if (subjectId) {
             console.log('test')
             const filters = [
-                { label: 'active', value: 1 },
-                { label: 'subject_id', value: subjectId }
+                //{ label: 'active', value: 1 },
+                //{ label: 'subject_id', value: subjectId }
             ];
 
             teacherService.getAll(user.info.school_id, filters, {})
@@ -82,21 +83,21 @@ const FormsAdd = () => {
     }, [subjectId])
 
     const validationSchema = Yup.object().shape({
-        fullName: Yup.string().max(255).required('Пълното име е задължително'),
-        type: Yup.string().required('Tипът е задължителен'),
-        key: Yup.string().max(255).required('Кодът по НЕИСПУО е задължителен'),
-        address: Yup.object().shape({
-            address: Yup.string().required('Адресът е задължителен'),
-            phone: Yup.string().required('Телефонът е задължителен'),
-            email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен')
-        }),
-        contact: Yup.object().shape({
-            name: Yup.string().required('Името е задължително'),
-            phone: Yup.string().required('Телефонът е задължителен'),
-            email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен')
-        }),
-        director: Yup.string().max(255).required('Директорът е задължителен'),
-        subject: Yup.object().required('Предметът е задължителен')
+        // fullName: Yup.string().max(255).required('Пълното име е задължително'),
+        // type: Yup.string().required('Tипът е задължителен'),
+        // key: Yup.string().max(255).required('Кодът по НЕИСПУО е задължителен'),
+        // address: Yup.object().shape({
+        //     address: Yup.string().required('Адресът е задължителен'),
+        //     phone: Yup.string().required('Телефонът е задължителен'),
+        //     email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен')
+        // }),
+        // contact: Yup.object().shape({
+        //     name: Yup.string().required('Името е задължително'),
+        //     phone: Yup.string().required('Телефонът е задължителен'),
+        //     email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен')
+        // }),
+        // director: Yup.string().max(255).required('Директорът е задължителен'),
+        // subject: Yup.object().required('Предметът е задължителен')
     });
 
     const menus = [
@@ -160,7 +161,7 @@ const FormsAdd = () => {
         'budget': [
 
         ],
-        'additional': Account
+        'additional': Additional
     };
 
     const onChange = (values) => {
@@ -171,6 +172,7 @@ const FormsAdd = () => {
 
     const onSubmit = (values, { setSubmitting }) => {
         console.log(values)
+        setSubmitting(false);
     }
 
     return (
