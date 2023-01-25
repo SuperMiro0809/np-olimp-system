@@ -141,7 +141,7 @@ const FormsAdd = () => {
                     { type: 'text', name: 'class', label: 'Клас' },
                     { type: 'number', name: 'lessons', label: 'Часове' },
                     {
-                        type: 'array', arrayVariant: 'inline', name: 'students', label: 'Ученици', itemLabel: 'Ученик', fields: [
+                        type: 'array', arrayVariant: 'inline', name: 'students', label: 'Ученици', labelVariant: 'h5', itemLabel: 'Ученик', fields: [
                             { type: 'text', name: 'name', label: 'Име' },
                             { type: 'text', name: 'class', label: 'Клас' }
                         ]

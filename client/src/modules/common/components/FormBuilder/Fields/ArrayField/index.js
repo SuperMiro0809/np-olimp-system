@@ -3,7 +3,7 @@ import { FieldArray } from 'formik';
 import ArrayCollapseItem from './ArrayCollapseItem';
 import ArrayInlineItem from './ArrayInlineItem';
 
-const ArrayField = ({ arrayVariant, element, itemLabel, fields, values, baseProps, ...otherProps }) => {
+const ArrayField = ({ arrayVariant, labelVariant, element, itemLabel, fields, values, baseProps, ...otherProps }) => {
     const { name, label } = baseProps;
 
     return (
@@ -11,7 +11,7 @@ const ArrayField = ({ arrayVariant, element, itemLabel, fields, values, baseProp
             <Box sx={{ mb: 1, mt: 2 }}>
                 <Typography
                     color="textPrimary"
-                    variant="h4"
+                    variant={labelVariant}
                 >
                     {label}
                 </Typography>

@@ -97,6 +97,7 @@ const Fields = ({ field, baseProps, setFieldValue, values, touched, errors, upda
                 <ArrayField
                     fields={field.fields}
                     arrayVariant={field.arrayVariant || 'inline'}
+                    labelVariant={field.labelVariant || 'h4'}
                     element={baseProps.element || values[baseProps.name]}
                     baseProps={baseProps}
                     itemLabel={field.itemLabel}
