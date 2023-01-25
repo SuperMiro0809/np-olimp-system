@@ -1,18 +1,31 @@
-export default function dataScheme(element) {
+export default function dataScheme(fields) {
     let scheme = {};
 
-    Object.keys(element[0]).forEach((key) => {
-        if (Array.isArray(element[0][key])) {
-            scheme[key] = [{}];
+    fields.forEach((field, index) => {
+        const name = field.name;
 
-            Object.keys(element[0][key][0]).map((k) => {
-                scheme[key][0][k] = '';
+        if(field.type === 'array') {
+            scheme[name] = [{}];
+
+            field.fields.forEach((f) => {
+                scheme[name][0][f.name] = '';
             })
-
-        } else {
-            scheme[key] = '';
+        }else {
+            scheme[name] = '';
         }
-    });
+    })
+    // Object.keys(element[0]).forEach((key) => {
+    //     if (Array.isArray(element[0][key])) {
+    //         scheme[key] = [{}];
+
+    //         Object.keys(element[0][key][0]).map((k) => {
+    //             scheme[key][0][k] = '';
+    //         })
+
+    //     } else {
+    //         scheme[key] = '';
+    //     }
+    // });
 
     return scheme;
 }

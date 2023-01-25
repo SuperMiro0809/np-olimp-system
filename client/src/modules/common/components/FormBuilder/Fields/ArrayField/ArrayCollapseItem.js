@@ -52,7 +52,7 @@ const ArrayCollapseItem = ({
     const [open, setOpen] = useState(true);
 
     const onAdd = () => {
-        arrayHelpers.push(dataScheme(element));
+        arrayHelpers.push(dataScheme(fields));
     }
 
     const onRemove = (index) => {
