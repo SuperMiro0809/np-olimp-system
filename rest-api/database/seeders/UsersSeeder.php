@@ -41,7 +41,7 @@ class UsersSeeder extends Seeder
         $userRoleId = Role::where('name', 'User')->first()->id;
 
         SchoolInfo::factory()
-                ->hasUser(1, ['role_id' => $adminRoleId, 'email' => 'zevs8@abv.bg'])
+                ->hasUser(1, ['role_id' => $adminRoleId, 'email' => 'zevs8@abv.bg', 'verified' => 1])
                 ->hasAddress()
                 ->hasSubjects(10)
                 ->has(TeacherInfo::factory()->hasUser(1, ['role_id' => $userRoleId])->count(5), 'teachers')
