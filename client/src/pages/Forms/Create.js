@@ -9,6 +9,7 @@ import FormBuilder from '@modules/common/components/FormBuilder';
 import * as Yup from 'yup';
 import useMessage from '@modules/common/hooks/useMessage';
 import useAuth from '@modules/common/hooks/useAuth';
+import Account from '../Account';
 
 import InfoIcon from '@mui/icons-material/Info';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -159,9 +160,7 @@ const FormsAdd = () => {
         'budget': [
 
         ],
-        'additional': [
-
-        ]
+        'additional': Account
     };
 
     const onChange = (values) => {

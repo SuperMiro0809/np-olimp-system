@@ -73,9 +73,11 @@ const FormBuilder = ({
         });
     } else {
         for (let key in fields) {
-            fields[key].forEach((field) => {
-                constructInitialValues(field);
-            });
+            if (typeof fields[key] !== 'function') {
+                fields[key].forEach((field) => {
+                    constructInitialValues(field);
+                });
+            }
         }
     }
 
@@ -128,74 +130,85 @@ const FormBuilder = ({
                                 })}
                             </Tabs>
 
-                            {menus.map((menu, index) => (
-                                <TabPanel value={selectedMenu} index={index} key={index}>
-                                    {fields[menu.id].map((field, index) => {
+                            {menus.map((menu, index) => {
+                                const item = fields[menu.id];
 
-                                        const baseProps = {
-                                            label: field.label,
-                                            name: field.name,
-                                            onBlur: handleBlur,
-                                            onChange: handleChange,
-                                            fullWidth: Object.hasOwn(field, 'fullWidth') ? field.fullWidth : true,
-                                            error: Boolean(touched[field.name] && errors[field.name]),
-                                            margin: Object.hasOwn(field, 'margin') ? field.margin : 'normal',
-                                            value: values[field.name],
-                                            variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
-                                            helperText: touched[field.name] && errors[field.name],
-                                            key: index
-                                        };
+                                if (typeof item === 'function') {
+                                    const Component = item;
 
-                                        return (
-                                            <Fields
-                                                field={field}
-                                                baseProps={baseProps}
-                                                setFieldValue={setFieldValue}
-                                                updateUploadedFiles={() => { }}
-                                                key={index}
-                                                values={values}
-                                                touched={touched}
-                                                errors={errors}
-                                            />
-                                        );
-                                    })}
+                                    return (
+                                        <TabPanel value={selectedMenu} index={index} key={index}>
+                                            <Component />
 
-                                    {/* {Boolean(touched.policy && errors.policy) && (
-                                    <FormHelperText error>
-                                    {errors.policy}
-                                    </FormHelperText>
-                                    )} */}
-                                    {index + 1 === menus.length ? (
-                                        <Box sx={{ py: 2 }}>
-                                            <Button
-                                                color={submitButton && submitButton.color ? submitButton.color : 'primary'}
-                                                size={submitButton && submitButton.size ? submitButton.size : 'large'}
-                                                variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
-                                                fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
-                                                disabled={isSubmitting}
-                                                type="submit"
-                                            >
-                                                {submitButton && submitButton.label ? submitButton.label : 'Добави'}
-                                            </Button>
-                                        </Box>
-                                    ) : (
-                                        <Box sx={{ py: 2 }}>
-                                            <Button
-                                                color={submitButton && submitButton.color ? submitButton.color : 'primary'}
-                                                size={submitButton && submitButton.size ? submitButton.size : 'large'}
-                                                variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
-                                                fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
-                                                disabled={isSubmitting}
-                                                onClick={() => setSelectedMenu(index + 1)}
-                                                type="button"
-                                            >
-                                                Напред
-                                            </Button>
-                                        </Box>
-                                    )}
 
-                                </TabPanel>
-                            ))}
+                                        </TabPanel>
+                                    );
+                                } else {
+                                    return (
+                                        <TabPanel value={selectedMenu} index={index} key={index}>
+                                            {fields[menu.id].map((field, index) => {
+
+                                                const baseProps = {
+                                                    label: field.label,
+                                                    name: field.name,
+                                                    onBlur: handleBlur,
+                                                    onChange: handleChange,
+                                                    fullWidth: Object.hasOwn(field, 'fullWidth') ? field.fullWidth : true,
+                                                    error: Boolean(touched[field.name] && errors[field.name]),
+                                                    margin: Object.hasOwn(field, 'margin') ? field.margin : 'normal',
+                                                    value: values[field.name],
+                                                    variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
+                                                    helperText: touched[field.name] && errors[field.name],
+                                                    key: index
+                                                };
+
+                                                return (
+                                                    <Fields
+                                                        field={field}
+                                                        baseProps={baseProps}
+                                                        setFieldValue={setFieldValue}
+                                                        updateUploadedFiles={() => { }}
+                                                        key={index}
+                                                        values={values}
+                                                        touched={touched}
+                                                        errors={errors}
+                                                    />
+                                                );
+                                            })}
+
+                                            {index + 1 === menus.length ? (
+                                                <Box sx={{ py: 2 }}>
+                                                    <Button
+                                                        color={submitButton && submitButton.color ? submitButton.color : 'primary'}
+                                                        size={submitButton && submitButton.size ? submitButton.size : 'large'}
+                                                        variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
+                                                        fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
+                                                        disabled={isSubmitting}
+                                                        type="submit"
+                                                    >
+                                                        {submitButton && submitButton.label ? submitButton.label : 'Добави'}
+                                                    </Button>
+                                                </Box>
+                                            ) : (
+                                                <Box sx={{ py: 2 }}>
+                                                    <Button
+                                                        color={submitButton && submitButton.color ? submitButton.color : 'primary'}
+                                                        size={submitButton && submitButton.size ? submitButton.size : 'large'}
+                                                        variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
+                                                        fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
+                                                        disabled={isSubmitting}
+                                                        onClick={() => setSelectedMenu(index + 1)}
+                                                        type="button"
+                                                    >
+                                                        Напред
+                                                    </Button>
+                                                </Box>
+                                            )}
+
+                                        </TabPanel>
+                                    );
+                                }
+                            })}
                         </Box>
                     ) : (
                         <>
