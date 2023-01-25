@@ -117,7 +117,7 @@ class RichTextEditor extends React.Component {
               handleKeyCommand={this.handleKeyCommand}
               keyBindingFn={this.mapKeyToEditorCommand}
               onChange={this.onChange}
-              placeholder={'text-pholder'}
+              placeholder={this.props.label}
               ref={this.editorRef}
               spellCheck={true}
               onFocus={this.onFocus}

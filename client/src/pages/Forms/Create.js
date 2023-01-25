@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Card } from '@mui/material';
 import subjectService from '@services/subject';
 import trainingOrganizationsService from '@services/trainingOrganizations';
+import teacherService from '@services/teacher';
 import FormBuilder from '@modules/common/components/FormBuilder';
 import * as Yup from 'yup';
 import useMessage from '@modules/common/hooks/useMessage';
@@ -11,6 +12,9 @@ import useAuth from '@modules/common/hooks/useAuth';
 
 import InfoIcon from '@mui/icons-material/Info';
 import GroupsIcon from '@mui/icons-material/Groups';
+import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+import PaidIcon from '@mui/icons-material/Paid';
+import MoreIcon from '@mui/icons-material/More';
 
 const FormsAdd = () => {
     const { addMessage } = useMessage();
@@ -18,6 +22,8 @@ const FormsAdd = () => {
     const { user } = useAuth();
     const [initialValues, setInitialValues] = useState({});
     const [subjectOptions, setSubjectOptions] = useState([]);
+    const [teacherOptions, setTeacherOptions] = useState([]);
+    const [subjectId, setSubjectId] = useState(null);
 
     useEffect(() => {
         if (user) {
@@ -55,6 +61,25 @@ const FormsAdd = () => {
         }
     }, [user])
 
+    useEffect(() => {
+        if (subjectId) {
+            console.log('test')
+            const filters = [
+                { label: 'active', value: 1 },
+                { label: 'subject_id', value: subjectId }
+            ];
+
+            teacherService.getAll(user.info.school_id, filters, {})
+                .then((res) => {
+                    const options = res.data.map((el) => ({ label: el.name, value: el.id }));
+                    setTeacherOptions(options);
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
+    }, [subjectId])
+
     const validationSchema = Yup.object().shape({
         fullName: Yup.string().max(255).required('Пълното име е задължително'),
         type: Yup.string().required('Tипът е задължителен'),
@@ -75,7 +100,10 @@ const FormsAdd = () => {
 
     const menus = [
         { id: 'information', label: 'Данни за формуляра', icon: InfoIcon },
-        { id: 'groups', label: 'Групи', icon: GroupsIcon }
+        { id: 'groups', label: 'Групи', icon: GroupsIcon },
+        { id: 'description', label: 'Описание на проекта', icon: TextSnippetIcon },
+        { id: 'budget', label: 'Бюджет', icon: PaidIcon },
+        { id: 'additional', label: 'Допълнителни приложения', icon: MoreIcon },
     ]
 
     const fields = {
@@ -104,12 +132,43 @@ const FormsAdd = () => {
                 ]
             },
             { type: 'text', name: 'director', label: 'Директор' },
-            { type: 'autocomplete', name: 'subject', label: 'Предмет', options: subjectOptions }
+            { type: 'autocomplete', name: 'subject', label: 'Предмет', options: subjectOptions },
         ],
         'groups': [
+            {
+                type: 'array', arrayVariant: 'collapse', name: 'groups', label: 'Групи', itemLabel: 'Група', fields: [
+                    { type: 'autocomplete', name: 'teachers', label: 'Учители', options: teacherOptions, multiple: true },
+                    { type: 'text', name: 'class', label: 'Клас' },
+                    { type: 'number', name: 'lessons', label: 'Часове' },
+                    {
+                        type: 'array', arrayVariant: 'inline', name: 'students', label: 'Ученици', itemLabel: 'Ученик', fields: [
+                            { type: 'text', name: 'name', label: 'Име' },
+                            { type: 'text', name: 'class', label: 'Клас' }
+                        ]
+                    }
+                ]
+            }
+        ],
+        'description': [
+            { type: 'multiline', name: 'description', label: 'Обосновка на проекта' },
+            { type: 'multiline', name: 'goals', label: 'Oсновни цели' },
+            { type: 'multiline', name: 'results', label: 'Основни резултати' },
+            { type: 'multiline', name: 'results', label: 'Индикатори за успех' },
+            { type: 'multiline', name: 'results', label: 'Ресурси за проекта' },
+        ],
+        'budget': [
+
+        ],
+        'additional': [
 
         ]
     };
+
+    const onChange = (values) => {
+        if (values.subject) {
+            setSubjectId(values.subject.value);
+        }
+    }
 
     const onSubmit = (values, { setSubmitting }) => {
         console.log(values)
@@ -135,6 +194,7 @@ const FormsAdd = () => {
                             fields={fields}
                             validationSchema={validationSchema}
                             onSubmit={onSubmit}
+                            handleOnChange={onChange}
                             enableReinitialize
                         />
                     </Box>
