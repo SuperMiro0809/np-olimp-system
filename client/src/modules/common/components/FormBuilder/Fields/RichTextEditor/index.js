@@ -102,7 +102,12 @@ class RichTextEditor extends React.Component {
 
     return (
       <div>
-        <Typography variant='body1'>{this.props.label}</Typography>
+        <Typography
+          color="textPrimary"
+          variant='h5'
+        >
+          {this.props.label}
+        </Typography>
         <div className={this.state.isFocused ? 'RichEditor-root focused' : 'RichEditor-root'}>
           <BlockStyleControls
             editorState={editorState}

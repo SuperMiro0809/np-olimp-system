@@ -7,7 +7,7 @@ const ArrayField = ({ arrayVariant, labelVariant, element, itemLabel, fields, va
     const { name, label } = baseProps;
 
     return (
-        <>
+        <Box sx={{ mb: 2 }}>
             <Box sx={{ mb: 1, mt: 2 }}>
                 <Typography
                     color="textPrimary"
@@ -57,7 +57,7 @@ const ArrayField = ({ arrayVariant, labelVariant, element, itemLabel, fields, va
                     </>
                 )}
             />
-        </>
+        </Box>
     );
 }
 

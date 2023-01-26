@@ -166,6 +166,13 @@ const FormsAdd = () => {
             { type: 'multiline', name: 'description', label: 'Обосновка на проекта' },
             { type: 'multiline', name: 'goals', label: 'Oсновни цели' },
             { type: 'multiline', name: 'results', label: 'Основни резултати' },
+            {
+                type: 'array', arrayVariant: 'inline', name: 'activities', label: 'Основни дейности', labelVariant: 'h5', itemLabel: 'Дейност', fields: [
+                    { type: 'text', name: 'activity', label: 'Дейност' },
+                    { type: 'text', name: 'teachers', label: 'Изпълнители' },
+                    { type: 'text', name: 'date', label: 'Дата/срок' },
+                ]
+            },
             { type: 'multiline', name: 'results', label: 'Индикатори за успех' },
             { type: 'multiline', name: 'results', label: 'Ресурси за проекта' },
         ],
