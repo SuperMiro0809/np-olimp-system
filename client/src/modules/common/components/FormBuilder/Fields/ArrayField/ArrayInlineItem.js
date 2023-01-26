@@ -57,7 +57,8 @@ const ArrayInlineItem = ({
                     margin: Object.hasOwn(field, 'margin') ? field.margin : 'normal',
                     value: element[index][field.name],
                     variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
-                    helperText: getIn(otherProps.touched, fieldName) && getIn(otherProps.errors, fieldName),
+                    //helperText: getIn(otherProps.touched, fieldName) && getIn(otherProps.errors, fieldName),
+                    helperText: null,
                     element: element[index][field.name],
                     key: i
                 };
