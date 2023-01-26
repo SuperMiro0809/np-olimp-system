@@ -26,6 +26,7 @@ const FormsAdd = () => {
     const [subjectOptions, setSubjectOptions] = useState([]);
     const [teacherOptions, setTeacherOptions] = useState([]);
     const [subjectId, setSubjectId] = useState(null);
+    const [selectedTeachers, setSelectedTeachers] = useState([]);
 
     useEffect(() => {
         if (user) {
@@ -97,7 +98,10 @@ const FormsAdd = () => {
         //     email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен')
         // }),
         // director: Yup.string().max(255).required('Директорът е задължителен'),
-        // subject: Yup.object().required('Предметът е задължителен')
+        // subject: Yup.object().required('Предметът е задължителен'),
+        // activities: Yup.array().of(Yup.object().shape({
+        //     date: Yup.date().required('')
+        // }))
     });
 
     const menus = [
@@ -158,6 +162,12 @@ const FormsAdd = () => {
                                 ]
                             }
                         ]
+                    },
+                    {
+                        type: 'array', arrayVariant: 'inline', name: 'program', label: 'Програма', labelVariant: 'h5', itemLabel: 'Ученик', fields: [
+                            { type: 'text', name: 'theme', label: 'Тема' },
+                            { type: 'number', name: 'allLessons', label: 'Брой учебни часове' },
+                        ]
                     }
                 ]
             }
@@ -169,8 +179,8 @@ const FormsAdd = () => {
             {
                 type: 'array', arrayVariant: 'inline', name: 'activities', label: 'Основни дейности', labelVariant: 'h5', itemLabel: 'Дейност', fields: [
                     { type: 'text', name: 'activity', label: 'Дейност' },
-                    { type: 'text', name: 'teachers', label: 'Изпълнители' },
-                    { type: 'text', name: 'date', label: 'Дата/срок' },
+                    { type: 'autocomplete', name: 'teachers', label: 'Изпълнители', options: selectedTeachers, multiple: true },
+                    { type: 'date', name: 'date', label: 'Дата/срок' },
                 ]
             },
             { type: 'multiline', name: 'results', label: 'Индикатори за успех' },
@@ -185,6 +195,20 @@ const FormsAdd = () => {
     const onChange = (values) => {
         if (values.subject) {
             setSubjectId(values.subject.value);
+        }
+
+        if (values.groups) {
+            let teachersArray = [];
+
+            values.groups.forEach((group) => {
+                if (Array.isArray(group.teachers)) {
+                    group.teachers.forEach((teacher) => {
+                        teachersArray.push(teacher);
+                    })
+                }
+            });
+
+            setSelectedTeachers(teachersArray);
         }
     }
 

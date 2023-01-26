@@ -5,24 +5,21 @@ import {
     LocalizationProvider,
 } from '@mui/x-date-pickers';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import { bg } from 'date-fns/locale';
 import moment from 'moment';
 import 'dayjs/locale/bg';
 
 const DatePicker = ({
     field,
     baseProps,
-    setFieldValue,
-    values,
-    touched,
-    errors
+    setFieldValue
 }) => {
     const { element, name } = baseProps;
     const [date, setDate] = useState(element);
 
     return (
-        <LocalizationProvider adapterLocale={'bg'} localeText={bg} dateAdapter={AdapterDayjs}>
+        <LocalizationProvider adapterLocale={'bg'} dateAdapter={AdapterDayjs}>
             <DatePickerMUI
+                inputFormat={field.format || 'DD/MM/YYYY'}
                 label={baseProps.label}
                 value={date}
                 onChange={(newValue) => {
@@ -30,6 +27,7 @@ const DatePicker = ({
                     setFieldValue(name, moment(newValue).format('YYYY/MM/DD'))
                 }}
                 renderInput={(params) => <TextField {...params} {...baseProps} />}
+                disableMaskedInput={true}
             />
         </LocalizationProvider>
     );
