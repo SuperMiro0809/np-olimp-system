@@ -27,9 +27,26 @@ const Additional = ({
             }
         });
 
-        let teacherValues = teachersArray.map((teacher) => ({ letter: '', files: '' }));
+        if(values.letters) {
+            let teacherValues = values.letters;
 
-        setFieldValue('letters', teacherValues);
+            teachersArray.forEach((teacher) => {
+                const letter = values.letters.find(obj => {
+                    return obj.teacher_id === teacher.value
+                });
+
+                if(!letter) {
+                    teacherValues.push({ teacher_id: teacher.value, letter: '', files: '' })
+                }
+            });
+            
+            setFieldValue('letters', teacherValues);
+        }else {
+            let teacherValues = teachersArray.map((teacher) => ({ teacher_id: teacher.value, letter: '', files: '' }));
+
+            setFieldValue('letters', teacherValues);
+        }
+
         setTeachers(teachersArray);
 
     }, [values.groups])
