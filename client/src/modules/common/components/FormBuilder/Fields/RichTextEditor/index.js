@@ -1,5 +1,6 @@
 import React from "react";
 import { Editor, EditorState, getDefaultKeyBinding, RichUtils, convertToRaw, convertFromHTML, ContentState } from "draft-js";
+import { Typography } from '@mui/material';
 import draftToHtml from 'draftjs-to-html';
 import "./index.css";
 import 'draft-js/dist/Draft.css';
@@ -100,29 +101,32 @@ class RichTextEditor extends React.Component {
     }
 
     return (
-      <div className={this.state.isFocused ? 'RichEditor-root focused' : 'RichEditor-root'}>
-        <BlockStyleControls
-          editorState={editorState}
-          onToggle={this.toggleBlockType}
-        />
-        <InlineStyleControls
-          editorState={editorState}
-          onToggle={this.toggleInlineStyle}
-        />
-        <div className={className} onClick={this.focus}>
-          <Editor
-            blockStyleFn={getBlockStyle}
-            customStyleMap={styleMap}
+      <div>
+        <Typography variant='body1'>{this.props.label}</Typography>
+        <div className={this.state.isFocused ? 'RichEditor-root focused' : 'RichEditor-root'}>
+          <BlockStyleControls
             editorState={editorState}
-            handleKeyCommand={this.handleKeyCommand}
-            keyBindingFn={this.mapKeyToEditorCommand}
-            onChange={this.onChange}
-            placeholder={this.props.label}
-            ref={this.editorRef}
-            spellCheck={true}
-            onFocus={this.onFocus}
-            onBlur={this.onBlur}
+            onToggle={this.toggleBlockType}
           />
+          <InlineStyleControls
+            editorState={editorState}
+            onToggle={this.toggleInlineStyle}
+          />
+          <div className={className} onClick={this.focus}>
+            <Editor
+              blockStyleFn={getBlockStyle}
+              customStyleMap={styleMap}
+              editorState={editorState}
+              handleKeyCommand={this.handleKeyCommand}
+              keyBindingFn={this.mapKeyToEditorCommand}
+              onChange={this.onChange}
+              placeholder={this.props.label}
+              ref={this.editorRef}
+              spellCheck={true}
+              onFocus={this.onFocus}
+              onBlur={this.onBlur}
+            />
+          </div>
         </div>
       </div>
     );
