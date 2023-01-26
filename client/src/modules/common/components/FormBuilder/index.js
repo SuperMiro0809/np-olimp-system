@@ -140,6 +140,8 @@ const FormBuilder = ({
                                         <TabPanel value={selectedMenu} index={index} key={index}>
                                             <Component
                                                 setFieldValue={setFieldValue}
+                                                handleBlur={handleBlur}
+                                                handleChange={handleChange}
                                                 values={values}
                                                 touched={touched}
                                                 errors={errors}

@@ -2,19 +2,26 @@ import { useState, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import { FieldArray } from 'formik';
 import ArrayItem from './ArrayItem';
+import Fields from '@modules/common/components/FormBuilder/Fields';
 
 const Additional = ({
     setFieldValue,
+    handleChange,
+    handleBlur,
     values,
     touched,
     errors
 }) => {
     const [teachers, setTeachers] = useState([]);
 
-    const fields = [
+    const teacherFields = [
         { type: 'multiline', name: 'letter', label: 'Писмо' },
-        { type: 'upload', name: 'files', label: 'Файлове', accept: '.jpg,.png,.jpeg,.docx,.pdf,.doc', multiple: true },
+        { type: 'upload', name: 'files', label: 'Файлове', accept: '.docx,.pdf,.doc', multiple: true },
     ];
+
+    const fields = [
+        { type: 'upload', name: 'declarations', label: 'Копия от декларации', accept: '.docx,.pdf,.doc', multiple: true },
+    ]
 
     useEffect(() => {
         const teachersArray = [];
@@ -27,7 +34,7 @@ const Additional = ({
             }
         });
 
-        if(values.letters) {
+        if (values.letters) {
             let teacherValues = values.letters;
 
             teachersArray.forEach((teacher) => {
@@ -35,13 +42,13 @@ const Additional = ({
                     return obj.teacher_id === teacher.value
                 });
 
-                if(!letter) {
+                if (!letter) {
                     teacherValues.push({ teacher_id: teacher.value, letter: '', files: '' })
                 }
             });
-            
+
             setFieldValue('letters', teacherValues);
-        }else {
+        } else {
             let teacherValues = teachersArray.map((teacher) => ({ teacher_id: teacher.value, letter: '', files: '' }));
 
             setFieldValue('letters', teacherValues);
@@ -72,7 +79,7 @@ const Additional = ({
                                     arrayHelpers={arrayHelpers}
                                     current={teacher}
                                     teachers={teachers}
-                                    fields={fields}
+                                    fields={teacherFields}
                                     index={index}
                                     values={values}
                                     setFieldValue={setFieldValue}
@@ -94,6 +101,36 @@ const Additional = ({
                     </Typography>
                 </Box>
             )}
+
+            {fields.map((field, index) => {
+
+                const baseProps = {
+                    label: field.label,
+                    name: field.name,
+                    onBlur: handleBlur,
+                    onChange: handleChange,
+                    fullWidth: Object.hasOwn(field, 'fullWidth') ? field.fullWidth : true,
+                    error: Boolean(touched[field.name] && errors[field.name]),
+                    margin: Object.hasOwn(field, 'margin') ? field.margin : 'normal',
+                    value: values[field.name],
+                    variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
+                    helperText: touched[field.name] && errors[field.name],
+                    key: index
+                };
+
+                return (
+                    <Fields
+                        field={field}
+                        baseProps={baseProps}
+                        setFieldValue={setFieldValue}
+                        updateUploadedFiles={() => { }}
+                        key={index}
+                        values={values}
+                        touched={touched}
+                        errors={errors}
+                    />
+                );
+            })}
         </>
     );
 }
