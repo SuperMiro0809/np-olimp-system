@@ -28,10 +28,11 @@ const FileUpload = ({
     maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES,
     setFieldValue,
     values,
+    element,
     ...otherProps
 }) => {
     const fileInputField = useRef(null);
-    const [files, setFiles] = useState(values[otherProps.name] || {});
+    const [files, setFiles] = useState(element || {});
     const handleUploadBtnClick = () => {
         fileInputField.current.click();
     };

@@ -90,6 +90,7 @@ const Fields = ({ field, baseProps, setFieldValue, values, touched, errors, upda
                     setFieldValue={setFieldValue}
                     name={baseProps.name}
                     values={values}
+                    element={baseProps.element || values[baseProps.name]}
                 />
             )}
 
