@@ -12,6 +12,8 @@ import FileUpload from './FileUpload';
 import ArrayField from './ArrayField';
 import FieldGroup from './FieldGroup';
 import GroupHeading from './FieldGroup/GroupHeading';
+import DateRangePicker from './DateField/DateRangePicker';
+import DatePicker from './DateField/DatePicker';
 import PropTypes from 'prop-types';
 
 const Fields = ({ field, baseProps, setFieldValue, values, touched, errors, updateUploadedFiles }) => {
@@ -120,6 +122,29 @@ const Fields = ({ field, baseProps, setFieldValue, values, touched, errors, upda
                 <FieldGroup
                     field={field}
                     baseProps={baseProps}
+                    setFieldValue={setFieldValue}
+                    values={values}
+                    touched={touched}
+                    errors={errors}
+                />
+            )}
+
+            {/* {field.type === 'date-range' && (
+                <DateRangePicker
+                    field={field}
+                    baseProps={baseProps}
+                    setFieldValue={setFieldValue}
+                    values={values}
+                    touched={touched}
+                    errors={errors}
+                />
+            )} */}
+
+            {field.type === 'date' && (
+                <DatePicker
+                    field={field}
+                    baseProps={baseProps}
+                    element={baseProps.element || values[baseProps.name]}
                     setFieldValue={setFieldValue}
                     values={values}
                     touched={touched}
