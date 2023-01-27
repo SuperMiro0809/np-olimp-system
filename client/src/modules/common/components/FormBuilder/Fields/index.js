@@ -16,7 +16,16 @@ import DateRangePicker from './DateField/DateRangePicker';
 import DatePicker from './DateField/DatePicker';
 import PropTypes from 'prop-types';
 
-const Fields = ({ field, baseProps, setFieldValue, values, touched, errors, updateUploadedFiles }) => {
+const Fields = ({
+    field,
+    baseProps,
+    setFieldValue,
+    values,
+    touched,
+    errors,
+    updateUploadedFiles
+}) => {
+
     return (
         <>
             {(field.type === 'text' || field.type === 'email' || field.type === 'password' || field.type === 'number') && (

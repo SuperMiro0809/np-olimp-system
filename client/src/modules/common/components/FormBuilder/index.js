@@ -182,32 +182,51 @@ const FormBuilder = ({
                                         <TabPanel value={selectedMenu} index={index} key={index}>
                                             {fields[menu.id].map((field, index) => {
 
-                                                const baseProps = {
-                                                    label: field.label,
-                                                    name: field.name,
-                                                    onBlur: handleBlur,
-                                                    onChange: handleChange,
-                                                    fullWidth: Object.hasOwn(field, 'fullWidth') ? field.fullWidth : true,
-                                                    error: Boolean(touched[field.name] && errors[field.name]),
-                                                    margin: Object.hasOwn(field, 'margin') ? field.margin : 'normal',
-                                                    value: values[field.name],
-                                                    variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
-                                                    helperText: touched[field.name] && errors[field.name],
-                                                    key: index
-                                                };
+                                                if (field.type === 'custom') {
+                                                    const baseProps = {
+                                                        setFieldValue: setFieldValue,
+                                                        handleBlur: handleBlur,
+                                                        handleChange: handleChange,
+                                                        values: values,
+                                                        touched: touched,
+                                                        errors: errors
+                                                    };
+                                                    const { component: Field } = field;
 
-                                                return (
-                                                    <Fields
-                                                        field={field}
-                                                        baseProps={baseProps}
-                                                        setFieldValue={setFieldValue}
-                                                        updateUploadedFiles={() => { }}
-                                                        key={index}
-                                                        values={values}
-                                                        touched={touched}
-                                                        errors={errors}
-                                                    />
-                                                );
+                                                    return (
+                                                        <Field
+                                                            {...baseProps}
+                                                            key={index}
+                                                        />
+                                                    );
+                                                } else {
+                                                    const baseProps = {
+                                                        label: field.label,
+                                                        name: field.name,
+                                                        onBlur: handleBlur,
+                                                        onChange: handleChange,
+                                                        fullWidth: Object.hasOwn(field, 'fullWidth') ? field.fullWidth : true,
+                                                        error: Boolean(touched[field.name] && errors[field.name]),
+                                                        margin: Object.hasOwn(field, 'margin') ? field.margin : 'normal',
+                                                        value: values[field.name],
+                                                        variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
+                                                        helperText: touched[field.name] && errors[field.name],
+                                                        key: index
+                                                    };
+
+                                                    return (
+                                                        <Fields
+                                                            field={field}
+                                                            baseProps={baseProps}
+                                                            setFieldValue={setFieldValue}
+                                                            updateUploadedFiles={() => { }}
+                                                            key={index}
+                                                            values={values}
+                                                            touched={touched}
+                                                            errors={errors}
+                                                        />
+                                                    );
+                                                }
                                             })}
 
                                             {index + 1 === menus.length ? (
@@ -276,11 +295,6 @@ const FormBuilder = ({
                                 );
                             })}
 
-                            {/* {Boolean(touched.policy && errors.policy) && (
-                            <FormHelperText error>
-                            {errors.policy}
-                            </FormHelperText>
-                            )} */}
                             <Box sx={{ py: 2 }}>
                                 <Button
                                     color={submitButton && submitButton.color ? submitButton.color : 'primary'}

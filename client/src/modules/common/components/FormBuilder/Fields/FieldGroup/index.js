@@ -35,6 +35,25 @@ const FieldGroup = ({
                     key: index
                 };
 
+                if(f.type === 'custom') {
+                    const props = {
+                        setFieldValue: otherProps.setFieldValue,
+                        handleBlur: baseProps.onChange,
+                        handleChange: baseProps.onBlur,
+                        values: values,
+                        touched: otherProps.touched,
+                        errors: otherProps.errors
+                    };
+                    const { component: Field } = f;
+
+                    return (
+                        <Field
+                            {...props}
+                            key={index}
+                        />
+                    );
+                }
+
                 return (
                     <Fields
                         field={f}
