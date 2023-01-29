@@ -105,7 +105,8 @@ const ArrayCollapseItem = ({
                             handleChange: baseProps.onBlur,
                             values: values,
                             touched: otherProps.touched,
-                            errors: otherProps.errors
+                            errors: otherProps.errors,
+                            name: name,
                         };
                         const { component: Field } = field;
 

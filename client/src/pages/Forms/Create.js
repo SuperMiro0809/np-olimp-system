@@ -17,6 +17,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 import MoreIcon from '@mui/icons-material/More';
 
 import Additional from './FormMenus/Additional';
+import SchoolProgram from './FormFields/SchoolProgram';
 
 const FormsAdd = () => {
     const { addMessage } = useMessage();
@@ -127,7 +128,7 @@ const FormsAdd = () => {
                 type: 'group', name: 'address', title: 'Aдрес за кореспонденция', fields: [
                     { type: 'text', name: 'address', label: 'Адрес' },
                     { type: 'text', name: 'phone', label: 'Телефон' },
-                    { type: 'email', name: 'email', label: 'Имейл' },
+                    { type: 'email', name: 'email', label: 'Имейл' }
                 ]
             },
             {
@@ -167,8 +168,9 @@ const FormsAdd = () => {
                         type: 'array', arrayVariant: 'inline', name: 'program', label: 'Програма', labelVariant: 'h5', itemLabel: 'Ученик', fields: [
                             { type: 'text', name: 'theme', label: 'Тема' },
                             { type: 'number', name: 'allLessons', label: 'Брой учебни часове' },
+                            { type: 'custom', component: SchoolProgram }
                         ]
-                    }
+                    },
                 ]
             }
         ],
@@ -180,7 +182,7 @@ const FormsAdd = () => {
                 type: 'array', arrayVariant: 'inline', name: 'activities', label: 'Основни дейности', labelVariant: 'h5', itemLabel: 'Дейност', fields: [
                     { type: 'text', name: 'activity', label: 'Дейност' },
                     { type: 'autocomplete', name: 'teachers', label: 'Изпълнители', options: selectedTeachers, multiple: true },
-                    { type: 'date', name: 'date', label: 'Дата/срок' },
+                    { type: 'text', name: 'date', label: 'Дата/срок' },
                 ]
             },
             { type: 'multiline', name: 'results', label: 'Индикатори за успех' },
