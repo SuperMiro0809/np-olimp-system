@@ -107,6 +107,7 @@ const ArrayCollapseItem = ({
                             touched: otherProps.touched,
                             errors: otherProps.errors,
                             name: name,
+                            parentIndex: index
                         };
                         const { component: Field } = field;
 

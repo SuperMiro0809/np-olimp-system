@@ -72,6 +72,7 @@ const ArrayInlineItem = ({
                         touched: otherProps.touched,
                         errors: otherProps.errors,
                         name: name,
+                        parentIndex: index
                     };
 
                     const { component: Field } = field;
