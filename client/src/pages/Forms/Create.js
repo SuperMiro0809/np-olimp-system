@@ -17,6 +17,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 import MoreIcon from '@mui/icons-material/More';
 
 import Additional from './FormMenus/Additional';
+import Budget from './FormMenus/Budget';
 
 const FormsAdd = () => {
     const { addMessage } = useMessage();
@@ -100,7 +101,7 @@ const FormsAdd = () => {
         // director: Yup.string().max(255).required('Директорът е задължителен'),
         // subject: Yup.object().required('Предметът е задължителен'),
         // activities: Yup.array().of(Yup.object().shape({
-        //     date: Yup.date().required('')
+        //     date: Yup.date().required('dsd')
         // }))
     });
 
@@ -167,6 +168,8 @@ const FormsAdd = () => {
                         type: 'array', arrayVariant: 'inline', name: 'program', label: 'Програма', labelVariant: 'h5', itemLabel: 'Ученик', fields: [
                             { type: 'text', name: 'theme', label: 'Тема' },
                             { type: 'number', name: 'allLessons', label: 'Брой учебни часове' },
+                            { type: 'number', name: 'allLessons', label: 'Мирослава Николова' },
+                            { type: 'number', name: 'allLessons', label: 'Екатерина Мицева' },
                         ]
                     }
                 ]
@@ -186,9 +189,7 @@ const FormsAdd = () => {
             { type: 'multiline', name: 'results', label: 'Индикатори за успех' },
             { type: 'multiline', name: 'results', label: 'Ресурси за проекта' },
         ],
-        'budget': [
-
-        ],
+        'budget': Budget,
         'additional': Additional
     };
 
