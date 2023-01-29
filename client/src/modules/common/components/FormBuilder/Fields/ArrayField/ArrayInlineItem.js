@@ -63,6 +63,27 @@ const ArrayInlineItem = ({
                     key: i
                 };
 
+                if (field.type === 'custom') {
+                    const props = {
+                        setFieldValue: otherProps.setFieldValue,
+                        handleBlur: baseProps.onChange,
+                        handleChange: baseProps.onBlur,
+                        values: values,
+                        touched: otherProps.touched,
+                        errors: otherProps.errors,
+                        name: name,
+                    };
+
+                    const { component: Field } = field;
+
+                    return (
+                        <Field
+                            {...props}
+                            key={i}
+                        />
+                    );
+                }
+
                 return (
                     <Box sx={{ flexGrow: 1 }} key={i}>
                         <Fields
