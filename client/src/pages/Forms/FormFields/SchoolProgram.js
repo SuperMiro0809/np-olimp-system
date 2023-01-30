@@ -57,7 +57,7 @@ const SchoolProgram = ({
                         name={`${name}.${parentIndex}.teachers.${tIndex}.lessons`}
                         value={values.groups[index].program[parentIndex].teachers[tIndex].lessons}
                         margin='normal'
-                        key={index}
+                        key={teacher.teacher_id}
                     />
                 );
             })}

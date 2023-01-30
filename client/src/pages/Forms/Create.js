@@ -48,7 +48,10 @@ const FormsAdd = () => {
                             phone: res.data.contact_phone || '',
                             email: res.data.contact_email || ''
                         },
-                        director: res.data.director || ''
+                        director: res.data.director || '',
+                        budget: {
+                            hourPrice: 0
+                        }
                     });
                 })
                 .catch((error) => {
