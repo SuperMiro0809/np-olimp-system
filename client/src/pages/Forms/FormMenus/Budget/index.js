@@ -1,5 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Box, Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import {
+    Box,
+    Typography,
+    TableContainer,
+    Table,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+    Divider,
+    Card
+} from '@mui/material';
 import Fields from '@modules/common/components/FormBuilder/Fields';
 
 const Budget = ({
@@ -26,14 +37,14 @@ const Budget = ({
                         return obj.value === teacher.value
                     });
 
-                    if(!t) {
+                    if (!t) {
                         teachersArray.push(teacher);
                     }
                 })
             }
         });
 
-        let teacherValues = teachersArray.map((teacher) => ( { teacher_id: teacher.value, teacher_name: teacher.label, lessons: 0 } ))
+        let teacherValues = teachersArray.map((teacher) => ({ teacher_id: teacher.value, teacher_name: teacher.label, lessons: 0 }))
 
         teacherValues = teacherValues.map((teacher) => {
             const id = teacher.teacher_id;
@@ -41,9 +52,9 @@ const Budget = ({
 
             values.groups.forEach((group) => {
                 group.program.forEach((program) => {
-                    if(program.teachers) {
+                    if (program.teachers) {
                         program.teachers.forEach((t) => {
-                            if(t.teacher_id === id && t.lessons) {
+                            if (t.teacher_id === id && t.lessons) {
                                 lessons += Number(t.lessons);
                             }
                         });
@@ -56,16 +67,23 @@ const Budget = ({
 
         setTeachers(teacherValues);
 
-    }, [values.groups])
+    }, [values.groups]);
 
-    const calculateTotal = () => {
-        let total = 0;
+    useEffect(() => {
+        setFieldValue('budget.teachers', teachers);
+        calculateCosts();
+
+    }, [teachers, values.budget.hourPrice])
+
+    const calculateCosts = () => {
+        let trainingCosts = 0;
 
         teachers.forEach((teacher) => {
-            total += teacher.lessons * values.budget.hourPrice;
+            trainingCosts += teacher.lessons * values.budget.hourPrice;
         })
 
-        return total;
+        setFieldValue('budget.trainingCosts', trainingCosts);
+        setFieldValue('budget.administrationCosts', 30 / 100 * trainingCosts);
     }
 
     return (
@@ -110,33 +128,81 @@ const Budget = ({
                 );
             })}
 
-            <TableContainer>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell colSpan={3}>Учител</TableCell>
-                            <TableCell align="right">Финансиране</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {teachers.map((teacher, index) => (
-                            <TableRow
-                                key={index}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell colSpan={3}>{teacher.teacher_name}</TableCell>
-                                <TableCell align="right">{teacher.lessons * values.budget.hourPrice} ({teacher.lessons} часа x {values.budget.hourPrice} лв.)</TableCell>
+            <Box>
+                <Box sx={{ mb: 1, mt: 2 }}>
+                    <Typography
+                        color="textPrimary"
+                        variant='h5'
+                    >
+                        Обучение на учениците
+                    </Typography>
+                </Box>
+                <TableContainer>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell colSpan={3}>Учител</TableCell>
+                                <TableCell align="right">Финансиране</TableCell>
                             </TableRow>
-                        ))}
+                        </TableHead>
+                        <TableBody>
+                            {teachers.map((teacher, index) => (
+                                <TableRow
+                                    key={index}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell colSpan={3}>{teacher.teacher_name}</TableCell>
+                                    <TableCell align="right">{teacher.lessons * values.budget.hourPrice} ({teacher.lessons} часа x {values.budget.hourPrice} лв.)</TableCell>
+                                </TableRow>
+                            ))}
 
-                        <TableRow>
-                            <TableCell rowSpan={3} />
-                            <TableCell colSpan={2} align='right' sx={{ fontWeight: 'bold' }}>Общо</TableCell>
-                            <TableCell align='right' sx={{ fontWeight: 'bold' }}>{calculateTotal()} лв.</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                            <TableRow>
+                                <TableCell rowSpan={3} />
+                                <TableCell colSpan={2} align='right' sx={{ fontWeight: 'bold' }}>Общо</TableCell>
+                                <TableCell align='right' sx={{ fontWeight: 'bold' }}>{values.budget.trainingCosts} лв.</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Box>
+
+            <Box sx={{ mt: 3 }}>
+                <Box sx={{ mb: 1, mt: 2 }}>
+                    <Typography
+                        color="textPrimary"
+                        variant='h5'
+                    >
+                        Административни разходи
+                    </Typography>
+                </Box>
+                <Box>
+                    <Divider />
+                    <Typography
+                        variant='h5'
+                        sx={{
+                            py: 2,
+                            fontSize: 15,
+                            textAlign: 'right'
+                        }}
+                    >
+                        Общо {values.budget.administrationCosts} лв.
+                    </Typography>
+                    <Divider />
+                </Box>
+            </Box>
+
+            <Box width={'400px'} marginLeft={'auto'}>
+                <Card sx={{ p: 2, my: 2 }}>
+                    <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                    }}>
+                        <Typography variant='h4'>Крайна сума:</Typography>
+                        <Typography>{values.budget.trainingCosts + values.budget.administrationCosts} лв.</Typography>
+                    </Box>
+                </Card>
+            </Box>
         </>
     );
 }
