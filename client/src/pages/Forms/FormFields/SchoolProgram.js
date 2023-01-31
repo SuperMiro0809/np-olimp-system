@@ -49,6 +49,7 @@ const SchoolProgram = ({
 
                 return (
                     <TextField
+                        type='number'
                         label={teacher.teacher_name}
                         onChange={(event) => {
                             setFieldValue(`${name}.${parentIndex}.teachers.${tIndex}.lessons`, event.target.value);
