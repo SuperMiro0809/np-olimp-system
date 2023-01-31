@@ -34,19 +34,22 @@ const Additional = ({
             }
         });
 
-        if (values.letters) {
-            let teacherValues = values.letters;
+        let teacherValues = teachersArray.map((teacher) => ({ teacher_id: teacher.value, letter: '', files: '' }));
 
-            teachersArray.forEach((teacher) => {
-                const letter = values.letters.find(obj => {
-                    return obj.teacher_id === teacher.value
+        if (values.letters) {
+            teacherValues = teacherValues.map((teacher) => {
+                const id = teacher.teacher_id;
+                
+                values.letters.forEach((letter) => {
+                    if(letter.teacher_id === id) {
+                        teacher.letter = letter.letter;
+                        teacher.files = letter.files;
+                    } 
                 });
 
-                if (!letter) {
-                    teacherValues.push({ teacher_id: teacher.value, letter: '', files: '' })
-                }
+                return teacher;
             });
-
+            
             setFieldValue('letters', teacherValues);
         } else {
             let teacherValues = teachersArray.map((teacher) => ({ teacher_id: teacher.value, letter: '', files: '' }));
