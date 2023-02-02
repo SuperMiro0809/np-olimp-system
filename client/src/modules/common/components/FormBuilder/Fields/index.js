@@ -36,7 +36,7 @@ const Fields = ({
             {field.type === 'multiline' && (
                 <RichTextEditor
                     rows={field.rows || 2}
-                    setFieldValue={formikProps.setFieldValue}
+                    formikProps={formikProps}
                     {...baseProps}
                 />
             )}

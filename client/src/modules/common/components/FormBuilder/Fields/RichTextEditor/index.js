@@ -1,6 +1,7 @@
 import React from "react";
 import { Editor, EditorState, getDefaultKeyBinding, RichUtils, convertToRaw, convertFromHTML, ContentState } from "draft-js";
 import { Typography } from '@mui/material';
+import { getIn } from 'formik';
 import draftToHtml from 'draftjs-to-html';
 import "./index.css";
 import 'draft-js/dist/Draft.css';
@@ -15,6 +16,8 @@ class RichTextEditor extends React.Component {
       blocksFromHTML.entityMap,
     );
 
+    const { setFieldValue, setFieldTouched } = this.props.formikProps;
+
     this.state = {
       editorState: EditorState.createWithContent(state),
       isFocused: false,
@@ -26,14 +29,18 @@ class RichTextEditor extends React.Component {
 
     this.onBlur = () => {
       this.setState({ isFocused: false });
+      setFieldTouched(this.props.name, true);
     }
     this.onChange = (editorState) => {
-      const rawContentState = convertToRaw(editorState.getCurrentContent());
-      const markup = draftToHtml(
-        rawContentState,
-      );
+      if (editorState.getCurrentContent().hasText()) {
+        const rawContentState = convertToRaw(editorState.getCurrentContent());
+        const markup = draftToHtml(
+          rawContentState,
+        );
 
-      this.props.setFieldValue(this.props.name, markup);
+        setFieldValue(this.props.name, markup);
+      }
+      
       this.setState({ editorState });
     };
 
@@ -89,6 +96,7 @@ class RichTextEditor extends React.Component {
 
   render() {
     const { editorState } = this.state;
+    const { touched, errors } = this.props.formikProps;
 
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
@@ -100,6 +108,13 @@ class RichTextEditor extends React.Component {
       }
     }
 
+    let rootClassName = 'RichEditor-root';
+    if (Boolean(getIn(touched, this.props.name) && getIn(errors, this.props.name))) {
+      rootClassName = 'RichEditor-root error';
+    } else if (this.state.isFocused) {
+      rootClassName = 'RichEditor-root focused';
+    }
+
     return (
       <div>
         <Typography
@@ -108,7 +123,7 @@ class RichTextEditor extends React.Component {
         >
           {this.props.label}
         </Typography>
-        <div className={this.state.isFocused ? 'RichEditor-root focused' : 'RichEditor-root'}>
+        <div className={rootClassName}>
           <BlockStyleControls
             editorState={editorState}
             onToggle={this.toggleBlockType}
