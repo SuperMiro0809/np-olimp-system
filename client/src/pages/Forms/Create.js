@@ -71,7 +71,6 @@ const FormsAdd = () => {
 
     useEffect(() => {
         if (subjectId) {
-            console.log('test')
             const filters = [
                 //{ label: 'active', value: 1 },
                 //{ label: 'subject_id', value: subjectId }
@@ -89,24 +88,89 @@ const FormsAdd = () => {
     }, [subjectId])
 
     const validationSchema = Yup.object().shape({
-        // fullName: Yup.string().max(255).required('Пълното име е задължително'),
-        // type: Yup.string().required('Tипът е задължителен'),
-        // key: Yup.string().max(255).required('Кодът по НЕИСПУО е задължителен'),
-        // address: Yup.object().shape({
-        //     address: Yup.string().required('Адресът е задължителен'),
-        //     phone: Yup.string().required('Телефонът е задължителен'),
-        //     email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен')
-        // }),
-        // contact: Yup.object().shape({
-        //     name: Yup.string().required('Името е задължително'),
-        //     phone: Yup.string().required('Телефонът е задължителен'),
-        //     email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен')
-        // }),
-        // director: Yup.string().max(255).required('Директорът е задължителен'),
-        // subject: Yup.object().required('Предметът е задължителен'),
-        // activities: Yup.array().of(Yup.object().shape({
-        //     date: Yup.date().required('dsd')
-        // }))
+        fullName: Yup.string().max(255).required('Пълното име е задължително'),
+        type: Yup.string().required('Tипът е задължителен'),
+        key: Yup.string().max(255).required('Кодът по НЕИСПУО е задължителен'),
+        address: Yup.object().shape({
+            address: Yup.string().required('Адресът е задължителен'),
+            phone: Yup.string().required('Телефонът е задължителен'),
+            email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен')
+        }),
+        contact: Yup.object().shape({
+            name: Yup.string().required('Името е задължително'),
+            phone: Yup.string().required('Телефонът е задължителен'),
+            email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен')
+        }),
+        director: Yup.string().max(255).required('Директорът е задължителен'),
+        subject: Yup.object().required('Предметът е задължителен'),
+        activities: Yup.array().of(Yup.object().shape({
+            date: Yup.date().required('dsd')
+        })),
+        groups: Yup.array().of(Yup.object().shape({
+            teachers: Yup.array().required('Учителите са задъкжителни'),
+            class: Yup.string().required('Класът е задължителен'),
+            lessons: Yup.number().required('Часовете за задължителни').min(50, 'Часовете трвбва да са поне 50').when('program', (program) => {
+                let lessons = 0;
+
+                program.forEach((el) => {
+                    if (el.allLessons) {
+                        lessons += el.allLessons
+                    }
+                });
+
+                if (lessons) {
+                    return Yup.number().required('Часовете за задължителни').test({
+                        message: 'Броят часове не съвпада със сбора от часовете по теми',
+                        test: (value) => {
+                            return value === lessons
+                        }
+                    })
+                }
+            }),
+            students: Yup.array().of(Yup.object().shape({
+                name: Yup.string().required('Името на ученика е задължително'),
+                class: Yup.string().required('Класът на ученика е задължителен')
+            })),
+            program: Yup.array().of(Yup.object().shape({
+                theme: Yup.string().required('Темата е задължителна'),
+                allLessons: Yup.number().required('Броят учебни часове е задължителен').min(1, 'Броят учебни часове трябва е поне 1').when('teachers', (teachers) => {
+                    if (teachers) {
+                        let lessons = 0;
+
+                        teachers.forEach((teacher) => {
+                            if(teacher.lessons) {
+                                lessons += teacher.lessons
+                            }
+                        });
+
+                        if(lessons) {
+                            return Yup.number().required('Броят учебни часове е задължителен').test({
+                                message: 'Броят учебни часове не съвпада със сбора от часовете за учители',
+                                test: (value) => {
+                                    return value === lessons
+                                }
+                            })
+                        }
+                    }
+                }),
+                teachers: Yup.array().of(Yup.object().shape({
+                    lessons: Yup.number().required('Учебните часове на учителя са задължителни').min(1, 'Учебните часове на учителя трябва да са поне 1')
+                })).required('Учителите са задължителни')
+            }))
+        })),
+        description: Yup.string().required('Обосновката на проекта е задължителна'),
+        goals: Yup.string().required('Основните цели са задължителни'),
+        results: Yup.string().required('Основните резултати са задължителни'),
+        activities: Yup.array().of(Yup.object().shape({
+            activity: Yup.string().required('Дейността е задължителна'),
+            teachers: Yup.array().required('Изпълнителите са задължителни'),
+            date: Yup.string().required('Датата е задължителна')
+        })),
+        indicatorsOfSuccess: Yup.string().required('Индикаторите за успех са задължителни'),
+        resources: Yup.string().required('Ресурсите за проекта са задължителни'),
+        budget: Yup.object().shape({
+            hourPrice: Yup.number().required('Цената на час е задължителна').max(25, 'Цената на час не може да надвишава 25 лв.')
+        })
     });
 
     const menus = [
@@ -189,8 +253,8 @@ const FormsAdd = () => {
                     { type: 'text', name: 'date', label: 'Дата/срок' },
                 ]
             },
-            { type: 'multiline', name: 'results', label: 'Индикатори за успех' },
-            { type: 'multiline', name: 'results', label: 'Ресурси за проекта' },
+            { type: 'multiline', name: 'indicatorsOfSuccess', label: 'Индикатори за успех' },
+            { type: 'multiline', name: 'resources', label: 'Ресурси за проекта' },
         ],
         'budget': Budget,
         'additional': Additional

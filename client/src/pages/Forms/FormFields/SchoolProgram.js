@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
 import { TextField } from '@mui/material';
-import Fields from '@modules/common/components/FormBuilder/Fields';
+import { getIn, FieldArray } from 'formik';
 
 const SchoolProgram = ({
     setFieldValue,
-    handleChange,
-    handleBlur,
+    setFieldTouched,
     values,
     touched,
     errors,
@@ -13,7 +12,7 @@ const SchoolProgram = ({
     parentIndex = null
 }) => {
     const [group, index, ...others] = name.split('.');
-
+    
     useEffect(() => {
         const groupTeachers = values.groups[index].teachers;
 
@@ -45,24 +44,39 @@ const SchoolProgram = ({
 
     return (
         <>
-            {values.groups[index].program[parentIndex].teachers && values.groups[index].program[parentIndex].teachers.map((teacher, tIndex) => {
-
-                return (
-                    <TextField
-                        type='number'
-                        label={teacher.teacher_name}
-                        onChange={(event) => {
-                            setFieldValue(`${name}.${parentIndex}.teachers.${tIndex}.lessons`, event.target.value);
-                        }}
-                        onBlur={handleBlur}
-                        name={`${name}.${parentIndex}.teachers.${tIndex}.lessons`}
-                        value={values.groups[index].program[parentIndex].teachers[tIndex].lessons}
-                        margin='normal'
-                        key={teacher.teacher_id}
-                    />
-                );
-            })}
+            <FieldArray
+                name={`${name}.${index}.teachers`}
+                render={arrayHelpers => (
+                    <>
+                        {values.groups[index].program[index].teachers && values.groups[index].program[index].teachers.map((teacher, tIndex) => {
+                            const fieldName = `${name}.${index}.teachers.${tIndex}.lessons`;
+                           
+                            return (
+                                <TextField
+                                    name={fieldName}
+                                    type='number'
+                                    label={teacher.teacher_name}
+                                    error={Boolean(
+                                        getIn(touched, fieldName) &&
+                                        getIn(errors, fieldName)
+                                    )}
+                                    onChange={(event) => {
+                                        setFieldValue(fieldName, event.target.value);
+                                    }}
+                                    onBlur={(e) => {
+                                        setFieldTouched(fieldName, true);
+                                    }}
+                                    value={values.groups[index].program[index].teachers[tIndex].lessons}
+                                    margin='normal'
+                                    key={teacher.teacher_id}
+                                />
+                            );
+                        })}
+                    </>
+                )}
+            />
         </>
+
     );
 }
 
