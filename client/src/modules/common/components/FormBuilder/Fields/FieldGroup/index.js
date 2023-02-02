@@ -6,9 +6,11 @@ import { getIn } from 'formik';
 const FieldGroup = ({
     field,
     baseProps,
-    values,
+    formikProps,
     ...otherProps
 }) => {
+    const { values, touched, errors } = formikProps;
+
     return (
         <Box sx={{ ml: 2 }}>
             <GroupHeading
@@ -25,24 +27,19 @@ const FieldGroup = ({
                     name: fieldName,
                     fullWidth: Object.hasOwn(f, 'fullWidth') ? f.fullWidth : true,
                     error: Boolean(
-                        getIn(otherProps.touched, fieldName) &&
-                        getIn(otherProps.errors, fieldName)
+                        getIn(touched, fieldName) &&
+                        getIn(errors, fieldName)
                     ),
                     margin: Object.hasOwn(f, 'margin') ? f.margin : 'normal',
                     value: values[field.name][f.name],
                     variant: Object.hasOwn(f, 'variant') ? f.variant : 'outlined',
-                    helperText: getIn(otherProps.touched, fieldName) && getIn(otherProps.errors, fieldName),
+                    helperText: getIn(touched, fieldName) && getIn(errors, fieldName),
                     key: index
                 };
 
                 if(f.type === 'custom') {
                     const props = {
-                        setFieldValue: otherProps.setFieldValue,
-                        handleBlur: baseProps.onChange,
-                        handleChange: baseProps.onBlur,
-                        values: values,
-                        touched: otherProps.touched,
-                        errors: otherProps.errors
+                        ...formikProps
                     };
                     const { component: Field } = f;
 
@@ -58,11 +55,8 @@ const FieldGroup = ({
                     <Fields
                         field={f}
                         baseProps={props}
+                        formikProps={formikProps}
                         key={f.name}
-                        values={values}
-                        touched={otherProps.touched}
-                        errors={otherProps.errors}
-                        setFieldValue={otherProps.setFieldValue}
                     />
                 );
             })}

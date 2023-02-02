@@ -3,7 +3,7 @@ import { FieldArray } from 'formik';
 import ArrayCollapseItem from './ArrayCollapseItem';
 import ArrayInlineItem from './ArrayInlineItem';
 
-const ArrayField = ({ arrayVariant, labelVariant, element, itemLabel, fields, values, baseProps, ...otherProps }) => {
+const ArrayField = ({ arrayVariant, labelVariant, element, itemLabel, fields, baseProps, formikProps, ...otherProps }) => {
     const { name, label } = baseProps;
 
     return (
@@ -32,7 +32,7 @@ const ArrayField = ({ arrayVariant, labelVariant, element, itemLabel, fields, va
                                         fields={fields}
                                         baseProps={baseProps}
                                         index={index}
-                                        values={values}
+                                        formikProps={formikProps}
                                         key={index}
                                         {...otherProps}
                                     />
@@ -47,7 +47,7 @@ const ArrayField = ({ arrayVariant, labelVariant, element, itemLabel, fields, va
                                         fields={fields}
                                         baseProps={baseProps}
                                         index={index}
-                                        values={values}
+                                        formikProps={formikProps}
                                         key={index}
                                         {...otherProps}
                                     />

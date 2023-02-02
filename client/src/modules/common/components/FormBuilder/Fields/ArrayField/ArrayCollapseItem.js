@@ -46,10 +46,11 @@ const ArrayCollapseItem = ({
     fields,
     baseProps,
     index,
-    values,
+    formikProps,
     ...otherProps
 }) => {
     const [open, setOpen] = useState(true);
+    const { values, touched, errors } = formikProps;
 
     const onAdd = () => {
         arrayHelpers.push(dataScheme(fields));
@@ -87,25 +88,20 @@ const ArrayCollapseItem = ({
                         name: fieldName,
                         fullWidth: Object.hasOwn(field, 'fullWidth') ? field.fullWidth : true,
                         error: Boolean(
-                            getIn(otherProps.touched, fieldName) &&
-                            getIn(otherProps.errors, fieldName)
+                            getIn(touched, fieldName) &&
+                            getIn(errors, fieldName)
                         ),
                         margin: Object.hasOwn(field, 'margin') ? field.margin : 'normal',
                         value: values[name][index][field.name],
                         variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
-                        helperText: getIn(otherProps.touched, fieldName) && getIn(otherProps.errors, fieldName),
+                        helperText: getIn(touched, fieldName) && getIn(errors, fieldName),
                         element: values[name][index][field.name],
                         key: i
                     };
 
                     if(field.type === 'custom') {
                         const props = {
-                            setFieldValue: otherProps.setFieldValue,
-                            handleBlur: baseProps.onChange,
-                            handleChange: baseProps.onBlur,
-                            values: values,
-                            touched: otherProps.touched,
-                            errors: otherProps.errors,
+                            ...formikProps,
                             name: name,
                             parentIndex: index
                         };
@@ -123,11 +119,8 @@ const ArrayCollapseItem = ({
                         <Fields
                             field={field}
                             baseProps={props}
+                            formikProps={formikProps}
                             key={field.name}
-                            values={values}
-                            touched={otherProps.touched}
-                            errors={otherProps.errors}
-                            setFieldValue={otherProps.setFieldValue}
                         />
                     );
                 })}

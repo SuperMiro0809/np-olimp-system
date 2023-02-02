@@ -97,220 +97,218 @@ const FormBuilder = ({
                 isSubmitting,
                 touched,
                 values
-            }) => (
-                <form onSubmit={handleSubmit}>
-                    <FormObserver handleOnChange={handleOnChange} />
+            }) => {
+                const formikProps = {
+                    errors,
+                    handleBlur,
+                    handleChange,
+                    setFieldValue,
+                    touched,
+                    values
+                };
 
-                    {menus && menus.length > 0 ? (
-                        <Box sx={{
-                            flexGrow: 1,
-                            bgcolor: "",
-                            display: "flex",
-                            gap: 3
-                        }}>
-                            <Tabs
-                                orientation="vertical"
-                                variant="scrollable"
-                                value={selectedMenu}
-                                onChange={handleTabChange}
-                                aria-label="Vertical tabs example"
-                                sx={{
-                                    maxWidth: '200px',
-                                    borderRight: 1,
-                                    borderColor: 'divider',
-                                    '& .MuiTabs-indicator': { backgroundColor: '#ff7701!important' },
-                                    //'& .MuiTab-root': { color: blue[700] },
-                                    //'& .Mui-selected': { color: '#96011c!important' },
-                                }}
-                            >
-                                {menus.map((menu, index) => {
-                                    const { icon: Icon } = menu;
+                return (
+                    <form onSubmit={handleSubmit}>
+                        <FormObserver handleOnChange={handleOnChange} />
 
-                                    return <Tab label={menu.label} icon={<Icon />} {...a11yProps(index)} key={index} />
-                                })}
-                            </Tabs>
-
-                            {menus.map((menu, index) => {
-                                const item = fields[menu.id];
-
-                                if (typeof item === 'function') {
-                                    const Component = item;
-
-                                    return (
-                                        <TabPanel value={selectedMenu} index={index} key={index}>
-                                            <Component
-                                                setFieldValue={setFieldValue}
-                                                handleBlur={handleBlur}
-                                                handleChange={handleChange}
-                                                values={values}
-                                                touched={touched}
-                                                errors={errors}
-                                            />
-
-                                            {index + 1 === menus.length ? (
-                                                <Box sx={{ py: 2 }}>
-                                                    <Button
-                                                        color={submitButton && submitButton.color ? submitButton.color : 'primary'}
-                                                        size={submitButton && submitButton.size ? submitButton.size : 'large'}
-                                                        variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
-                                                        fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
-                                                        disabled={isSubmitting}
-                                                        type="submit"
-                                                    >
-                                                        {submitButton && submitButton.label ? submitButton.label : 'Добави'}
-                                                    </Button>
-                                                </Box>
-                                            ) : (
-                                                <Box sx={{ py: 2 }}>
-                                                    <Button
-                                                        color={submitButton && submitButton.color ? submitButton.color : 'primary'}
-                                                        size={submitButton && submitButton.size ? submitButton.size : 'large'}
-                                                        variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
-                                                        fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
-                                                        disabled={isSubmitting}
-                                                        onClick={() => setSelectedMenu(index + 1)}
-                                                        type="button"
-                                                    >
-                                                        Напред
-                                                    </Button>
-                                                </Box>
-                                            )}
-                                        </TabPanel>
-                                    );
-                                } else {
-                                    return (
-                                        <TabPanel value={selectedMenu} index={index} key={index}>
-                                            {fields[menu.id].map((field, index) => {
-
-                                                if (field.type === 'custom') {
-                                                    const baseProps = {
-                                                        setFieldValue: setFieldValue,
-                                                        handleBlur: handleBlur,
-                                                        handleChange: handleChange,
-                                                        values: values,
-                                                        touched: touched,
-                                                        errors: errors
-                                                    };
-                                                    const { component: Field } = field;
-
-                                                    return (
-                                                        <Field
-                                                            {...baseProps}
-                                                            key={index}
-                                                        />
-                                                    );
-                                                } else {
-                                                    const baseProps = {
-                                                        label: field.label,
-                                                        name: field.name,
-                                                        onBlur: handleBlur,
-                                                        onChange: handleChange,
-                                                        fullWidth: Object.hasOwn(field, 'fullWidth') ? field.fullWidth : true,
-                                                        error: Boolean(touched[field.name] && errors[field.name]),
-                                                        margin: Object.hasOwn(field, 'margin') ? field.margin : 'normal',
-                                                        value: values[field.name],
-                                                        variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
-                                                        helperText: touched[field.name] && errors[field.name],
-                                                        key: index
-                                                    };
-
-                                                    return (
-                                                        <Fields
-                                                            field={field}
-                                                            baseProps={baseProps}
-                                                            setFieldValue={setFieldValue}
-                                                            updateUploadedFiles={() => { }}
-                                                            key={index}
-                                                            values={values}
-                                                            touched={touched}
-                                                            errors={errors}
-                                                        />
-                                                    );
-                                                }
-                                            })}
-
-                                            {index + 1 === menus.length ? (
-                                                <Box sx={{ py: 2 }}>
-                                                    <Button
-                                                        color={submitButton && submitButton.color ? submitButton.color : 'primary'}
-                                                        size={submitButton && submitButton.size ? submitButton.size : 'large'}
-                                                        variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
-                                                        fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
-                                                        disabled={isSubmitting}
-                                                        type="submit"
-                                                    >
-                                                        {submitButton && submitButton.label ? submitButton.label : 'Добави'}
-                                                    </Button>
-                                                </Box>
-                                            ) : (
-                                                <Box sx={{ py: 2 }}>
-                                                    <Button
-                                                        color={submitButton && submitButton.color ? submitButton.color : 'primary'}
-                                                        size={submitButton && submitButton.size ? submitButton.size : 'large'}
-                                                        variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
-                                                        fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
-                                                        disabled={isSubmitting}
-                                                        onClick={() => setSelectedMenu(index + 1)}
-                                                        type="button"
-                                                    >
-                                                        Напред
-                                                    </Button>
-                                                </Box>
-                                            )}
-
-                                        </TabPanel>
-                                    );
-                                }
-                            })}
-                        </Box>
-                    ) : (
-                        <>
-                            {fields.map((field, index) => {
-
-                                const baseProps = {
-                                    label: field.label,
-                                    name: field.name,
-                                    onBlur: handleBlur,
-                                    onChange: handleChange,
-                                    fullWidth: Object.hasOwn(field, 'fullWidth') ? field.fullWidth : true,
-                                    error: Boolean(touched[field.name] && errors[field.name]),
-                                    margin: Object.hasOwn(field, 'margin') ? field.margin : 'normal',
-                                    value: values[field.name],
-                                    variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
-                                    helperText: touched[field.name] && errors[field.name],
-                                    key: index
-                                };
-
-                                return (
-                                    <Fields
-                                        field={field}
-                                        baseProps={baseProps}
-                                        setFieldValue={setFieldValue}
-                                        updateUploadedFiles={() => { }}
-                                        key={index}
-                                        values={values}
-                                        touched={touched}
-                                        errors={errors}
-                                    />
-                                );
-                            })}
-
-                            <Box sx={{ py: 2 }}>
-                                <Button
-                                    color={submitButton && submitButton.color ? submitButton.color : 'primary'}
-                                    size={submitButton && submitButton.size ? submitButton.size : 'large'}
-                                    variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
-                                    fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
-                                    disabled={isSubmitting}
-                                    type="submit"
+                        {menus && menus.length > 0 ? (
+                            <Box sx={{
+                                flexGrow: 1,
+                                bgcolor: "",
+                                display: "flex",
+                                gap: 3
+                            }}>
+                                <Tabs
+                                    orientation="vertical"
+                                    variant="scrollable"
+                                    value={selectedMenu}
+                                    onChange={handleTabChange}
+                                    aria-label="Vertical tabs example"
+                                    sx={{
+                                        maxWidth: '200px',
+                                        borderRight: 1,
+                                        borderColor: 'divider',
+                                        '& .MuiTabs-indicator': { backgroundColor: '#ff7701!important' },
+                                        //'& .MuiTab-root': { color: blue[700] },
+                                        //'& .Mui-selected': { color: '#96011c!important' },
+                                    }}
                                 >
-                                    {submitButton && submitButton.label ? submitButton.label : 'Добавяне'}
-                                </Button>
+                                    {menus.map((menu, index) => {
+                                        const { icon: Icon } = menu;
+
+                                        return <Tab label={menu.label} icon={<Icon />} {...a11yProps(index)} key={index} />
+                                    })}
+                                </Tabs>
+
+                                {menus.map((menu, index) => {
+                                    const item = fields[menu.id];
+
+                                    if (typeof item === 'function') {
+                                        const Component = item;
+
+                                        return (
+                                            <TabPanel value={selectedMenu} index={index} key={index}>
+                                                <Component {...formikProps} />
+
+                                                {index + 1 === menus.length ? (
+                                                    <Box sx={{ py: 2 }}>
+                                                        <Button
+                                                            color={submitButton && submitButton.color ? submitButton.color : 'primary'}
+                                                            size={submitButton && submitButton.size ? submitButton.size : 'large'}
+                                                            variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
+                                                            fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
+                                                            disabled={isSubmitting}
+                                                            type="submit"
+                                                        >
+                                                            {submitButton && submitButton.label ? submitButton.label : 'Добави'}
+                                                        </Button>
+                                                    </Box>
+                                                ) : (
+                                                    <Box sx={{ py: 2 }}>
+                                                        <Button
+                                                            color={submitButton && submitButton.color ? submitButton.color : 'primary'}
+                                                            size={submitButton && submitButton.size ? submitButton.size : 'large'}
+                                                            variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
+                                                            fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
+                                                            disabled={isSubmitting}
+                                                            onClick={() => setSelectedMenu(index + 1)}
+                                                            type="button"
+                                                        >
+                                                            Напред
+                                                        </Button>
+                                                    </Box>
+                                                )}
+                                            </TabPanel>
+                                        );
+                                    } else {
+                                        return (
+                                            <TabPanel value={selectedMenu} index={index} key={index}>
+                                                {fields[menu.id].map((field, index) => {
+
+                                                    if (field.type === 'custom') {
+                                                        const baseProps = {
+                                                            setFieldValue: setFieldValue,
+                                                            handleBlur: handleBlur,
+                                                            handleChange: handleChange,
+                                                            values: values,
+                                                            touched: touched,
+                                                            errors: errors
+                                                        };
+                                                        const { component: Field } = field;
+
+                                                        return (
+                                                            <Field
+                                                                {...formikProps}
+                                                                key={index}
+                                                            />
+                                                        );
+                                                    } else {
+                                                        const baseProps = {
+                                                            label: field.label,
+                                                            name: field.name,
+                                                            onBlur: handleBlur,
+                                                            onChange: handleChange,
+                                                            fullWidth: Object.hasOwn(field, 'fullWidth') ? field.fullWidth : true,
+                                                            error: Boolean(touched[field.name] && errors[field.name]),
+                                                            margin: Object.hasOwn(field, 'margin') ? field.margin : 'normal',
+                                                            value: values[field.name],
+                                                            variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
+                                                            helperText: touched[field.name] && errors[field.name],
+                                                            key: index
+                                                        };
+
+                                                        return (
+                                                            <Fields
+                                                                field={field}
+                                                                baseProps={baseProps}
+                                                                formikProps={formikProps}
+                                                                updateUploadedFiles={() => { }}
+                                                                key={index}
+                                                            />
+                                                        );
+                                                    }
+                                                })}
+
+                                                {index + 1 === menus.length ? (
+                                                    <Box sx={{ py: 2 }}>
+                                                        <Button
+                                                            color={submitButton && submitButton.color ? submitButton.color : 'primary'}
+                                                            size={submitButton && submitButton.size ? submitButton.size : 'large'}
+                                                            variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
+                                                            fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
+                                                            disabled={isSubmitting}
+                                                            type="submit"
+                                                        >
+                                                            {submitButton && submitButton.label ? submitButton.label : 'Добави'}
+                                                        </Button>
+                                                    </Box>
+                                                ) : (
+                                                    <Box sx={{ py: 2 }}>
+                                                        <Button
+                                                            color={submitButton && submitButton.color ? submitButton.color : 'primary'}
+                                                            size={submitButton && submitButton.size ? submitButton.size : 'large'}
+                                                            variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
+                                                            fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
+                                                            disabled={isSubmitting}
+                                                            onClick={() => setSelectedMenu(index + 1)}
+                                                            type="button"
+                                                        >
+                                                            Напред
+                                                        </Button>
+                                                    </Box>
+                                                )}
+
+                                            </TabPanel>
+                                        );
+                                    }
+                                })}
                             </Box>
-                        </>
-                    )}
-                </form>
-            )}
+                        ) : (
+                            <>
+                                {fields.map((field, index) => {
+
+                                    const baseProps = {
+                                        label: field.label,
+                                        name: field.name,
+                                        onBlur: handleBlur,
+                                        onChange: handleChange,
+                                        fullWidth: Object.hasOwn(field, 'fullWidth') ? field.fullWidth : true,
+                                        error: Boolean(touched[field.name] && errors[field.name]),
+                                        margin: Object.hasOwn(field, 'margin') ? field.margin : 'normal',
+                                        value: values[field.name],
+                                        variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
+                                        helperText: touched[field.name] && errors[field.name],
+                                        key: index
+                                    };
+
+                                    return (
+                                        <Fields
+                                            field={field}
+                                            baseProps={baseProps}
+                                            formikProps={formikProps}
+                                            updateUploadedFiles={() => { }}
+                                            key={index}
+                                        />
+                                    );
+                                })}
+
+                                <Box sx={{ py: 2 }}>
+                                    <Button
+                                        color={submitButton && submitButton.color ? submitButton.color : 'primary'}
+                                        size={submitButton && submitButton.size ? submitButton.size : 'large'}
+                                        variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
+                                        fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
+                                        disabled={isSubmitting}
+                                        type="submit"
+                                    >
+                                        {submitButton && submitButton.label ? submitButton.label : 'Добавяне'}
+                                    </Button>
+                                </Box>
+                            </>
+                        )}
+                    </form>
+                )
+            }}
         </Formik >
     );
 }

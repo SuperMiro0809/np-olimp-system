@@ -19,12 +19,10 @@ import PropTypes from 'prop-types';
 const Fields = ({
     field,
     baseProps,
-    setFieldValue,
-    values,
-    touched,
-    errors,
+    formikProps,
     updateUploadedFiles
 }) => {
+    const { setFieldValue, values } = formikProps;
 
     return (
         <>
@@ -38,7 +36,7 @@ const Fields = ({
             {field.type === 'multiline' && (
                 <RichTextEditor
                     rows={field.rows || 2}
-                    setFieldValue={setFieldValue}
+                    setFieldValue={formikProps.setFieldValue}
                     {...baseProps}
                 />
             )}
@@ -85,10 +83,7 @@ const Fields = ({
                 <LangFields
                     field={field}
                     baseProps={baseProps}
-                    setFieldValue={setFieldValue}
-                    values={values}
-                    touched={touched}
-                    errors={errors}
+                    {...formikProps}
                 />
             )}
 
@@ -98,10 +93,9 @@ const Fields = ({
                     label={field.label}
                     multiple={field.multiple}
                     updateFilesCb={updateUploadedFiles}
-                    setFieldValue={setFieldValue}
                     name={baseProps.name}
-                    values={values}
                     element={baseProps.element || values[baseProps.name]}
+                    {...formikProps}
                 />
             )}
 
@@ -113,10 +107,7 @@ const Fields = ({
                     element={baseProps.element || values[baseProps.name]}
                     baseProps={baseProps}
                     itemLabel={field.itemLabel}
-                    setFieldValue={setFieldValue}
-                    values={values}
-                    touched={touched}
-                    errors={errors}
+                    formikProps={formikProps}
                 />
             )}
 
@@ -131,10 +122,7 @@ const Fields = ({
                 <FieldGroup
                     field={field}
                     baseProps={baseProps}
-                    setFieldValue={setFieldValue}
-                    values={values}
-                    touched={touched}
-                    errors={errors}
+                    formikProps={formikProps}
                 />
             )}
 
@@ -154,10 +142,7 @@ const Fields = ({
                     field={field}
                     baseProps={baseProps}
                     element={baseProps.element || values[baseProps.name]}
-                    setFieldValue={setFieldValue}
-                    values={values}
-                    touched={touched}
-                    errors={errors}
+                    {...formikProps}
                 />
             )}
         </>
