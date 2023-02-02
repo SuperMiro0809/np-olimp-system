@@ -12,16 +12,18 @@ import {
     Card
 } from '@mui/material';
 import Fields from '@modules/common/components/FormBuilder/Fields';
+import { getIn } from 'formik';
 
-const Budget = ({
-    setFieldValue,
-    handleChange,
-    handleBlur,
-    values,
-    touched,
-    errors
-}) => {
+const Budget = ({ formikProps }) => {
     const [teachers, setTeachers] = useState([]);
+    const {
+        setFieldValue,
+        handleChange,
+        handleBlur,
+        values,
+        touched,
+        errors 
+    } = formikProps;
 
     const fields = [
         { type: 'number', name: 'hourPrice', label: 'Цена на час' }
@@ -106,11 +108,14 @@ const Budget = ({
                     onBlur: handleBlur,
                     onChange: handleChange,
                     fullWidth: Object.hasOwn(field, 'fullWidth') ? field.fullWidth : true,
-                    error: Boolean(touched[field.name] && errors[field.name]),
+                    error: Boolean(
+                        getIn(touched, name) &&
+                        getIn(errors, name)
+                    ),
                     margin: Object.hasOwn(field, 'margin') ? field.margin : 'normal',
                     value: values.budget[field.name],
                     variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
-                    helperText: touched[field.name] && errors[field.name],
+                    helperText: getIn(touched, name) && getIn(errors, name),
                     key: index
                 };
 
@@ -118,12 +123,9 @@ const Budget = ({
                     <Fields
                         field={field}
                         baseProps={baseProps}
-                        setFieldValue={setFieldValue}
+                        formikProps={formikProps}
                         updateUploadedFiles={() => { }}
                         key={index}
-                        values={values}
-                        touched={touched}
-                        errors={errors}
                     />
                 );
             })}

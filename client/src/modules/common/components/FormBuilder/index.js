@@ -94,6 +94,7 @@ const FormBuilder = ({
                 handleChange,
                 handleSubmit,
                 setFieldValue,
+                setFieldTouched,
                 isSubmitting,
                 touched,
                 values
@@ -103,6 +104,7 @@ const FormBuilder = ({
                     handleBlur,
                     handleChange,
                     setFieldValue,
+                    setFieldTouched,
                     touched,
                     values
                 };
@@ -148,7 +150,7 @@ const FormBuilder = ({
 
                                         return (
                                             <TabPanel value={selectedMenu} index={index} key={index}>
-                                                <Component {...formikProps} />
+                                                <Component formikProps={formikProps} />
 
                                                 {index + 1 === menus.length ? (
                                                     <Box sx={{ py: 2 }}>
