@@ -85,10 +85,7 @@ const Additional = ({ formikProps }) => {
                                     teachers={teachers}
                                     fields={teacherFields}
                                     index={index}
-                                    values={values}
-                                    setFieldValue={setFieldValue}
-                                    touched={touched}
-                                    errors={errors}
+                                    formikProps={formikProps}
                                     key={index}
                                 />
                             ))}

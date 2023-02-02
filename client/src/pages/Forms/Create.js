@@ -119,7 +119,7 @@ const FormsAdd = () => {
                 });
 
                 if (lessons) {
-                    return Yup.number().required('Часовете за задължителни').test({
+                    return Yup.number().required('Часовете за задължителни').min(50, 'Часовете трвбва да са поне 50').test({
                         message: 'Броят часове не съвпада със сбора от часовете по теми',
                         test: (value) => {
                             return value === lessons
@@ -144,7 +144,7 @@ const FormsAdd = () => {
                         });
 
                         if(lessons) {
-                            return Yup.number().required('Броят учебни часове е задължителен').test({
+                            return Yup.number().required('Броят учебни часове е задължителен').min(1, 'Броят учебни часове трябва е поне 1').test({
                                 message: 'Броят учебни часове не съвпада със сбора от часовете за учители',
                                 test: (value) => {
                                     return value === lessons
