@@ -4,15 +4,16 @@ import { FieldArray } from 'formik';
 import ArrayItem from './ArrayItem';
 import Fields from '@modules/common/components/FormBuilder/Fields';
 
-const Additional = ({
-    setFieldValue,
-    handleChange,
-    handleBlur,
-    values,
-    touched,
-    errors
-}) => {
+const Additional = ({ formikProps }) => {
     const [teachers, setTeachers] = useState([]);
+    const {
+        setFieldValue,
+        handleChange,
+        handleBlur,
+        values,
+        touched,
+        errors
+    } = formikProps;
 
     const teacherFields = [
         { type: 'multiline', name: 'letter', label: 'Писмо' },
@@ -125,12 +126,9 @@ const Additional = ({
                     <Fields
                         field={field}
                         baseProps={baseProps}
-                        setFieldValue={setFieldValue}
+                        formikProps={formikProps}
                         updateUploadedFiles={() => { }}
                         key={index}
-                        values={values}
-                        touched={touched}
-                        errors={errors}
                     />
                 );
             })}
