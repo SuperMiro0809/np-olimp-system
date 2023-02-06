@@ -11,8 +11,10 @@ import {
 import PropTypes from 'prop-types';
 import Fields from './Fields';
 import FormObserver from './FormObserver';
+import FormMenuControls from './FormMenuControls';
 import TabPanel from '@modules/common/components/TabPanel';
 import { constructArrayFieldValues } from './utils/constructInitialValues';
+import constructMenusValidation from './utils/menusValidation';
 
 function a11yProps(index) {
     return {
@@ -24,7 +26,7 @@ function a11yProps(index) {
 const FormBuilder = ({
     fields,
     initialValues = {},
-    menus,
+    menus = [],
     validationSchema,
     onSubmit,
     submitButton,
@@ -32,8 +34,12 @@ const FormBuilder = ({
     handleOnChange = () => { }
 }) => {
     const [selectedMenu, setSelectedMenu] = useState(0);
+    const [menusValidation, setMenusValidation] = useState(menus.map(el => ''));
 
-    const handleTabChange = (event, newValue) => {
+    const handleTabChange = (newValue, touched, errors) => {
+        const newMenuValidation = constructMenusValidation(menus, fields, touched, errors, menusValidation);
+
+        setMenusValidation(newMenuValidation);
         setSelectedMenu(newValue);
     };
 
@@ -124,21 +130,23 @@ const FormBuilder = ({
                                     orientation="vertical"
                                     variant="scrollable"
                                     value={selectedMenu}
-                                    onChange={handleTabChange}
+                                    onChange={(event, value) => {
+                                        handleTabChange(value, touched, errors);
+                                    }}
                                     aria-label="Vertical tabs example"
                                     sx={{
                                         maxWidth: '200px',
                                         borderRight: 1,
                                         borderColor: 'divider',
                                         '& .MuiTabs-indicator': { backgroundColor: '#ff7701!important' },
-                                        //'& .MuiTab-root': { color: blue[700] },
+                                        //'& .MuiTab-root': { color: 'text.success' },
                                         //'& .Mui-selected': { color: '#96011c!important' },
                                     }}
                                 >
                                     {menus.map((menu, index) => {
                                         const { icon: Icon } = menu;
 
-                                        return <Tab label={menu.label} icon={<Icon />} {...a11yProps(index)} key={index} />
+                                        return <Tab sx={{ color: menusValidation[index] }} label={menu.label} icon={<Icon />} {...a11yProps(index)} key={index} />
                                     })}
                                 </Tabs>
 
@@ -152,34 +160,15 @@ const FormBuilder = ({
                                             <TabPanel value={selectedMenu} index={index} key={index}>
                                                 <Component formikProps={formikProps} />
 
-                                                {index + 1 === menus.length ? (
-                                                    <Box sx={{ py: 2 }}>
-                                                        <Button
-                                                            color={submitButton && submitButton.color ? submitButton.color : 'primary'}
-                                                            size={submitButton && submitButton.size ? submitButton.size : 'large'}
-                                                            variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
-                                                            fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
-                                                            disabled={isSubmitting}
-                                                            type="submit"
-                                                        >
-                                                            {submitButton && submitButton.label ? submitButton.label : 'Добави'}
-                                                        </Button>
-                                                    </Box>
-                                                ) : (
-                                                    <Box sx={{ py: 2 }}>
-                                                        <Button
-                                                            color={submitButton && submitButton.color ? submitButton.color : 'primary'}
-                                                            size={submitButton && submitButton.size ? submitButton.size : 'large'}
-                                                            variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
-                                                            fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
-                                                            disabled={isSubmitting}
-                                                            onClick={() => setSelectedMenu(index + 1)}
-                                                            type="button"
-                                                        >
-                                                            Напред
-                                                        </Button>
-                                                    </Box>
-                                                )}
+                                                <FormMenuControls
+                                                    menus={menus}
+                                                    submitButton={submitButton}
+                                                    isSubmitting={isSubmitting}
+                                                    index={index}
+                                                    handleTabChange={handleTabChange}
+                                                    touched={touched}
+                                                    errors={errors}
+                                                />
                                             </TabPanel>
                                         );
                                     } else {
@@ -231,35 +220,15 @@ const FormBuilder = ({
                                                     }
                                                 })}
 
-                                                {index + 1 === menus.length ? (
-                                                    <Box sx={{ py: 2 }}>
-                                                        <Button
-                                                            color={submitButton && submitButton.color ? submitButton.color : 'primary'}
-                                                            size={submitButton && submitButton.size ? submitButton.size : 'large'}
-                                                            variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
-                                                            fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
-                                                            disabled={isSubmitting}
-                                                            type="submit"
-                                                        >
-                                                            {submitButton && submitButton.label ? submitButton.label : 'Добави'}
-                                                        </Button>
-                                                    </Box>
-                                                ) : (
-                                                    <Box sx={{ py: 2 }}>
-                                                        <Button
-                                                            color={submitButton && submitButton.color ? submitButton.color : 'primary'}
-                                                            size={submitButton && submitButton.size ? submitButton.size : 'large'}
-                                                            variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
-                                                            fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
-                                                            disabled={isSubmitting}
-                                                            onClick={() => setSelectedMenu(index + 1)}
-                                                            type="button"
-                                                        >
-                                                            Напред
-                                                        </Button>
-                                                    </Box>
-                                                )}
-
+                                                <FormMenuControls
+                                                    menus={menus}
+                                                    submitButton={submitButton}
+                                                    isSubmitting={isSubmitting}
+                                                    index={index}
+                                                    handleTabChange={handleTabChange}
+                                                    touched={touched}
+                                                    errors={errors}
+                                                />
                                             </TabPanel>
                                         );
                                     }
