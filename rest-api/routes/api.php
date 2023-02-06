@@ -6,7 +6,8 @@ use App\Http\Controllers\{
     UserController,
     TrainingOrganizationsController,
     TeacherController,
-    SubjectController
+    SubjectController,
+    FormController
 };
 
 /*
@@ -70,6 +71,11 @@ Route::middleware('auth:api')->group(function () {
             Route::put('/{id}', [SubjectController::class, 'edit']);
             Route::get('/all',[SubjectController::class, 'getAll']);
             Route::get('/{id}', [SubjectController::class, 'getById']);
+        });
+
+        Route::prefix('forms')->group(function () {
+            Route::get('/', [FormController::class, 'index']);
+            Route::post('/', [FormController::class, 'store']);
         });
     });
 });

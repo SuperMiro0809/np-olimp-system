@@ -8,9 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class FormBudget extends Model
 {
     use HasFactory;
+    
+    protected $table = 'form_budget';
 
     protected $fillable = [
         'hourPrice',
-        'subject_id'
+        'trainingCosts',
+        'administrationCosts',
+        'form_id'
     ];
 }

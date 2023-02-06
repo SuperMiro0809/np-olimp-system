@@ -9,6 +9,8 @@ class FormSchoolContact extends Model
 {
     use HasFactory;
 
+    protected $table = 'form_school_contact';
+
     protected $fillable = [
         'name',
         'phone',

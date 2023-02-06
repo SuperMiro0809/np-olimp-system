@@ -9,6 +9,8 @@ class GroupProgram extends Model
 {
     use HasFactory;
 
+    protected $table = 'group_program';
+
     protected $fillable = [
         'theme',
         'lessons',

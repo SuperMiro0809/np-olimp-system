@@ -9,6 +9,8 @@ class FormDescription extends Model
 {
     use HasFactory;
 
+    protected $table = 'form_description';
+
     protected $fillable = [
         'description',
         'goals',
