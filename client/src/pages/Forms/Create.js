@@ -35,7 +35,7 @@ const FormsAdd = () => {
 
     useEffect(() => {
         const schoolYear = getSchoolYear();
-        console.log(schoolYear)
+
         if (user) {
             trainingOrganizationsService.getById(user.info.school_id)
                 .then((res) => {

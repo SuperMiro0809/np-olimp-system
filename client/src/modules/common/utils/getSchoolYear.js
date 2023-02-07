@@ -7,11 +7,11 @@ export default function getSchoolYear() {
 
     if (monthIndex >= 8) { //8 = September
         if(monthIndex === 8 && currentDay < 15) {
-            return `${currentYear - 1} - ${currentYear}`;
+            return `${currentYear - 1}-${currentYear}`;
         }
 
-        return `${currentYear} - ${currentYear + 1}`;
+        return `${currentYear}-${currentYear + 1}`;
     }
 
-    return `${currentYear - 1} - ${currentYear}`;
+    return `${currentYear - 1}-${currentYear}`;
 }
