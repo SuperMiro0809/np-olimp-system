@@ -1,0 +1,96 @@
+<?php
+
+namespace App\Traits;
+use App\Models\{
+    Form,
+    FormBudget,
+    FormBudgetTeacher,
+    FormDeclaration,
+    FormDescription,
+    FormDescriptionActivity,
+    FormDescriptionActivityTeacher,
+    FormLetterFile,
+    FormSchoolAddress,
+    FormSchoolContact,
+    FormSchoolInfo,
+    FormTeacherLetter,
+    Group,
+    GroupProgram,
+    GroupProgramTeacher,
+    GroupStudent,
+    GroupTeacher
+};
+
+trait FormTrait {
+    public function getForms($schoolId, $id=null, $teacherId=null, $all=false) {
+        $query = Form::select(
+                        'forms.id as id',
+                        'forms.schoolYear',
+                        'forms.school_id',
+                        'subjects.name as subject_name'
+                    )
+                    ->where('forms.school_id', $schoolId)
+                    ->with([
+                        'schoolInfo', 'schoolInfo.address', 'schoolInfo.contact',
+                        'groups', 'groups.students',
+                        'groups.teachers' => function ($query) {
+                            $query->select(
+                                'group_teachers.*',
+                                'teacher_info.name'
+                            )
+                            ->leftJoin('teacher_info', function($q) {
+                                $q->on('teacher_info.id', 'group_teachers.teacher_id');
+                            });
+                        },
+                        'groups.program',
+                        'groups.program.teachers' => function ($query) {
+                            $query->select(
+                                'group_program_teachers.*',
+                                'teacher_info.name'
+                            )
+                            ->leftJoin('teacher_info', function($q) {
+                                $q->on('teacher_info.id', 'group_program_teachers.teacher_id');
+                            });
+                        },
+                        'description', 'description.activities', 
+                        'description.activities.teachers' => function ($query) {
+                            $query->select(
+                                'form_description_activities_teachers.*',
+                                'teacher_info.name'
+                            )
+                            ->leftJoin('teacher_info', function($q) {
+                                $q->on('teacher_info.id', 'form_description_activities_teachers.teacher_id');
+                            });
+                        },
+                        'budget',
+                        'budget.teachers' => function ($query) {
+                            $query->select(
+                                'form_budget_teachers.*',
+                                'teacher_info.name'
+                            )
+                            ->leftJoin('teacher_info', function($q) {
+                                $q->on('teacher_info.id', 'form_budget_teachers.teacher_id');
+                            });
+                        },
+                        'letters', 'letters.files',
+                        'declarations'
+                    ])
+                    ->leftJoin('subjects', function($q) {
+                        $q->on('subjects.id', 'forms.subject_id');
+                    });
+        
+        if($id) {
+            $forms = $query->where('forms.id', $id)->first();
+        }else if($all) {
+            $forms = $query->get();
+        }else {
+            if(request()->query('total')) {
+                $forms = $query->paginate(request()->query('total'))->withQueryString();
+            }else {
+                $forms = $query->paginate(10)->withQueryString();
+            }
+        }
+
+        return $forms;
+    }
+}
