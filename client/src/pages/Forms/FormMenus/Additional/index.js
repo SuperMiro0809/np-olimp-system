@@ -116,6 +116,7 @@ const Additional = ({ formikProps }) => {
                     value: values[field.name],
                     variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
                     helperText: touched[field.name] && errors[field.name],
+                    disabled: Object.hasOwn(field, 'disabled') ? field.disabled : false,
                     key: index
                 };
 

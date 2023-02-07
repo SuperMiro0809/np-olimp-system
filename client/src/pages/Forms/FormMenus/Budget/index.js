@@ -116,6 +116,7 @@ const Budget = ({ formikProps }) => {
                     value: values.budget[field.name],
                     variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
                     helperText: getIn(touched, name) && getIn(errors, name),
+                    disabled: Object.hasOwn(field, 'disabled') ? field.disabled : false,
                     key: index
                 };
 
