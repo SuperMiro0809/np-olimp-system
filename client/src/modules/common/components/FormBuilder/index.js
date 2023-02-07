@@ -177,14 +177,6 @@ const FormBuilder = ({
                                                 {fields[menu.id].map((field, index) => {
 
                                                     if (field.type === 'custom') {
-                                                        const baseProps = {
-                                                            setFieldValue: setFieldValue,
-                                                            handleBlur: handleBlur,
-                                                            handleChange: handleChange,
-                                                            values: values,
-                                                            touched: touched,
-                                                            errors: errors
-                                                        };
                                                         const { component: Field } = field;
 
                                                         return (
@@ -205,6 +197,7 @@ const FormBuilder = ({
                                                             value: values[field.name],
                                                             variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
                                                             helperText: touched[field.name] && errors[field.name],
+                                                            disabled: Object.hasOwn(field, 'disabled') ? field.disabled : false,
                                                             key: index
                                                         };
 
@@ -249,6 +242,7 @@ const FormBuilder = ({
                                         value: values[field.name],
                                         variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
                                         helperText: touched[field.name] && errors[field.name],
+                                        disabled: Object.hasOwn(field, 'disabled') ? field.disabled : false,
                                         key: index
                                     };
 

@@ -34,6 +34,7 @@ const FieldGroup = ({
                     value: values[field.name][f.name],
                     variant: Object.hasOwn(f, 'variant') ? f.variant : 'outlined',
                     helperText: getIn(touched, fieldName) && getIn(errors, fieldName),
+                    disabled: Object.hasOwn(f, 'disabled') ? field.disabled : false,
                     key: index
                 };
 

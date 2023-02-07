@@ -95,6 +95,7 @@ const ArrayCollapseItem = ({
                         value: values[name][index][field.name],
                         variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
                         helperText: getIn(touched, fieldName) && getIn(errors, fieldName),
+                        disabled: Object.hasOwn(field, 'disabled') ? field.disabled : false,
                         element: values[name][index][field.name],
                         key: i
                     };

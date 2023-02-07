@@ -58,6 +58,7 @@ const ArrayInlineItem = ({
                     value: element[index][field.name],
                     variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
                     //helperText: getIn(otherProps.touched, fieldName) && getIn(otherProps.errors, fieldName),
+                    disabled: Object.hasOwn(field, 'disabled') ? field.disabled : false,
                     helperText: null,
                     element: element[index][field.name],
                     key: i
