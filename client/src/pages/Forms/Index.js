@@ -74,9 +74,9 @@ const FormsList = () => {
                                 deleteHandler={deleteHandler}
                                 options={{
                                     checkbox: true,
-                                    add: true,
-                                    delete: true,
-                                    edit: true
+                                    add: Boolean(user && user.info.form_permission),
+                                    delete: Boolean(user && user.info.form_permission),
+                                    edit: Boolean(user && user.info.form_permission)
                                 }}
                             />
                         </Box>
