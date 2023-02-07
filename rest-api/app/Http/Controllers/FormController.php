@@ -34,6 +34,7 @@ class FormController extends Controller
     {
         $subject = json_decode($request->subject, true);
         $form = Form::create([
+            'schoolYear' => $request->schoolYear,
             'subject_id' => $subject['value'],
             'school_id' => $schoolId
         ]);
