@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\FormDescriptionActivity;
 
 class FormDescription extends Model
 {
@@ -19,4 +20,8 @@ class FormDescription extends Model
         'resources',
         'form_id'
     ];
+
+    public function activities() {
+        return $this->hasMany(FormDescriptionActivity::class);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\GroupProgramTeacher;
 
 class GroupProgram extends Model
 {
@@ -16,4 +17,8 @@ class GroupProgram extends Model
         'lessons',
         'group_id'
     ];
+
+    public function teachers() {
+        return $this->hasMany(GroupProgramTeacher::class, 'program_id');
+    }
 }
