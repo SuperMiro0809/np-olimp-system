@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Card } from '@mui/material';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import subjectService from '@services/subject';
+import formService from '@services/form';
 import MainTable from '@modules/common/components/MainTable';
 import useMessage from '@modules/common/hooks/useMessage';
 import useAuth from '@modules/common/hooks/useAuth';
@@ -20,8 +20,9 @@ const FormsList = () => {
         }
 
         if (user) {
-            subjectService.getSubjects(user.info.id, pagination, filters, order)
+            formService.getForms(user.info.school_id, pagination, filters, order)
                 .then((res) => {
+                    console.log(res.data);
                     setData(res.data.data);
                     setTotal(res.data.total);
                 })
@@ -33,23 +34,19 @@ const FormsList = () => {
 
     const headings = [
         { id: 'id', label: 'ID', order: true },
-        { id: 'name', label: 'Име', order: true }
+        { id: 'schoolYear', label: 'Учебна година', order: true },
+        { id: 'subject_name', label: 'Учебен предмет', order: false }
     ];
 
     const headFilters = {
         'id': { type: 'search', name: 'id', placeholder: 'Търси по ID' },
-        'name': { type: 'search', name: 'name', placeholder: 'Търси по Име' }
+        'schoolYear': { type: 'search', name: 'schoolYear', placeholder: 'Търси по Учебна година' },
+        'subject_name': { type: 'search', name: 'subject_name', placeholder: 'Търси по Учебен предмет' }
     }
 
     const deleteHandler = (selected) => {
         if (user) {
-            subjectService.deleteSubjects(user.info.id, selected)
-                .then((res) => {
-                    addMessage('Предметът е изтрита успешно', 'success')
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
+
         }
     }
 

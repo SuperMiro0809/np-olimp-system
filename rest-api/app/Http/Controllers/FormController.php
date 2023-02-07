@@ -22,12 +22,17 @@ use App\Models\{
     GroupStudent,
     GroupTeacher
 };
+use App\Traits\FormTrait;
 
 class FormController extends Controller
 {
+    use FormTrait;
+
     public function index($schoolId)
     {
+        $forms = $this->getForms($schoolId);
 
+        return $forms;
     }
 
     public function store(Request $request, $schoolId)

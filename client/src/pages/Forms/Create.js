@@ -5,10 +5,13 @@ import { Box, Card } from '@mui/material';
 import subjectService from '@services/subject';
 import trainingOrganizationsService from '@services/trainingOrganizations';
 import teacherService from '@services/teacher';
+import formService from '@services/form';
 import FormBuilder from '@modules/common/components/FormBuilder';
 import * as Yup from 'yup';
 import useMessage from '@modules/common/hooks/useMessage';
 import useAuth from '@modules/common/hooks/useAuth';
+import formData from '@modules/common/components/FormBuilder/utils/formData';
+import getSchoolYear from '@modules/common/utils/getSchoolYear';
 
 import InfoIcon from '@mui/icons-material/Info';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -31,10 +34,13 @@ const FormsAdd = () => {
     const [selectedTeachers, setSelectedTeachers] = useState([]);
 
     useEffect(() => {
+        const schoolYear = getSchoolYear();
+        console.log(schoolYear)
         if (user) {
             trainingOrganizationsService.getById(user.info.school_id)
                 .then((res) => {
                     setInitialValues({
+                        schoolYear: schoolYear,
                         fullName: res.data.fullName || '',
                         type: res.data.type || '',
                         key: res.data.key,
@@ -72,8 +78,8 @@ const FormsAdd = () => {
     useEffect(() => {
         if (subjectId) {
             const filters = [
-                { label: 'active', value: 1 },
-                { label: 'subject_id', value: subjectId }
+                // { label: 'active', value: 1 },
+                // { label: 'subject_id', value: subjectId }
             ];
 
             teacherService.getAll(user.info.school_id, filters, {})
@@ -138,12 +144,12 @@ const FormsAdd = () => {
                         let lessons = 0;
 
                         teachers.forEach((teacher) => {
-                            if(teacher.lessons) {
+                            if (teacher.lessons) {
                                 lessons += teacher.lessons
                             }
                         });
 
-                        if(lessons) {
+                        if (lessons) {
                             return Yup.number().required('Броят учебни часове е задължителен').min(1, 'Броят учебни часове трябва е поне 1').test({
                                 message: 'Броят учебни часове не съвпада със сбора от часовете за учители',
                                 test: (value) => {
@@ -183,6 +189,7 @@ const FormsAdd = () => {
 
     const fields = {
         'information': [
+            { type: 'text', name: 'schoolYear', label: 'Учебна година', disabled: true },
             { type: 'text', name: 'fullName', label: 'Пълно име' },
             {
                 type: 'select', name: 'type', label: 'Tип', options: [
@@ -281,7 +288,22 @@ const FormsAdd = () => {
     }
 
     const onSubmit = (values, { setSubmitting }) => {
-        console.log(values)
+        const data = formData(values, [], ['declarations']);
+
+        values.letters.forEach(function (obj, index) {
+            obj.files.forEach((file) => {
+                data.append("lettersFiles[" + index + "][files][]", file);
+            })
+        });
+
+        formService.create(user.info.school_id, data)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
         setSubmitting(false);
     }
 
