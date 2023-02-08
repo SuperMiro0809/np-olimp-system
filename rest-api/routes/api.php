@@ -7,7 +7,8 @@ use App\Http\Controllers\{
     TrainingOrganizationsController,
     TeacherController,
     SubjectController,
-    FormController
+    FormController,
+    GroupController
 };
 
 /*
@@ -59,9 +60,15 @@ Route::middleware('auth:api')->group(function () {
             Route::put('/active/{id}', [TeacherController::class, 'changeActive']);
 
             Route::get('/all', [TeacherController::class, 'getAll']);
-    
-            Route::put('/{id}', [TeacherController::class, 'edit']);
-            Route::get('/{id}', [TeacherController::class, 'getById']);
+
+            Route::prefix('{id}')->group(function () {
+                Route::put('/', [TeacherController::class, 'edit']);
+                Route::get('/', [TeacherController::class, 'getById']);
+
+                Route::prefix('groups')->group(function () {
+                    Route::get('/', [GroupController::class, 'index']);
+                });
+            });
         });
     
         Route::prefix('subjects')->group(function () {
