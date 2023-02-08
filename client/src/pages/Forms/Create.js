@@ -298,7 +298,8 @@ const FormsAdd = () => {
 
         formService.create(user.info.school_id, data)
             .then((res) => {
-                console.log(res);
+                addMessage('Формулярът е създаден успешно', 'success');
+                navigate('/app/forms');
             })
             .catch((error) => {
                 console.log(error);
