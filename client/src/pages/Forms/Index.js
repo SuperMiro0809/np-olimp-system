@@ -20,7 +20,13 @@ const FormsList = () => {
         }
 
         if (user) {
-            formService.getForms(user.info.school_id, pagination, filters, order)
+            const schoolId = user.role.name === 'Admin' ? user.info.id : user.info.school_id;
+
+            if(user.role.name === 'User') {
+                filters.push({ value: user.info.id, label: 'teacher' });
+            }
+
+            formService.getForms(schoolId, pagination, filters, order)
                 .then((res) => {
                     console.log(res.data);
                     setData(res.data.data);
