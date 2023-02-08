@@ -60,7 +60,6 @@ const Fields = ({
                     value={baseProps.value || (field.multiple ? [] : '')}
                     disablePortal
                     options={field.options}
-                    isOptionEqualToValue={(option, value) => option.value === value}
                     onChange={(e, value) => (
                         setFieldValue(baseProps.name, value)
                     )}
