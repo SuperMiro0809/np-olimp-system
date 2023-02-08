@@ -42,6 +42,9 @@ import BookIcon from '@mui/icons-material/Book';
 //forms
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 
+//groups
+import GroupsIcon from '@mui/icons-material/Groups';
+
 const formatRole = (role) => {
     if (role === 'SuperAdmin') {
         return 'Системен администратор';
@@ -133,6 +136,11 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                         href: '/app/forms',
                         icon: InsertDriveFileIcon,
                         title: 'Mои формуляри'
+                    },
+                    {
+                        href: '/app/groups',
+                        icon: GroupsIcon,
+                        title: 'Mои групи'
                     }
                 ]);
             }
