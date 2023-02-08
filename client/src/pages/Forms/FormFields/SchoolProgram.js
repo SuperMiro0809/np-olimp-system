@@ -17,27 +17,49 @@ const SchoolProgram = ({
         const groupTeachers = values.groups[index].teachers;
 
         if (groupTeachers) {
-            values.groups[index].program.forEach((program, index) => {
-                const teacherValues = groupTeachers.map((teacher) => ({ teacher_name: teacher.label, teacher_id: teacher.value, lessons: '' }))
 
-                if (!program.teachers) {
-                    setFieldValue(`${name}.${index}.teachers`, teacherValues);
-                } else {
-                    program.teachers.forEach((teacher) => {
-                        const t = teacherValues.find(obj => {
-                            return obj.teacher_id === teacher.teacher_id
-                        });
+            const program = values.groups[index].program[parentIndex];
+            const teacherValues = groupTeachers.map((teacher) => ({ teacher_name: teacher.label, teacher_id: teacher.value, lessons: '' }));
 
-                        if (t) {
-                            const tIndex = teacherValues.findIndex((obj => obj.teacher_id == teacher.teacher_id));
-                            teacherValues[tIndex].lessons = teacher.lessons;
-                        }
-                    })
+            if(!program.teachers) {
+                setFieldValue(`${name}.${parentIndex}.teachers`, teacherValues);
+            }else {
+                program.teachers.forEach((teacher) => {
+                    const t = teacherValues.find(obj => {
+                        return obj.teacher_id === teacher.teacher_id
+                    });
 
-                    setFieldValue(`${name}.${index}.teachers`, teacherValues);
-                }
+                    if (t) {
+                        const tIndex = teacherValues.findIndex((obj => obj.teacher_id == teacher.teacher_id));
+                        teacherValues[tIndex].lessons = teacher.lessons;
+                    }
+                })
 
-            });
+                setFieldValue(`${name}.${parentIndex}.teachers`, teacherValues);
+            }
+
+
+            // values.groups[index].program.forEach((program, index) => {
+            //     const teacherValues = groupTeachers.map((teacher) => ({ teacher_name: teacher.label, teacher_id: teacher.value, lessons: '' }))
+            //     console.log(program);
+            //     if (!program.teachers) {
+            //         setFieldValue(`${name}.${parentIndex}.teachers`, teacherValues);
+            //     } else {
+            //         program.teachers.forEach((teacher) => {
+            //             const t = teacherValues.find(obj => {
+            //                 return obj.teacher_id === teacher.teacher_id
+            //             });
+
+            //             if (t) {
+            //                 const tIndex = teacherValues.findIndex((obj => obj.teacher_id == teacher.teacher_id));
+            //                 teacherValues[tIndex].lessons = teacher.lessons;
+            //             }
+            //         })
+
+            //         setFieldValue(`${name}.${parentIndex}.teachers`, teacherValues);
+            //     }
+
+            // });
         }
     }, [values.groups[index].teachers])
 
@@ -45,12 +67,12 @@ const SchoolProgram = ({
     return (
         <>
             <FieldArray
-                name={`${name}.${index}.teachers`}
+                name={`${name}.${parentIndex}.teachers`}
                 render={arrayHelpers => (
                     <>
-                        {values.groups[index].program[index].teachers && values.groups[index].program[index].teachers.map((teacher, tIndex) => {
-                            const fieldName = `${name}.${index}.teachers.${tIndex}.lessons`;
-                           
+                        {values.groups[index].program[parentIndex].teachers && values.groups[index].program[parentIndex].teachers.map((teacher, tIndex) => {
+                            const fieldName = `${name}.${parentIndex}.teachers.${tIndex}.lessons`;
+
                             return (
                                 <TextField
                                     name={fieldName}
@@ -66,7 +88,7 @@ const SchoolProgram = ({
                                     onBlur={(e) => {
                                         setFieldTouched(fieldName, true);
                                     }}
-                                    value={values.groups[index].program[index].teachers[tIndex].lessons}
+                                    value={values.groups[index].program[parentIndex].teachers[tIndex].lessons}
                                     margin='normal'
                                     key={teacher.teacher_id}
                                 />
