@@ -90,6 +90,12 @@ trait FormTrait {
         if(request()->query('subject_name')) {
             $query->where('subjects.name', 'LIKE', '%'.request()->query('subject_name').'%');
         }
+
+        if(request()->query('teacher')) {
+            $query->whereHas('groups.program.teachers', function ($q) {
+                $q->where('teacher_id', request()->query('teacher'));
+            });
+        }
         
         if($id) {
             $forms = $query->where('forms.id', $id)->first();
