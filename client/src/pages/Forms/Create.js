@@ -78,8 +78,8 @@ const FormsAdd = () => {
     useEffect(() => {
         if (subjectId) {
             const filters = [
-                // { label: 'active', value: 1 },
-                // { label: 'subject_id', value: subjectId }
+                { label: 'active', value: 1 },
+                { label: 'subject_id', value: subjectId }
             ];
 
             teacherService.getAll(user.info.school_id, filters, {})

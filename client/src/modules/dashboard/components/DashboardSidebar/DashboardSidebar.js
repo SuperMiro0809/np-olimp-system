@@ -97,6 +97,11 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                 setMenuItems([
                     ...baseMenuItems,
                     {
+                        href: '/app/forms',
+                        icon: InsertDriveFileIcon,
+                        title: 'Формуляри'
+                    },
+                    {
                         href: '/app/teachers',
                         icon: GroupIcon,
                         title: 'Учители'
