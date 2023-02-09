@@ -56,7 +56,7 @@ const FormsAdd = () => {
                         },
                         director: res.data.director || '',
                         budget: {
-                            hourPrice: 0
+                            hourPrice: 10
                         }
                     });
                 })
@@ -115,7 +115,7 @@ const FormsAdd = () => {
         groups: Yup.array().of(Yup.object().shape({
             teachers: Yup.array().required('Учителите са задъкжителни'),
             class: Yup.string().required('Класът е задължителен'),
-            lessons: Yup.number().required('Часовете за задължителни').min(50, 'Часовете трвбва да са поне 50').when('program', (program) => {
+            lessons: Yup.number().required('Часовете за задължителни').min(50, 'Часовете трябва да са поне 50').when('program', (program) => {
                 let lessons = 0;
 
                 program.forEach((el) => {
@@ -175,7 +175,7 @@ const FormsAdd = () => {
         indicatorsOfSuccess: Yup.string().required('Индикаторите за успех са задължителни'),
         resources: Yup.string().required('Ресурсите за проекта са задължителни'),
         budget: Yup.object().shape({
-            hourPrice: Yup.number().required('Цената на час е задължителна').max(25, 'Цената на час не може да надвишава 25 лв.')
+            hourPrice: Yup.number().required('Цената на час е задължителна').min(10, 'Цената на час не може да бъде по-ниска от 10 лв.').max(25, 'Цената на час не може да надвишава 25 лв.')
         })
     });
 
