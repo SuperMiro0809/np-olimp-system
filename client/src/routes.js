@@ -55,7 +55,7 @@ const routes = [
       },
       {
         path: 'teachers',
-        element: <RoleGuard component={<DashboardPageLayout title='Учители' />} accessRolesFromRoute={['Admin']} />,
+        element: <RoleGuard component={<DashboardPageLayout title='Учители' />} accessRolesFromRoute={['Moderator']} />,
         children: [
           { path: '', element: <TeachersList /> },
           { path: 'create', element: <TeachersAdd /> },
@@ -65,7 +65,7 @@ const routes = [
       },
       {
         path: 'subjects',
-        element: <RoleGuard component={<DashboardPageLayout title='Учебни предмети' />} accessRolesFromRoute={['Admin']} />,
+        element: <RoleGuard component={<DashboardPageLayout title='Учебни предмети' />} accessRolesFromRoute={['Moderator']} />,
         children: [
           { path: '', element: <SubjectsList /> },
           { path: 'create', element: <SubjectsAdd /> },
@@ -74,14 +74,14 @@ const routes = [
       },
       {
         path: 'school-data',
-        element: <RoleGuard component={<DashboardPageLayout title='Данни за училището'/>} accessRolesFromRoute={['Admin']} />,
+        element: <RoleGuard component={<DashboardPageLayout title='Данни за училището'/>} accessRolesFromRoute={['Moderator']} />,
         children: [
           { path: '', element: <SchoolData /> }
         ]
       },
       {
         path: 'forms',
-        element: <RoleGuard component={<DashboardPageLayout title='Формуляри'/>} accessRolesFromRoute={['Admin', 'User']} />,
+        element: <RoleGuard component={<DashboardPageLayout title='Формуляри'/>} accessRolesFromRoute={['Moderator', 'User']} />,
         children: [
           { path: '', element: <FormsList /> },
           { path: 'create', element: <FormsAdd /> },

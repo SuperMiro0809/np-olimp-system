@@ -47,8 +47,10 @@ import GroupsIcon from '@mui/icons-material/Groups';
 
 const formatRole = (role) => {
     if (role === 'SuperAdmin') {
-        return 'Системен администратор';
+        return 'МОН администратор';
     } else if (role === 'Admin') {
+        return 'РУО администратор';
+    } else if (role === 'Moderator') {
         return 'Училищен администратор';
     } else if (role === 'User') {
         return 'Учител';
@@ -97,6 +99,10 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                     }
                 ]);
             } else if (user.role.name === 'Admin') {
+                setMenuItems([
+                    ...baseMenuItems
+                ]);
+            } else if (user.role.name === 'Moderator') {
                 setMenuItems([
                     ...baseMenuItems,
                     {
@@ -159,7 +165,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                     .then((res) => {
                         setTrainingOrganizationsRequestCount(res.data);
                     })
-            } else if (user.role.name === 'Admin') {
+            } else if (user.role.name === 'Moderator') {
                 teacherService.requestsCount(user.info.id)
                     .then((res) => {
                         setTeachersRequestCount(res.data);

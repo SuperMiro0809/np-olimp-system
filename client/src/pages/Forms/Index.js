@@ -20,7 +20,7 @@ const FormsList = () => {
         }
 
         if (user) {
-            const schoolId = user.role.name === 'Admin' ? user.info.id : user.info.school_id;
+            const schoolId = user.role.name === 'Moderator' ? user.info.id : user.info.school_id;
 
             if(user.role.name === 'User') {
                 filters.push({ value: user.info.id, label: 'teacher' });

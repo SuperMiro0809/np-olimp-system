@@ -30,12 +30,24 @@ class UsersSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $info = AdministratorInfo::create([
-            'name' => 'Админ'
+            'name' => 'МОН Админ'
         ]);
 
         $user = User::updateOrCreate(['email' => 'admin@admin.com'],[
             'password' => Hash::make('admin123'),
             'role_id' => Role::where('name', 'SuperAdmin')->first()->id,
+            'type' => AdministratorInfo::class,
+            'parent_id' => $info->id,
+            'verified' => 1
+		]);
+
+        $info = AdministratorInfo::create([
+            'name' => 'РУО Админ'
+        ]);
+
+        $user = User::updateOrCreate(['email' => 'ruo@ruo.com'],[
+            'password' => Hash::make('admin123'),
+            'role_id' => Role::where('name', 'Admin')->first()->id,
             'type' => AdministratorInfo::class,
             'parent_id' => $info->id,
             'verified' => 1

@@ -9,7 +9,8 @@ const RoleGuard = ({ component, accessRolesFromRoute, ...rest }) => {
     const roles = {
         1: 'SuperAdmin',
         2: 'Admin',
-        3: 'User'
+        3: 'Moderator',
+        4: 'User'
     }
 
     useEffect(() => {
