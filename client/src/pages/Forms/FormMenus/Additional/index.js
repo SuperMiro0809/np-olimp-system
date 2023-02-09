@@ -21,7 +21,7 @@ const Additional = ({ formikProps }) => {
     ];
 
     const fields = [
-        { type: 'upload', name: 'declarations', label: 'Копия от декларации', accept: '.docx,.pdf,.doc', multiple: true },
+        { type: 'upload', name: 'declarations', label: 'Копия от декларации', accept: '.pdf', multiple: true },
     ]
 
     useEffect(() => {
