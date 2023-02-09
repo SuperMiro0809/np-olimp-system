@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use App\Models\{
     User,
     AdministratorInfo,
@@ -22,8 +23,11 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         User::truncate();
         AdministratorInfo::truncate();
+        SchoolInfo::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $info = AdministratorInfo::create([
             'name' => 'Админ'

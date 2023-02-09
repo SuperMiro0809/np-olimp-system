@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 use App\Models\{
     SchoolInfo,
@@ -20,10 +19,6 @@ class SchoolInfoSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        SchoolInfo::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
         $adminRoleId = Role::where('name', 'Admin')->first()->id;
         $userRoleId = Role::where('name', 'User')->first()->id;
 
