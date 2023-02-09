@@ -92,6 +92,7 @@ const TeachersList = () => {
         { id: 'id', label: 'ID', order: true },
         { id: 'name', label: 'Име', order: true },
         { id: 'email', label: 'Имейл', order: true },
+        { id: 'position', label: 'Длъжност' },
         { id: 'subject_name', label: 'Предмет', type: 'chip', select: true, options: subjectOptions, handler: handleSubject },
         { id: 'form_permission', label: 'Права за формуляр', type: 'switch', handler: handleFormSwitch },
         { id: 'active', label: 'Aктивен/Действащ', type: 'switch', handler: handleActiveSwitch }
@@ -101,7 +102,8 @@ const TeachersList = () => {
         'id': { type: 'search', name: 'id', placeholder: 'Търси по ID' },
         'name': { type: 'search', name: 'name', placeholder: 'Търси по Име' },
         'email': { type: 'search', name: 'email', placeholder: 'Търси по Имейл' },
-        'subject_name': { type: 'search', name: 'subject_name', placeholder: 'Търси по Предмет' }
+        'subject_name': { type: 'search', name: 'subject_name', placeholder: 'Търси по Предмет' },
+        'position': { type: 'search', name: 'position', placeholder: 'Търси по Длъжност' }
     }
 
     const deleteHandler = (selected) => {

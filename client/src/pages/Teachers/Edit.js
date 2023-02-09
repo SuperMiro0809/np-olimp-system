@@ -24,6 +24,7 @@ const TeachersEdit = () => {
                     setInitialValues({
                         name: res.data.name,
                         email: res.data.email,
+                        position: res.data.position,
                         subject: res.data.subject_name && res.data.subject_id ? { label: res.data.subject_name, value: res.data.subject_id } : ''
                     })
                 })
@@ -50,6 +51,13 @@ const TeachersEdit = () => {
     const fields = [
         { type: 'text', name: 'name', label: 'Име на учителя' },
         { type: 'email', name: 'email', label: 'Имейл' },
+        {
+            type: 'select', name: 'position', label: 'Длъжност', options: [
+                { label: 'Учител', value: 'Учител' },
+                { label: 'Старши учител', value: 'Старши учител' },
+                { label: 'Главен учител', value: 'Главен учител' }
+            ]
+        },
         { type: 'autocomplete', name: 'subject', label: 'Предмет', options: subjectOptions }
     ];
 

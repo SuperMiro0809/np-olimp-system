@@ -101,6 +101,7 @@ trait UserTrait {
                                 'teacher_info.school_id',
                                 'teacher_info.form_permission',
                                 'teacher_info.active',
+                                'teacher_info.position',
                                 'teacher_info.created_at as created_at',
                                 'subjects.id as subject_id',
                                 'subjects.name as subject_name',
@@ -139,6 +140,10 @@ trait UserTrait {
 
         if(request()->query('subject_name')) {
             $query->where('subjects.name', 'LIKE', '%'.request()->query('subject_name').'%');
+        }
+
+        if(request()->query('position')) {
+            $query->where('position', 'LIKE', '%'.request()->query('position').'%');
         }
 
         if(request()->query('active')) {
