@@ -48,7 +48,7 @@ class UserController extends Controller
                 return response(['errors'=>$validator->errors()->all()], 422);
             }
 
-            $roleId = Role::where('name', 'Admin')->first()->id;
+            $roleId = Role::where('name', 'Moderator')->first()->id;
 
             $type = SchoolInfo::class;
             $info = SchoolInfo::create([

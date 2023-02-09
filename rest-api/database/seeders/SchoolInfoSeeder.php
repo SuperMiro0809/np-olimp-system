@@ -19,12 +19,12 @@ class SchoolInfoSeeder extends Seeder
      */
     public function run()
     {
-        $adminRoleId = Role::where('name', 'Admin')->first()->id;
+        $moderatorRoleId = Role::where('name', 'Moderator')->first()->id;
         $userRoleId = Role::where('name', 'User')->first()->id;
 
         SchoolInfo::factory()
                 ->count(50)
-                ->hasUser(1, ['role_id' => $adminRoleId])
+                ->hasUser(1, ['role_id' => $moderatorRoleId])
                 ->hasAddress()
                 ->hasSubjects(10)
                 ->has(TeacherInfo::factory()->hasUser(1, ['role_id' => $userRoleId])->count(5), 'teachers')
