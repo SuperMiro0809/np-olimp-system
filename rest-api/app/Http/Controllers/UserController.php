@@ -62,7 +62,7 @@ class UserController extends Controller
             ]);
             
         }else {
-            $validator = validator($request->only('name', 'key'),
+            $validator = validator($request->only('name', 'key', 'position'),
                 [
                     'name' => 'required|string|max:255',
                     'key' => 'required|string|exists:school_info,key',

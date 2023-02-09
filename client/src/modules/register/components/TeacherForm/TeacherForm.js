@@ -38,6 +38,13 @@ const TeacherForm = ({ setSuccessMsg, setErrorMsg }) => {
         { type: 'text', name: 'key', label: 'Код по НЕИСПУО на училището' },
         { type: 'text', name: 'name', label: 'Три имена' },
         { type: 'email', name: 'email', label: 'Имейл' },
+        {
+            type: 'select', name: 'position', label: 'Длъжност', options: [
+                { label: 'Учител', value: 'Учител' },
+                { label: 'Старши учител', value: 'Старши учител' },
+                { label: 'Главен учител', value: 'Главен учител' }
+            ]
+        },
         { type: 'password', name: 'password', label: 'Парола' },
         { type: 'password', name: 'repeatPassword', label: 'Повторете паролата' },
     ];

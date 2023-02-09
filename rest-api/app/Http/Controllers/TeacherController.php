@@ -23,7 +23,7 @@ class TeacherController extends Controller
 
     public function store(Request $request, $schoolId)
     {
-        $validator = validator($request->only('email', 'password'), 
+        $validator = validator($request->only('email', 'password', 'position'), 
             [
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:8',
