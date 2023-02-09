@@ -26,7 +26,8 @@ class TeacherController extends Controller
         $validator = validator($request->only('email', 'password'), 
             [
                 'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:8'
+                'password' => 'required|string|min:8',
+                'position' => 'required|string'
             ],
             [
                 'email' => 'Имейлът вече е регистриран',
@@ -43,7 +44,8 @@ class TeacherController extends Controller
         $info = TeacherInfo::create([
             'name' => $request->name,
             'school_id' => $schoolId,
-            'subject_id' => $request->subject['value']
+            'subject_id' => $request->subject['value'],
+            'position' => $request->position
         ]);
 
         $user = User::create([
@@ -89,6 +91,7 @@ class TeacherController extends Controller
 
         $teacherInfo->update([
             'name' => $request->name,
+            'position' => $request->position,
             'subject_id' => $request->subject['value']
         ]);
 

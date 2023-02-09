@@ -16,8 +16,11 @@ class TeacherInfoFactory extends Factory
      */
     public function definition()
     {
+        $positions = array('Учител', 'Старши учител', 'Главен учител');
+
         return [
-            'name' => fake()->name()
+            'name' => fake()->name(),
+            'position' => $positions[array_rand($positions)]
         ];
     }
 }

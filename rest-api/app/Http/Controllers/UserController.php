@@ -65,7 +65,8 @@ class UserController extends Controller
             $validator = validator($request->only('name', 'key'),
                 [
                     'name' => 'required|string|max:255',
-                    'key' => 'required|string|exists:school_info,key'
+                    'key' => 'required|string|exists:school_info,key',
+                    'position' => 'required|string'
                 ],
                 [
                     'key' => 'Няма регистрирана организация с този НЕИСПУО код'
@@ -82,6 +83,7 @@ class UserController extends Controller
             $type = TeacherInfo::class;
             $info = TeacherInfo::create([
                 'name' => $request->name,
+                'position' => $request->position,
                 'school_id' => $schoolId
             ]);
         }

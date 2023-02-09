@@ -20,7 +20,8 @@ class TeacherInfo extends Model
         'school_id',
         'subject_id',
         'form_permission',
-        'active'
+        'active',
+        'position'
     ];
 
     public function user() {
