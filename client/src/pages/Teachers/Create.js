@@ -39,6 +39,13 @@ const TeachersAdd = () => {
     const fields = [
         { type: 'text', name: 'name', label: 'Име на учителя' },
         { type: 'email', name: 'email', label: 'Имейл' },
+        {
+            type: 'select', name: 'position', label: 'Длъжност', options: [
+                { label: 'Учител', value: 'Учител' },
+                { label: 'Старши учител', value: 'Старши учител' },
+                { label: 'Главен учител', value: 'Главен учител' }
+            ]
+        },
         { type: 'password', name: 'password', label: 'Парола' },
         { type: 'password', name: 'repeatPassword', label: 'Повторете паролата' },
         { type: 'autocomplete', name: 'subject', label: 'Предмет', options: subjectOptions }
