@@ -35,6 +35,9 @@ import FormsAdd from './pages/Forms/Create';
 import GroupsList from './pages/Groups/Index';
 import GroupDetails from './pages/Groups/Details';
 
+import StudentAdd from './pages/Students/Create';
+import StudentsEdit from './pages/Students/Edit';
+
 import AuthGuard from '@modules/common/hoc/AuthGuard';
 import RoleGuard from '@modules/common/hoc/RoleGuard';
 
@@ -101,13 +104,14 @@ const routes = [
               {
                 path: 'students',
                 children: [
-
+                  { path: 'create', element: <StudentAdd /> },
+                  { path: 'edit/:studentId', element: <StudentsEdit /> }
                 ]
               },
               {
                 path: 'program',
                 children: [
-                  
+
                 ]
               }
             ]

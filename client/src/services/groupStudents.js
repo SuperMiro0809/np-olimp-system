@@ -35,7 +35,7 @@ function edit(data, schoolId, teacherId, groupId, id) {
     });
 }
 
-function deleteStudent(selected, schoolId, teacherId, groupId) {
+function deleteStudents(selected, schoolId, teacherId, groupId) {
     let url = `${servicesHelper.url}/${schoolId}/teachers/${teacherId}/groups/${groupId}/students`;
 
     return axios.delete(url, {
@@ -56,7 +56,7 @@ const groupStudentsService = {
     getStudents,
     create,
     edit,
-    deleteStudent,
+    deleteStudents,
     getById
 }
 

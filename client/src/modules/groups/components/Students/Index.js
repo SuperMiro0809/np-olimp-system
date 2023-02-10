@@ -3,11 +3,13 @@ import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import MainTable from "@modules/common/components/MainTable";
 import useAuth from '@modules/common/hooks/useAuth';
+import useMessage from '@modules/common/hooks/useMessage';
 import groupStudentsService from '@services/groupStudents';
 
 const StudentsList = () => {
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
+    const { addMessage } = useMessage();
     const { id } = useParams();
     const { user } = useAuth();
 
@@ -41,8 +43,16 @@ const StudentsList = () => {
         'class': { type: 'search', name: 'class', placeholder: 'Търси по Клас' }
     }
 
-    const deleteHandler = () => {
-
+    const deleteHandler = (selected) => {
+        if (user) {
+            groupStudentsService.deleteStudents(selected, user.info.school_id, user.info.id, id)
+                .then((res) => {
+                    addMessage('Ученикът е изтрит успешно', 'success')
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
     }
 
     return (

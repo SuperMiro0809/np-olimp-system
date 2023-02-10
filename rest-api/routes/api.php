@@ -76,7 +76,7 @@ Route::middleware('auth:api')->group(function () {
                         Route::prefix('students')->group(function () {
                             Route::get('/', [GroupStudentsController::class, 'index']);
                             Route::post('/', [GroupStudentsController::class, 'store']);
-                            Route::put('/', [GroupStudentsController::class, 'edit']);
+                            Route::put('{id}', [GroupStudentsController::class, 'edit']);
                             Route::delete('/', [GroupStudentsController::class, 'delete']);
                             Route::get('{id}', [GroupStudentsController::class, 'getById']);
                         });
