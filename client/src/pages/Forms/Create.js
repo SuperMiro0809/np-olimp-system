@@ -278,7 +278,13 @@ const FormsAdd = () => {
             values.groups.forEach((group) => {
                 if (Array.isArray(group.teachers)) {
                     group.teachers.forEach((teacher) => {
-                        teachersArray.push(teacher);
+                        const t = teachersArray.find(obj => {
+                            return obj.value === teacher.value
+                        });
+    
+                        if (!t) {
+                            teachersArray.push(teacher);
+                        }
                     })
                 }
             });
