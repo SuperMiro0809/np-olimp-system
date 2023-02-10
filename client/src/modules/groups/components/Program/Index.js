@@ -1,35 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import MainTable from "@modules/common/components/MainTable";
+import useAuth from '@modules/common/hooks/useAuth';
+import groupProgramService from '@services/groupProgram';
 
-const ProgramList = ({ program }) => {
+const ProgramList = () => {
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
-
-    useEffect(() => {
-        if(program) {
-            setData(program);
-            setTotal(program.length);
-        }
-    }, [program]);
+    const { id } = useParams();
+    const { user } = useAuth();
 
     const get = (page, total, filters = [], order = {}) => {
-        // const pagination = {
-        //     page: page || 1,
-        //     total: total || 10
-        // }
+        const pagination = {
+            page: page || 1,
+            total: total || 10
+        }
 
-        // if (user) {
-        //     groupService.getGroups(user.info.school_id, user.info.id, pagination, filters, order)
-        //         .then((res) => {
-        //             console.log(res.data);
-        //             setData(res.data.data);
-        //             setTotal(res.data.total);
-        //         })
-        //         .catch((error) => {
-        //             console.log(error)
-        //         })
-        // }
+        if (user) {
+            groupProgramService.getProgram(user.info.school_id, user.info.id, id, pagination, filters, order)
+                .then((res) => {
+                    console.log(res.data);
+                    setData(res.data.data);
+                    setTotal(res.data.total);
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
     }
 
     const headings = [
@@ -63,6 +61,7 @@ const ProgramList = ({ program }) => {
                     delete: true,
                     edit: true
                 }}
+                routeName='program'
             />
         </Box>
     );

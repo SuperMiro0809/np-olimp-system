@@ -41,10 +41,10 @@ import RoleGuard from '@modules/common/hoc/RoleGuard';
 const routes = [
   {
     path: 'app',
-    element: <AuthGuard component={DashboardLayout} isLoggedFromRoute={true}/>,
+    element: <AuthGuard component={DashboardLayout} isLoggedFromRoute={true} />,
     children: [
       { path: 'account', element: <Account /> },
-      { 
+      {
         path: 'training-organizations',
         element: <RoleGuard component={<DashboardPageLayout title='Обучителни организации' />} accessRolesFromRoute={['SuperAdmin']} />,
         children: [
@@ -75,14 +75,14 @@ const routes = [
       },
       {
         path: 'school-data',
-        element: <RoleGuard component={<DashboardPageLayout title='Данни за училището'/>} accessRolesFromRoute={['Moderator']} />,
+        element: <RoleGuard component={<DashboardPageLayout title='Данни за училището' />} accessRolesFromRoute={['Moderator']} />,
         children: [
           { path: '', element: <SchoolData /> }
         ]
       },
       {
         path: 'forms',
-        element: <RoleGuard component={<DashboardPageLayout title='Формуляри'/>} accessRolesFromRoute={['Moderator', 'User']} />,
+        element: <RoleGuard component={<DashboardPageLayout title='Формуляри' />} accessRolesFromRoute={['Moderator', 'User']} />,
         children: [
           { path: '', element: <FormsList /> },
           { path: 'create', element: <FormsAdd /> },
@@ -91,10 +91,27 @@ const routes = [
       },
       {
         path: 'groups',
-        element: <RoleGuard component={<DashboardPageLayout title='Групи'/>} accessRolesFromRoute={['User']} />,
+        element: <RoleGuard component={<DashboardPageLayout title='Групи' />} accessRolesFromRoute={['User']} />,
         children: [
           { path: '', element: <GroupsList /> },
-          { path: ':id', element: <GroupDetails />  }
+          {
+            path: ':id',
+            children: [
+              { path: '', element: <GroupDetails /> },
+              {
+                path: 'students',
+                children: [
+
+                ]
+              },
+              {
+                path: 'program',
+                children: [
+                  
+                ]
+              }
+            ]
+          }
         ]
       },
       { path: 'dashboard', element: <Dashboard /> },
@@ -107,8 +124,8 @@ const routes = [
     path: '/',
     element: <MainLayout />,
     children: [
-      { path: 'login', element: <AuthGuard component={Login} isLoggedFromRoute={false}/> },
-      { path: 'register', element: <AuthGuard component={Register} isLoggedFromRoute={false}/> },
+      { path: 'login', element: <AuthGuard component={Login} isLoggedFromRoute={false} /> },
+      { path: 'register', element: <AuthGuard component={Register} isLoggedFromRoute={false} /> },
       { path: '404', element: <NotFound /> },
       { path: '/', element: <Navigate to="/app/dashboard" /> },
       { path: '*', element: <Navigate to="/404" /> }

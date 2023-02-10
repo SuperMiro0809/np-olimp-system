@@ -1,35 +1,32 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import MainTable from "@modules/common/components/MainTable";
+import useAuth from '@modules/common/hooks/useAuth';
+import groupStudentsService from '@services/groupStudents';
 
-const StudentsList = ({ students }) => {
+const StudentsList = () => {
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
-
-    useEffect(() => {
-        if(students) {
-            setData(students);
-            setTotal(students.length);
-        }
-    }, [students]);
+    const { id } = useParams();
+    const { user } = useAuth();
 
     const get = (page, total, filters = [], order = {}) => {
-        // const pagination = {
-        //     page: page || 1,
-        //     total: total || 10
-        // }
+        const pagination = {
+            page: page || 1,
+            total: total || 10
+        }
 
-        // if (user) {
-        //     groupService.getGroups(user.info.school_id, user.info.id, pagination, filters, order)
-        //         .then((res) => {
-        //             console.log(res.data);
-        //             setData(res.data.data);
-        //             setTotal(res.data.total);
-        //         })
-        //         .catch((error) => {
-        //             console.log(error)
-        //         })
-        // }
+        if (user) {
+            groupStudentsService.getStudents(user.info.school_id, user.info.id, id, pagination, filters, order)
+                .then((res) => {
+                    setData(res.data.data);
+                    setTotal(res.data.total);
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
     }
 
     const headings = [
@@ -63,6 +60,7 @@ const StudentsList = ({ students }) => {
                     delete: true,
                     edit: true
                 }}
+                routeName='students'
             />
         </Box>
     );
