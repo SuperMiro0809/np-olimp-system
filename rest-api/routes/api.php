@@ -61,12 +61,13 @@ Route::middleware('auth:api')->group(function () {
 
             Route::get('/all', [TeacherController::class, 'getAll']);
 
-            Route::prefix('{id}')->group(function () {
+            Route::prefix('{teacherId}')->group(function () {
                 Route::put('/', [TeacherController::class, 'edit']);
                 Route::get('/', [TeacherController::class, 'getById']);
 
                 Route::prefix('groups')->group(function () {
                     Route::get('/', [GroupController::class, 'index']);
+                    Route::get('/{id}', [GroupController::class, 'getById']);
                 });
             });
         });

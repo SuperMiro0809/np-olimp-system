@@ -15,4 +15,11 @@ class GroupController extends Controller
 
         return $groups;
     }
+
+    public function getById($schoolId, $teacherId, $id)
+    {
+        $groups = $this->getGroups($teacherId, $id);
+
+        return $groups;
+    }
 }
