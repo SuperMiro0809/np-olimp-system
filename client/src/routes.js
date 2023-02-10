@@ -33,6 +33,7 @@ import FormsList from './pages/Forms/Index';
 import FormsAdd from './pages/Forms/Create';
 
 import GroupsList from './pages/Groups/Index';
+import GroupDetails from './pages/Groups/Details';
 
 import AuthGuard from '@modules/common/hoc/AuthGuard';
 import RoleGuard from '@modules/common/hoc/RoleGuard';
@@ -92,7 +93,8 @@ const routes = [
         path: 'groups',
         element: <RoleGuard component={<DashboardPageLayout title='Групи'/>} accessRolesFromRoute={['User']} />,
         children: [
-          { path: '', element: <GroupsList /> }
+          { path: '', element: <GroupsList /> },
+          { path: ':id', element: <GroupDetails />  }
         ]
       },
       { path: 'dashboard', element: <Dashboard /> },

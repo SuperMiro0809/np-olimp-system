@@ -19,8 +19,17 @@ function getGroups(schoolId, teacherId, pagination, filters, order) {
     });
 }
 
+function getById(schoolId, teacherId, id) {
+    let url = `${servicesHelper.url}/${schoolId}/teachers/${teacherId}/groups/${id}`;
+
+    return axios.get(url, {
+        headers: servicesHelper.header()
+    });
+}
+
 const groupService = {
-    getGroups
+    getGroups,
+    getById
 }
 
 export default groupService;
