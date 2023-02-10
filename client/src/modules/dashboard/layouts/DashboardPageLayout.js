@@ -17,7 +17,8 @@ const DashboardPageLayout = ({ title }) => {
     const elData = {
         'create': 'Създаване',
         'edit': 'Редактиране',
-        'requests': 'Заявки'
+        'requests': 'Заявки',
+        'students': 'Ученици'
     }
 
     return (
@@ -36,16 +37,19 @@ const DashboardPageLayout = ({ title }) => {
                         }}
                     >
                         {parts.map((el, index, parts) => {
+                            const path = index === 0 ? '' : location.pathname.split(el)[0];
+
                             if (index + 1 === parts.length) {
                                 return <Typography variant='h4' key={index}>{elData[el] || title}</Typography>
-                            } else {
+                            } 
+                            else {
                                 return (
                                     <Link
                                         component={RouterLink}
                                         variant='h4'
                                         underline='none'
                                         color='primary.main'
-                                        to=''
+                                        to={path}
                                         key={index}
                                     >
                                         {elData[el] || title}
