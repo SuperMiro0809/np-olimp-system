@@ -8,7 +8,9 @@ use App\Http\Controllers\{
     TeacherController,
     SubjectController,
     FormController,
-    GroupController
+    GroupController,
+    GroupStudentsController,
+    GroupProgramController
 };
 
 /*
@@ -67,7 +69,22 @@ Route::middleware('auth:api')->group(function () {
 
                 Route::prefix('groups')->group(function () {
                     Route::get('/', [GroupController::class, 'index']);
-                    Route::get('/{id}', [GroupController::class, 'getById']);
+
+                    Route::prefix('{groupId}')->group(function () {
+                        Route::get('/', [GroupController::class, 'getById']);
+
+                        Route::prefix('students')->group(function () {
+                            Route::get('/', [GroupStudentsController::class, 'index']);
+                            Route::post('/', [GroupStudentsController::class, 'store']);
+                            Route::put('/', [GroupStudentsController::class, 'edit']);
+                            Route::delete('/', [GroupStudentsController::class, 'delete']);
+                            Route::get('{id}', [GroupStudentsController::class, 'getById']);
+                        });
+    
+                        Route::prefix('program')->group(function () {
+                            Route::get('/', [GroupProgramController::class, 'index']);
+                        });
+                    });
                 });
             });
         });
