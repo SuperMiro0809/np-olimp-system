@@ -56,10 +56,10 @@ const ProgramList = () => {
                 method={get}
                 deleteHandler={deleteHandler}
                 options={{
-                    checkbox: true,
-                    add: true,
-                    delete: true,
-                    edit: true
+                    checkbox: false,
+                    add: false,
+                    delete: false,
+                    edit: false
                 }}
                 routeName='program'
             />

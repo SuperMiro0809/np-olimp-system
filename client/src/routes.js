@@ -107,12 +107,6 @@ const routes = [
                   { path: 'create', element: <StudentAdd /> },
                   { path: 'edit/:studentId', element: <StudentsEdit /> }
                 ]
-              },
-              {
-                path: 'program',
-                children: [
-
-                ]
               }
             ]
           }
