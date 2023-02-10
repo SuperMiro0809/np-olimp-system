@@ -91,7 +91,6 @@ const MainTable = ({
     headings,
     headFilters = {},
     method,
-    editHandler,
     deleteHandler,
     options = {
         checkbox: false,
@@ -99,6 +98,7 @@ const MainTable = ({
         delete: false,
         edit: false
     },
+    routeName = '',
     dense,
     rowClick
 }) => {
@@ -220,9 +220,9 @@ const MainTable = ({
                     {options.delete && (
                         <>
                             <Button
-                                variant="outlined"
-                                color="lightBlue"
-                                textcolor="lightBlue"
+                                variant='outlined'
+                                color='lightBlue'
+                                textcolor='lightBlue'
                                 disabled={selected.length === 0}
                                 onClick={handleOpenDeleteDialog}
                             >
@@ -244,11 +244,11 @@ const MainTable = ({
                     {options.add && (
                         <Button
                             component={RouterLink}
-                            variant="contained"
-                            color="lightBlue"
-                            textcolor="lightBlue"
+                            variant='contained'
+                            color='lightBlue'
+                            textcolor='lightBlue'
                             startIcon={<AddIcon />}
-                            to="create"
+                            to={routeName ? routeName + '/create' : 'create'}
                         >
                             Добави
                         </Button>
@@ -405,7 +405,7 @@ const MainTable = ({
                                         })}
                                         {options.edit && (
                                             <TableCell align='right'>
-                                                <RouterLink to={`edit/${row.id}`}>
+                                                <RouterLink to={routeName ? routeName + `/edit/${row.id}` : `edit/${row.id}`}>
                                                     <IconButton>
                                                         <EditIcon />
                                                     </IconButton>
@@ -464,14 +464,14 @@ MainTable.propTypes = {
     headings: PropTypes.array.isRequired,
     headFilters: PropTypes.object,
     method: PropTypes.func.isRequired,
-    editHandler: PropTypes.func,
     deleteHandler: PropTypes.func,
     options: PropTypes.shape({
         checkbox: PropTypes.bool,
         add: PropTypes.bool,
         delete: PropTypes.bool,
         edit: PropTypes.bool
-    })
+    }),
+    routeName: PropTypes.string
 }
 
 export default MainTable;
