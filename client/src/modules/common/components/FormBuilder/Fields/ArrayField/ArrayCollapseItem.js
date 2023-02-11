@@ -102,7 +102,7 @@ const ArrayCollapseItem = ({
 
                     if(field.type === 'custom') {
                         const props = {
-                            ...formikProps,
+                            formikProps,
                             name: name,
                             parentIndex: index
                         };

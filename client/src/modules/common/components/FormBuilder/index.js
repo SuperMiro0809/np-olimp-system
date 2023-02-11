@@ -181,7 +181,7 @@ const FormBuilder = ({
 
                                                         return (
                                                             <Field
-                                                                {...formikProps}
+                                                                formikProps={formikProps}
                                                                 key={index}
                                                             />
                                                         );
