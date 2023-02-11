@@ -81,7 +81,7 @@ const ArrayCollapseItem = ({
             <Collapse in={open}>
                 {fields.map((field, i) => {
                     const fieldName = name + '.' + index + '.' + field.name;
-                    console.log(fieldName);
+
                     const props = {
                         ...baseProps,
                         label: field.label,
