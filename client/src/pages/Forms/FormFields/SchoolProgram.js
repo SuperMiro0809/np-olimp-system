@@ -3,16 +3,19 @@ import { TextField } from '@mui/material';
 import { getIn, FieldArray } from 'formik';
 
 const SchoolProgram = ({
-    setFieldValue,
-    setFieldTouched,
-    values,
-    touched,
-    errors,
+    formikProps,
     name = '',
     parentIndex = null
 }) => {
     const [group, index, ...others] = name.split('.');
-    
+    const {
+        setFieldValue,
+        setFieldTouched,
+        values,
+        touched,
+        errors,
+    } = formikProps;
+
     useEffect(() => {
         const groupTeachers = values.groups[index].teachers;
 
@@ -21,9 +24,9 @@ const SchoolProgram = ({
             const program = values.groups[index].program[parentIndex];
             const teacherValues = groupTeachers.map((teacher) => ({ teacher_name: teacher.label, teacher_id: teacher.value, lessons: '' }));
 
-            if(!program.teachers) {
+            if (!program.teachers) {
                 setFieldValue(`${name}.${parentIndex}.teachers`, teacherValues);
-            }else {
+            } else {
                 program.teachers.forEach((teacher) => {
                     const t = teacherValues.find(obj => {
                         return obj.teacher_id === teacher.teacher_id
