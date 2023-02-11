@@ -10,6 +10,7 @@ use App\Http\Controllers\{
     FormController,
     GroupController,
     GroupStudentsController,
+    GroupTeachersController,
     GroupProgramController
 };
 
@@ -79,6 +80,10 @@ Route::middleware('auth:api')->group(function () {
                             Route::put('{id}', [GroupStudentsController::class, 'edit']);
                             Route::delete('/', [GroupStudentsController::class, 'delete']);
                             Route::get('{id}', [GroupStudentsController::class, 'getById']);
+                        });
+
+                        Route::prefix('teachers')->group(function () {
+                            Route::get('/', [GroupTeachersController::class, 'index']);
                         });
     
                         Route::prefix('program')->group(function () {

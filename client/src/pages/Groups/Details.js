@@ -4,10 +4,12 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import { Box, Card, Tabs, Tab } from '@mui/material';
 import TabPanel from '@modules/common/components/TabPanel';
 import StudentsList from '@modules/groups/components/Students/Index';
+import TeachersList from '@modules/groups/components/Teachers/Index';
 import ProgramList from '@modules/groups/components/Program/Index';
 
-import TableRowsIcon from '@mui/icons-material/TableRows';
+import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import GroupIcon from '@mui/icons-material/Group';
+import TableRowsIcon from '@mui/icons-material/TableRows';
 
 function a11yProps(index) {
     return {
@@ -48,15 +50,21 @@ const GroupDetails = () => {
                                 >
                                     <Tab
                                         label="Ученици"
-                                        icon={<GroupIcon />}
+                                        icon={<LocalLibraryIcon />}
                                         iconPosition="start"
                                         {...a11yProps(0)}
+                                    />
+                                     <Tab
+                                        label="Учители"
+                                        icon={<GroupIcon />}
+                                        iconPosition="start"
+                                        {...a11yProps(1)}
                                     />
                                     <Tab
                                         label="Програма"
                                         icon={<TableRowsIcon />}
                                         iconPosition="start"
-                                        {...a11yProps(1)}
+                                        {...a11yProps(2)}
                                     />
                                 </Tabs>
                             </Box>
@@ -64,6 +72,9 @@ const GroupDetails = () => {
                                 <StudentsList />
                             </TabPanel>
                             <TabPanel value={selectedTab} index={1}>
+                                <TeachersList />
+                            </TabPanel>
+                            <TabPanel value={selectedTab} index={2}>
                                 <ProgramList />
                             </TabPanel>
                         </Box>
