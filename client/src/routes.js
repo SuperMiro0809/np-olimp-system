@@ -38,6 +38,8 @@ import GroupDetails from './pages/Groups/Details';
 import StudentAdd from './pages/Students/Create';
 import StudentsEdit from './pages/Students/Edit';
 
+import LessonsScheduler from './pages/Lessons/Index';
+
 import AuthGuard from '@modules/common/hoc/AuthGuard';
 import RoleGuard from '@modules/common/hoc/RoleGuard';
 
@@ -110,6 +112,13 @@ const routes = [
               }
             ]
           }
+        ]
+      },
+      {
+        path: 'lessons',
+        element: <RoleGuard component={<DashboardPageLayout title='Занятия' />} accessRolesFromRoute={['User']} />,
+        children: [
+          { path: '', element: <LessonsScheduler /> }
         ]
       },
       { path: 'dashboard', element: <Dashboard /> },
