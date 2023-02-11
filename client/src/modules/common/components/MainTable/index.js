@@ -26,6 +26,7 @@ import PropTypes from 'prop-types';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -96,7 +97,8 @@ const MainTable = ({
         checkbox: false,
         add: false,
         delete: false,
-        edit: false
+        edit: false,
+        details: false
     },
     routeName = '',
     dense,
@@ -137,6 +139,10 @@ const MainTable = ({
         }
 
         if (options.checkbox) {
+            colsNum++;
+        }
+
+        if(options.details) {
             colsNum++;
         }
 
@@ -304,6 +310,10 @@ const MainTable = ({
                                 }
                             })}
 
+                            {options.details && (
+                                <TableCell></TableCell>
+                            )}
+
                             {options.edit && (
                                 <TableCell></TableCell>
                             )}
@@ -403,6 +413,15 @@ const MainTable = ({
                                                 );
                                             }
                                         })}
+                                        {options.details && (
+                                            <TableCell align='right'>
+                                                <RouterLink to={routeName ? routeName + `/${row.id}` : `${row.id}`}>
+                                                    <IconButton>
+                                                        <MeetingRoomIcon />
+                                                    </IconButton>
+                                                </RouterLink>
+                                            </TableCell>
+                                        )}
                                         {options.edit && (
                                             <TableCell align='right'>
                                                 <RouterLink to={routeName ? routeName + `/edit/${row.id}` : `edit/${row.id}`}>

@@ -70,7 +70,8 @@ const GroupsList = () => {
                                     checkbox: false,
                                     add: false,
                                     delete: false,
-                                    edit: true
+                                    edit: false,
+                                    details: true
                                 }}
                             />
                         </Box>

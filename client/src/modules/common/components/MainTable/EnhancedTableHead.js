@@ -97,6 +97,9 @@ const EnhancedTableHead = ({
                         )} */}
                     </TableCell>
                 ))}
+                {options.details && (
+                    <TableCell sx={ Object.keys(headFilters).length > 0 && { border: 'none', pb: 0 } }></TableCell>
+                )}
                 {options.edit && (
                     <TableCell sx={ Object.keys(headFilters).length > 0 && { border: 'none', pb: 0 } }></TableCell>
                 )}
