@@ -231,30 +231,42 @@ const FormBuilder = ({
                             <>
                                 {fields.map((field, index) => {
 
-                                    const baseProps = {
-                                        label: field.label,
-                                        name: field.name,
-                                        onBlur: handleBlur,
-                                        onChange: handleChange,
-                                        fullWidth: Object.hasOwn(field, 'fullWidth') ? field.fullWidth : true,
-                                        error: Boolean(touched[field.name] && errors[field.name]),
-                                        margin: Object.hasOwn(field, 'margin') ? field.margin : 'normal',
-                                        value: values[field.name],
-                                        variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
-                                        helperText: touched[field.name] && errors[field.name],
-                                        disabled: Object.hasOwn(field, 'disabled') ? field.disabled : false,
-                                        key: index
-                                    };
+                                    if (field.type === 'custom') {
+                                        const { component: Field } = field;
 
-                                    return (
-                                        <Fields
-                                            field={field}
-                                            baseProps={baseProps}
-                                            formikProps={formikProps}
-                                            updateUploadedFiles={() => { }}
-                                            key={index}
-                                        />
-                                    );
+                                        return (
+                                            <Field
+                                                formikProps={formikProps}
+                                                key={index}
+                                            />
+                                        );
+                                         } else {
+                                        const baseProps = {
+                                            label: field.label,
+                                            name: field.name,
+                                            onBlur: handleBlur,
+                                            onChange: handleChange,
+                                            fullWidth: Object.hasOwn(field, 'fullWidth') ? field.fullWidth : true,
+                                            error: Boolean(touched[field.name] && errors[field.name]),
+                                            margin: Object.hasOwn(field, 'margin') ? field.margin : 'normal',
+                                            value: values[field.name],
+                                            variant: Object.hasOwn(field, 'variant') ? field.variant : 'outlined',
+                                            helperText: touched[field.name] && errors[field.name],
+                                            disabled: Object.hasOwn(field, 'disabled') ? field.disabled : false,
+                                            key: index
+                                        };
+
+                                        return (
+                                            <Fields
+                                                field={field}
+                                                baseProps={baseProps}
+                                                formikProps={formikProps}
+                                                updateUploadedFiles={() => { }}
+                                                key={index}
+                                            />
+                                        );
+                                    }
+
                                 })}
 
                                 <Box sx={{ py: 2 }}>
