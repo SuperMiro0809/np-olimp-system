@@ -45,6 +45,12 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 //groups
 import GroupsIcon from '@mui/icons-material/Groups';
 
+//my lesson
+import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
+
+//lessons
+import WatchLaterIcon from '@mui/icons-material/WatchLater';
+
 const formatRole = (role) => {
     if (role === 'SuperAdmin') {
         return 'МОН администратор';
@@ -139,6 +145,11 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                 setMenuItems([
                     ...baseMenuItems,
                     {
+                        href: '/app/my-lesson',
+                        icon: HourglassBottomIcon,
+                        title: 'Mоят час'
+                    },
+                    {
                         href: '/app/forms',
                         icon: InsertDriveFileIcon,
                         title: 'Mои формуляри'
@@ -147,6 +158,11 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                         href: '/app/groups',
                         icon: GroupsIcon,
                         title: 'Mои групи'
+                    },
+                    {
+                        href: '/app/lessons',
+                        icon: WatchLaterIcon,
+                        title: 'Занятия'
                     }
                 ]);
             }
