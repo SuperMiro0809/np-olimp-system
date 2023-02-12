@@ -48,11 +48,24 @@ const GroupItem = ({
             const lessons = [];
 
             values.groups.forEach((group) => {
-                lessons.push({
-                    group_id: group.value, lessons: [
+                const obj = {
+                    group_id: group.value, 
+                    lessons: [
                         { date: '', 'time-range': { start: '', end: '' } }
                     ]
-                })
+                };
+
+                if(values.groupLessons) {
+                    const g = values.groupLessons.find(obj => {
+                        return obj.group_id === group.value
+                    });
+
+                    if(g) {
+                        obj.lessons = g.lessons;
+                    }
+                }
+
+                lessons.push(obj)
             })
 
             setFieldValue('groupLessons', lessons)
