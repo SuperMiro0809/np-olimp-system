@@ -14,6 +14,8 @@ import FieldGroup from './FieldGroup';
 import GroupHeading from './FieldGroup/GroupHeading';
 import DateRangePicker from './DateField/DateRangePicker';
 import DatePicker from './DateField/DatePicker';
+import TimePicker from './TimeField/TimePicker';
+import TimeRangePicker from './TimeField/TimeRangePicker';
 import PropTypes from 'prop-types';
 
 const Fields = ({
@@ -138,6 +140,24 @@ const Fields = ({
 
             {field.type === 'date' && (
                 <DatePicker
+                    field={field}
+                    baseProps={baseProps}
+                    element={baseProps.element || values[baseProps.name]}
+                    {...formikProps}
+                />
+            )}
+
+            {field.type === 'time' && (
+                <TimePicker
+                    field={field}
+                    baseProps={baseProps}
+                    element={baseProps.element || values[baseProps.name]}
+                    {...formikProps}
+                />
+            )}
+
+            {field.type === 'time-range' && (
+                <TimeRangePicker
                     field={field}
                     baseProps={baseProps}
                     element={baseProps.element || values[baseProps.name]}
