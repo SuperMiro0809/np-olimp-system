@@ -58,4 +58,11 @@ class GroupLessonsController extends Controller
 
         return $lesson;
     }
+
+    public function getById($schoolId, $teacherId, $id)
+    {
+        $lesson = GroupLesson::findOrFail($id);
+
+        return $lesson;
+    }
 }

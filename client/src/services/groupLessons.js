@@ -25,10 +25,19 @@ function edit(data, schoolId, teacherId, id) {
     });
 }
 
+function getById(schoolId, teacherId, id) {
+    let url = `${servicesHelper.url}/${schoolId}/teachers/${teacherId}/groups/lessons/${id}`;
+
+    return axios.get(url, {
+        headers: servicesHelper.header()
+    });
+}
+
 const groupLessonsService = {
     getLessons,
     create,
-    edit
+    edit,
+    getById
 }
 
 export default groupLessonsService;
