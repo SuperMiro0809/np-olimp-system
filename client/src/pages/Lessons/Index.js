@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { Link as RouterLink } from 'react-router-dom';
-import { Box, Card, Button } from '@mui/material';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { Box, Card, Button } from '@mui/material';
 import Scheduler from '@modules/common/components/Scheduler/dist/index.esm';
 import groupLessonsService from '@services/groupLessons';
 import useAuth from '@modules/common/hooks/useAuth';
@@ -39,6 +39,7 @@ const LessonsScheduler = () => {
     const [events, setEvents] = useState([]);
     const { user } = useAuth();
     const { addMessage } = useMessage();
+    const navigate = useNavigate();
 
     const hourFormat = (time) => {
         const [hour, min, sec] = time.split(':');
@@ -97,7 +98,7 @@ const LessonsScheduler = () => {
     }
 
     const handleEventClick = (event, item) => {
-        // Do something...
+        navigate(`/app/lessons/details/${item.id}`);
     }
 
     const handleEventsChange = (item) => {

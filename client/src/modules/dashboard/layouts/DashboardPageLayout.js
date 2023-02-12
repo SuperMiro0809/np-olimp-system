@@ -17,8 +17,9 @@ const DashboardPageLayout = ({ title }) => {
     const elData = {
         'create': 'Създаване',
         'edit': 'Редактиране',
+        'details': 'Детайли',
         'requests': 'Заявки',
-        'students': 'Ученици'
+        'students': 'Ученици',
     }
 
     return (

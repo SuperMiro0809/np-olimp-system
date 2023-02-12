@@ -9,7 +9,7 @@ import FormBuilder from '@modules/common/components/FormBuilder';
 import * as Yup from 'yup';
 import useMessage from '@modules/common/hooks/useMessage';
 import useAuth from '@modules/common/hooks/useAuth';
-import moment from 'moment';
+import isSameOrBefore from './utils/isSameOrBefore';
 
 import GroupLessons from './FormFields/GroupLessons';
 
@@ -35,10 +35,6 @@ const LessonsAdd = () => {
                 })
         }
     }, [user]);
-
-    const isSameOrBefore = (startTime, endTime) => {
-        return moment(startTime, 'HH:mm').isSameOrBefore(moment(endTime, 'HH:mm'));
-    }
 
     const validationSchema = Yup.object().shape({
         groups: Yup.array().required('Групите са задължителни'),
