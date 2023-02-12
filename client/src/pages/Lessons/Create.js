@@ -3,8 +3,8 @@ import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 import { Box, Card } from '@mui/material';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import subjectService from '@services/subject';
 import groupService from '@services/group';
+import groupLessonsService from '@services/groupLessons';
 import FormBuilder from '@modules/common/components/FormBuilder';
 import * as Yup from 'yup';
 import useMessage from '@modules/common/hooks/useMessage';
@@ -90,8 +90,15 @@ const LessonsAdd = () => {
 
     const onSubmit = (values, { setSubmitting }) => {
         if (user) {
-            console.log(values)
-            setSubmitting(false)
+            groupLessonsService.create(values, user.info.school_id, user.info.id)
+                .then((res) => {
+                    addMessage('Занятието е създадено успешно', 'success');
+                    navigate('/app/lessons');
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setSubmitting(false)
+                })
         }
     }
 
