@@ -22,4 +22,11 @@ class GroupController extends Controller
 
         return $groups;
     }
+
+    public function getAll($schoolId, $teacherId)
+    {
+        $groups = $this->getGroups($teacherId, null, true);
+
+        return $groups;
+    }
 }

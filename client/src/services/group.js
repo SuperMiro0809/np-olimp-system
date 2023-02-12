@@ -27,9 +27,18 @@ function getById(schoolId, teacherId, id) {
     });
 }
 
+function getAll(schoolId, teacherId) {
+    let url = `${servicesHelper.url}/${schoolId}/teachers/${teacherId}/groups/all`;
+
+    return axios.get(url, {
+        headers: servicesHelper.header()
+    });
+}
+
 const groupService = {
     getGroups,
-    getById
+    getById,
+    getAll
 }
 
 export default groupService;

@@ -70,6 +70,7 @@ Route::middleware('auth:api')->group(function () {
 
                 Route::prefix('groups')->group(function () {
                     Route::get('/', [GroupController::class, 'index']);
+                    Route::get('/all', [GroupController::class, 'getAll']);
 
                     Route::prefix('{groupId}')->group(function () {
                         Route::get('/', [GroupController::class, 'getById']);
