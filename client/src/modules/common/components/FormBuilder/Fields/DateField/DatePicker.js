@@ -4,14 +4,15 @@ import {
     DatePicker as DatePickerMUI,
     LocalizationProvider,
 } from '@mui/x-date-pickers';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import moment from 'moment';
 import 'dayjs/locale/bg';
 
 const DatePicker = ({
     field,
     baseProps,
-    setFieldValue
+    setFieldValue,
+    setFieldTouched
 }) => {
     const { element, name } = baseProps;
     const [date, setDate] = useState(element);
@@ -23,10 +24,24 @@ const DatePicker = ({
                 label={baseProps.label}
                 value={date}
                 onChange={(newValue) => {
+                    const d = new Date(newValue);
                     setDate(newValue);
-                    setFieldValue(name, moment(newValue).format('YYYY/MM/DD'))
+
+                    if(d instanceof Date && !isNaN(d)) {
+                        setFieldValue(name, moment(newValue).format('YYYY/MM/DD'))
+                    }else {
+                        setFieldValue(name, d)
+                    }
                 }}
-                renderInput={(params) => <TextField {...params} {...baseProps} />}
+                renderInput={(params) =>
+                    <TextField
+                        {...params}
+                        {...baseProps} 
+                        onBlur={(e) => {
+                            setFieldTouched(name, true);
+                        }}
+                    />
+                }
                 disableMaskedInput={true}
             />
         </LocalizationProvider>
