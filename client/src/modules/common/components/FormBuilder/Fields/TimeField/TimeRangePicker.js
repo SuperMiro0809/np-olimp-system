@@ -7,6 +7,7 @@ const TimeRangePicker = ({
     field,
     baseProps,
     setFieldValue,
+    setFieldTouched,
     touched,
     errors
 }) => {
@@ -21,7 +22,8 @@ const TimeRangePicker = ({
         error: Boolean(
             getIn(touched, startName) && getIn(errors, startName)
         ),
-        value: baseProps.value[field.fields[0].name]
+        value: baseProps.value[field.fields[0].name],
+        helperText: ''
     }
 
     const endProps = {
@@ -32,7 +34,8 @@ const TimeRangePicker = ({
         error: Boolean(
             getIn(touched, startName) && getIn(errors, startName)
         ),
-        value: baseProps.value[field.fields[1].name]
+        value: baseProps.value[field.fields[1].name],
+        helperText: ''
     }
     
     return (
@@ -40,11 +43,13 @@ const TimeRangePicker = ({
             <TimePicker
                 baseProps={startProps}
                 setFieldValue={setFieldValue}
+                setFieldTouched={setFieldTouched}
             />
             <Box sx={{ mx: 2 }}> - </Box>
             <TimePicker
                 baseProps={endProps}
                 setFieldValue={setFieldValue}
+                setFieldTouched={setFieldTouched}
             />
         </Box>
     );
