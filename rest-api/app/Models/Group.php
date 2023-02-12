@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\{
     GroupStudent,
     GroupTeacher,
-    GroupProgram
+    GroupProgram,
+    GroupLesson
 };
 
 class Group extends Model
@@ -30,5 +31,9 @@ class Group extends Model
 
     public function program() {
         return $this->hasMany(GroupProgram::class);
+    }
+
+    public function lessons() {
+        return $this->hasMany(GroupLesson::class);
     }
 }

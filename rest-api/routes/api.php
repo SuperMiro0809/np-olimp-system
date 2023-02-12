@@ -11,7 +11,8 @@ use App\Http\Controllers\{
     GroupController,
     GroupStudentsController,
     GroupTeachersController,
-    GroupProgramController
+    GroupProgramController,
+    GroupLessonsController
 };
 
 /*
@@ -72,15 +73,21 @@ Route::middleware('auth:api')->group(function () {
                     Route::get('/', [GroupController::class, 'index']);
                     Route::get('/all', [GroupController::class, 'getAll']);
 
+                    Route::prefix('lessons')->group(function () {
+                        Route::get('/', [GroupLessonsController::class, 'index']);
+                        Route::post('/', [GroupLessonsController::class, 'store']);
+                        Route::put('/{id}', [GroupLessonsController::class, 'edit']);
+                    });
+
                     Route::prefix('{groupId}')->group(function () {
                         Route::get('/', [GroupController::class, 'getById']);
 
                         Route::prefix('students')->group(function () {
                             Route::get('/', [GroupStudentsController::class, 'index']);
                             Route::post('/', [GroupStudentsController::class, 'store']);
-                            Route::put('{id}', [GroupStudentsController::class, 'edit']);
+                            Route::put('/{id}', [GroupStudentsController::class, 'edit']);
                             Route::delete('/', [GroupStudentsController::class, 'delete']);
-                            Route::get('{id}', [GroupStudentsController::class, 'getById']);
+                            Route::get('/{id}', [GroupStudentsController::class, 'getById']);
                         });
 
                         Route::prefix('teachers')->group(function () {
