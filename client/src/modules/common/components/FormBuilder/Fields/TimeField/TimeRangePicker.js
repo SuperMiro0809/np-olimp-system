@@ -21,7 +21,6 @@ const TimeRangePicker = ({
         error: Boolean(
             getIn(touched, startName) && getIn(errors, startName)
         ),
-        element: baseProps.element ? baseProps.element[field.fields[0].name] : baseProps.value[field.fields[0].name],
         value: baseProps.value[field.fields[0].name]
     }
 
@@ -33,7 +32,6 @@ const TimeRangePicker = ({
         error: Boolean(
             getIn(touched, startName) && getIn(errors, startName)
         ),
-        element: baseProps.element ? baseProps.element[field.fields[1].name] : baseProps.value[field.fields[1].name],
         value: baseProps.value[field.fields[1].name]
     }
     

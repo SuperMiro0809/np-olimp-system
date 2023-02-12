@@ -13,16 +13,16 @@ const TimePicker = ({
     baseProps,
     setFieldValue
 }) => {
-    const { element, name } = baseProps;
-    const [value, setValue] = useState(element);
+    const { value, name } = baseProps;
+    const [time, setTime] = useState(value);
 
     return (
         <LocalizationProvider adapterLocale={'bg'} dateAdapter={AdapterDayjs}>
             <TimePickerMUI
                 label={baseProps.label}
-                value={value}
+                value={time}
                 onChange={(newValue) => {
-                    setValue(newValue);
+                    setTime(newValue);
                     setFieldValue(name, new Date(newValue).toLocaleTimeString())
                 }}
                 renderInput={(params) => <TextField sx={{ flexGrow: 1 }} {...params} {...baseProps} />}
