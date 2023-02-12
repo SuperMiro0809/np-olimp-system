@@ -24,7 +24,7 @@ const Fields = ({
     formikProps,
     updateUploadedFiles
 }) => {
-    const { setFieldValue, values } = formikProps;
+    const { setFieldValue, setFieldTouched, values } = formikProps;
 
     return (
         <>
@@ -32,6 +32,12 @@ const Fields = ({
                 <TextField
                     type={field.type}
                     {...baseProps}
+                    onChange={(event) => {
+                        setFieldValue(baseProps.name, event.target.value)
+                    }}
+                    onBlur={() => {
+                        setFieldTouched(baseProps.name, true)
+                    }}
                 />
             )}
 
