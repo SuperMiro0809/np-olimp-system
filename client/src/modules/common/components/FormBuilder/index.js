@@ -240,7 +240,7 @@ const FormBuilder = ({
                                                 key={index}
                                             />
                                         );
-                                         } else {
+                                    } else {
                                         const baseProps = {
                                             label: field.label,
                                             name: field.name,
