@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Box, Card } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import { Box, Card, Button } from '@mui/material';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import Scheduler from '@modules/common/components/Scheduler/dist/index.esm';
+
+import AddIcon from '@mui/icons-material/Add';
 
 const LessonsScheduler = () => {
     const [state] = useState({
@@ -101,7 +104,7 @@ const LessonsScheduler = () => {
     return (
         <>
             <Helmet>
-                <title>Групи</title>
+                <title>Занятия</title>
             </Helmet>
             <Box
                 sx={{
@@ -113,6 +116,19 @@ const LessonsScheduler = () => {
                 <Card sx={{ p: 2 }}>
                     <PerfectScrollbar>
                         <Box>
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mb: 3 }}>
+                                <Button
+                                    component={RouterLink}
+                                    variant='contained'
+                                    color='lightBlue'
+                                    textcolor='lightBlue'
+                                    startIcon={<AddIcon />}
+                                    to='create'
+                                >
+                                    Добави
+                                </Button>
+                            </Box>
+
                             <Scheduler
                                 locale="bg"
                                 events={events}
