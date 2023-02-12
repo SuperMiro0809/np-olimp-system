@@ -37,7 +37,7 @@ const TimePicker = ({
                     const d = new Date(newValue);
                     setTime(newValue);
            
-                    if(d instanceof Date && !isNaN(d)) {
+                    if(d instanceof Date && !isNaN(d) && newValue) {
                         setFieldValue(name, d.toLocaleTimeString());
                     }else {
                         setFieldValue(name, '');
