@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField } from '@mui/material';
 import {
     DatePicker as DatePickerMUI,
@@ -6,6 +6,7 @@ import {
 } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import moment from 'moment';
+import dayjs from 'dayjs';
 import 'dayjs/locale/bg';
 
 const DatePicker = ({
@@ -14,8 +15,12 @@ const DatePicker = ({
     setFieldValue,
     setFieldTouched
 }) => {
-    const { element, name } = baseProps;
-    const [date, setDate] = useState(element);
+    const { value, name } = baseProps;
+    const [date, setDate] = useState(dayjs(value));
+
+    useEffect(() => {
+        setDate(dayjs(value))
+    }, [value])
 
     return (
         <LocalizationProvider adapterLocale={'bg'} dateAdapter={AdapterDayjs}>
@@ -36,7 +41,8 @@ const DatePicker = ({
                 renderInput={(params) =>
                     <TextField
                         {...params}
-                        {...baseProps} 
+                        {...baseProps}
+                        onChange={() => { }}
                         onBlur={(e) => {
                             setFieldTouched(name, true);
                         }}
