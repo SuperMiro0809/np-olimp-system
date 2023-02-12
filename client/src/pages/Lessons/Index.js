@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link as RouterLink } from 'react-router-dom';
 import { Box, Card, Button } from '@mui/material';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import Scheduler from '@modules/common/components/Scheduler/dist/index.esm';
+import groupLessonsService from '@services/groupLessons';
+import useAuth from '@modules/common/hooks/useAuth';
+import useMessage from '@modules/common/hooks/useMessage';
 
 import AddIcon from '@mui/icons-material/Add';
 
@@ -32,58 +35,62 @@ const LessonsScheduler = () => {
             showSwitchModeButtons: true,
             showDatePicker: true
         }
-    })
+    });
+    const [events, setEvents] = useState([]);
+    const { user } = useAuth();
+    const { addMessage } = useMessage();
 
-    const events = [
-        {
-            id: "event-1",
-            label: "Medical consultation",
-            groupLabel: "Dr Shaun Murphy",
-            user: "Dr Shaun Murphy",
-            color: "#f28f6a",
-            startHour: "04:00 AM",
-            endHour: "05:00 AM",
-            date: "2023-02-05",
-            createdAt: new Date(),
-            createdBy: "Kristina Mayer"
-        },
-        {
-            id: "event-2",
-            label: "Medical consultation",
-            groupLabel: "Dr Claire Brown",
-            user: "Dr Claire Brown",
-            color: "#099ce5",
-            startHour: "09:00 AM",
-            endHour: "10:00 AM",
-            date: "2023-02-09",
-            createdAt: new Date(),
-            createdBy: "Kristina Mayer"
-        },
-        {
-            id: "event-3",
-            label: "Medical consultation",
-            groupLabel: "Dr Menlendez Hary",
-            user: "Dr Menlendez Hary",
-            color: "#263686",
-            startHour: "13:00 PM",
-            endHour: "14:00 PM",
-            date: "2023-02-10",
-            createdAt: new Date(),
-            createdBy: "Kristina Mayer"
-        },
-        {
-            id: "event-4",
-            label: "Consultation prénatale",
-            groupLabel: "Dr Shaun Murphy",
-            user: "Dr Shaun Murphy",
-            color: "#f28f6a",
-            startHour: "08:00 AM",
-            endHour: "09:00 AM",
-            date: "2023-02-11",
-            createdAt: new Date(),
-            createdBy: "Kristina Mayer"
+    const hourFormat = (time) => {
+        const [hour, min, sec] = time.split(':');
+        let period = '';
+
+        if (Number(hour) > 11) {
+            period = 'pm';
+        } else {
+            period = 'am';
         }
-    ]
+
+        return `${hour}:${min} ${period}`;
+    }
+
+    const timeFormat = (hour) => {
+        const [hourPart, period] = hour.split(' ');
+        const [h, min] = hourPart.split(':');
+
+        return `${h}:${min}:00`;
+    }
+
+    const get = () => {
+        if (user) {
+            groupLessonsService.getLessons(user.info.school_id, user.info.id)
+                .then((res) => {
+                    const events = res.data.map((event) => {
+
+                        return {
+                            id: event.id,
+                            label: event.label,
+                            groupLabel: event.class,
+                            //user: "Dr Shaun Murphy",
+                            color: "#f28f6a",
+                            startHour: hourFormat(event.startHour),
+                            endHour: hourFormat(event.endHour),
+                            date: event.date,
+                            createdAt: event.created_at,
+                            //createdBy: "Kristina Mayer"
+                        }
+                    })
+
+                    setEvents(events)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
+    }
+
+    useEffect(() => {
+        get();
+    }, [])
 
     const handleCellClick = (event, row, day) => {
         // Do something...
@@ -94,7 +101,20 @@ const LessonsScheduler = () => {
     }
 
     const handleEventsChange = (item) => {
-        // Do something...
+        const data = {
+            ...item,
+            startHour: timeFormat(item.startHour),
+            endHour: timeFormat(item.endHour)
+        }
+
+        groupLessonsService.edit(data, user.info.school_id, user.info.id, item.id)
+            .then((res) => {
+                addMessage('Занятието е редактирано успешно', 'success');
+                get();
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     const handleAlertCloseButtonClicked = (item) => {
@@ -140,6 +160,7 @@ const LessonsScheduler = () => {
                                 onCellClick={handleCellClick}
                                 onTaskClick={handleEventClick}
                                 onAlertCloseButtonClicked={handleAlertCloseButtonClicked}
+                                key={events}
                             />
                         </Box>
                     </PerfectScrollbar>
