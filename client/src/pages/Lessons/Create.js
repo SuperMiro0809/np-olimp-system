@@ -45,6 +45,7 @@ const LessonsAdd = () => {
         groupLessons: Yup.array().of(Yup.object().shape({
             lessons: Yup.array().of(Yup.object().shape({
                 date: Yup.date().required('Датата е задължителна').typeError('Датата не е валидна'),
+                label: Yup.string().required('Заглавието е задължително'),
                 'time-range': Yup.object().shape({
                     start: Yup.string().test(
                         'not empty',

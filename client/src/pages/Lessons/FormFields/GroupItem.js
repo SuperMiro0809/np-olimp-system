@@ -51,7 +51,7 @@ const GroupItem = ({
                 const obj = {
                     group_id: group.value, 
                     lessons: [
-                        { date: '', 'time-range': { start: '', end: '' } }
+                        { date: '', label: '', 'time-range': { start: '', end: '' } }
                     ]
                 };
 
@@ -77,6 +77,7 @@ const GroupItem = ({
         {
             type: 'array', arrayVariant: 'collapse', name: 'lessons', label: 'Занятия', itemLabel: 'Занятие', fields: [
                 { type: 'date', name: 'date', label: 'Дата' },
+                { type: 'text', name: 'label', label: 'Заглавие' },
                 {
                     type: 'time-range', name: 'time-range', fields: [
                         { type: 'time', name: 'start', label: 'От' },
