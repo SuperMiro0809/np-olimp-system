@@ -1,12 +1,10 @@
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import {
     TimePicker as TimePickerMUI,
     LocalizationProvider
 } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import moment from 'moment';
 
 import 'dayjs/locale/bg';
 
@@ -16,7 +14,19 @@ const TimePicker = ({
     setFieldTouched
 }) => {
     const { value, name } = baseProps;
-    const [time, setTime] = useState(value);
+    const [time, setTime] = useState('');
+
+    useEffect(() => {
+        if(value) {
+            const d = new Date();
+            const [hour, min, sec] = value.split(':');
+
+            d.setHours(hour);
+            d.setMinutes(min);
+
+            setTime(d);
+        }
+    }, [value])
 
     return (
         <LocalizationProvider adapterLocale={'bg'} dateAdapter={AdapterDayjs}>
@@ -26,7 +36,7 @@ const TimePicker = ({
                 onChange={(newValue) => {
                     const d = new Date(newValue);
                     setTime(newValue);
-
+           
                     if(d instanceof Date && !isNaN(d)) {
                         setFieldValue(name, d.toLocaleTimeString());
                     }else {
@@ -38,6 +48,7 @@ const TimePicker = ({
                         sx={{ flexGrow: 1 }}
                         {...params}
                         {...baseProps}
+                        onChange={() => { }}
                         onBlur={(e) => {
                             setFieldTouched(name, true);
                         }}
