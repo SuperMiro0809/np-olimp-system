@@ -4,10 +4,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { Box, Card, Button } from '@mui/material';
 import FormBuilder from '@modules/common/components/FormBuilder';
-import * as Yup from 'yup';
 import groupLessonsService from '@services/groupLessons';
 import useAuth from '@modules/common/hooks/useAuth';
 import useMessage from '@modules/common/hooks/useMessage';
+import DeleteDialog from '@modules/common/components/MainTable/DeleteDialog';
+import * as Yup from 'yup';
+
 import isSameOrBefore from './utils/isSameOrBefore';
 
 const LessonDetails = () => {
@@ -20,6 +22,7 @@ const LessonDetails = () => {
         label: '',
         'time-range': { start: '', end: '' }
     });
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
     useEffect(() => {
         if (user) {
@@ -113,6 +116,17 @@ const LessonDetails = () => {
         label: 'Редактиране'
     }
 
+    const deleteHandler = () => {
+        groupLessonsService.deleteLesson(user.info.school_id, user.info.id, id)
+            .then((res) => {
+                addMessage('Занятието е изтрито успешно', 'success');
+                navigate('/app/lessons');
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
     return (
         <>
             <Helmet>
@@ -128,18 +142,27 @@ const LessonDetails = () => {
                 <Card sx={{ p: 2 }}>
                     <PerfectScrollbar>
                         <Box>
-                            {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mb: 3 }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mb: 2 }}>
                                 <Button
-                                    component={RouterLink}
-                                    variant='contained'
-                                    color='lightBlue'
-                                    textcolor='lightBlue'
-                                    startIcon={<AddIcon />}
-                                    to='create'
+                                    variant='outlined'
+                                    color='error'
+                                    textcolor='error'
+                                    onClick={() => setOpenDeleteDialog(true)}
                                 >
-                                    Добави
+                                    Изтриване
                                 </Button>
-                            </Box> */}
+
+                                <DeleteDialog
+                                    selected={[]}
+                                    setSelected={() => { }}
+                                    deleteId={Number(id)}
+                                    setDeleteId={() => { }}
+                                    deleteHandler={deleteHandler}
+                                    newRequest={() => { }}
+                                    open={openDeleteDialog}
+                                    setOpen={setOpenDeleteDialog}
+                                />
+                            </Box>
 
                             <FormBuilder
                                 fields={fields}
