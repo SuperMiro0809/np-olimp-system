@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import {
     Box,
-    ListItemButton,
     ListItemText,
     Fab,
     Collapse
@@ -9,6 +8,7 @@ import {
 import { styled } from '@mui/styles';
 import { getIn } from 'formik';
 import dataScheme from '../../utils/dataScheme';
+import { ExpandButton, ExpandWrapper } from '@modules/common/components/Expand';
 
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -16,22 +16,6 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
 import Fields from '../index';
-
-const ExpandWrapper = styled(Box)({
-    display: 'flex',
-    alignItems: 'center',
-    borderTop: '1px solid rgba(0, 0, 0, 0.12)'
-});
-
-const ExpandButton = styled(ListItemButton)({
-    paddingLeft: 0,
-    paddingTop: '10px',
-    paddingBottom: '10px',
-    marginLeft: 0,
-    '&:hover': {
-        backgroundColor: 'transparent',
-    }
-});
 
 const ControlsWrapper = styled(Box)({
     padding: '10px 0'
