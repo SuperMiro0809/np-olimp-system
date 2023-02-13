@@ -33,7 +33,7 @@ const DatePicker = ({
                     setDate(newValue);
 
                     if(d instanceof Date && !isNaN(d)) {
-                        setFieldValue(name, moment(newValue).format('YYYY/MM/DD'))
+                        setFieldValue(name, moment(d).format('YYYY/MM/DD'))
                     }else {
                         setFieldValue(name, d)
                     }
