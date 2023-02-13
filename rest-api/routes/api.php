@@ -77,6 +77,7 @@ Route::middleware('auth:api')->group(function () {
                         Route::get('/', [GroupLessonsController::class, 'index']);
                         Route::post('/', [GroupLessonsController::class, 'store']);
                         Route::put('/{id}', [GroupLessonsController::class, 'edit']);
+                        Route::delete('/{id}', [GroupLessonsController::class, 'delete']);
                         Route::get('/{id}', [GroupLessonsController::class, 'getById']);
                     });
 

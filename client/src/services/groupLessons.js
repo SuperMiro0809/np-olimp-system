@@ -25,6 +25,14 @@ function edit(data, schoolId, teacherId, id) {
     });
 }
 
+function deleteLesson(schoolId, teacherId, id) {
+    let url = `${servicesHelper.url}/${schoolId}/teachers/${teacherId}/groups/lessons/${id}`;
+
+    return axios.delete(url, {
+        headers: servicesHelper.header()
+    });
+}
+
 function getById(schoolId, teacherId, id) {
     let url = `${servicesHelper.url}/${schoolId}/teachers/${teacherId}/groups/lessons/${id}`;
 
@@ -37,6 +45,7 @@ const groupLessonsService = {
     getLessons,
     create,
     edit,
+    deleteLesson,
     getById
 }
 

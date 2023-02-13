@@ -59,6 +59,14 @@ class GroupLessonsController extends Controller
         return $lesson;
     }
 
+    public function delete($id)
+    {
+        $lesson = GroupLesson::findOrFail($id);
+        $lesson->delete();
+
+        return response()->json(['message' => 'Deleted'], 200);
+    }
+
     public function getById($schoolId, $teacherId, $id)
     {
         $lesson = GroupLesson::findOrFail($id);
