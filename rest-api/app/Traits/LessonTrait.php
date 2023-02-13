@@ -16,7 +16,8 @@ trait LessonTrait {
                             })
                             ->leftJoin('groups', function ($q) {
                                 $q->on('groups.id', 'group_lessons.group_id');
-                            });
+                            })
+                            ->with('students');
         
         if(request()->query('date')) {
             $query->where('date', request()->query('date'));

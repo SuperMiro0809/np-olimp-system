@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\GroupLesson;
+use App\Models\{
+    GroupLesson,
+    GroupLessonStudent,
+    Group
+};
 use App\Traits\LessonTrait;
 
 class GroupLessonsController extends Controller
@@ -22,6 +26,7 @@ class GroupLessonsController extends Controller
 
         foreach($request->groupLessons as $groupLesson) {
             $groupId = $groupLesson['group_id'];
+            $students = Group::find($groupId)->students()->get();
 
             foreach($groupLesson['lessons'] as $lesson) {
                 $l = GroupLesson::create([
@@ -31,6 +36,14 @@ class GroupLessonsController extends Controller
                     'endHour' => $lesson['time-range']['end'],
                     'group_id' => $groupId
                 ]);
+
+                foreach($students as $student) {
+                    GroupLessonStudent::create([
+                        'attendance' => true,
+                        'student_id' => $student->id,
+                        'lesson_id' => $l->id
+                    ]);
+                }
             }
         }
 
