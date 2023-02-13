@@ -7,7 +7,8 @@ import {
   Box,
   Hidden,
   IconButton,
-  Toolbar
+  Toolbar,
+  Typography
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/NotificationsOutlined';
@@ -20,12 +21,16 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
   return (
     <AppBar
       elevation={0}
+      sx={{ py: 1 }}
       {...rest}
     >
-      <Toolbar>
+      <Toolbar sx={{ height: 80 }}>
         <RouterLink to="/">
           <Logo />
         </RouterLink>
+        <Box sx={{ ml: 4 }}>
+          <Typography variant='h5' sx={{ fontSize: 20 }}>НП "Ученически олимпиади и състезания"</Typography>
+        </Box>
         <Box sx={{ flexGrow: 1 }} />
         <Hidden xlDown>
           {/* <IconButton color="inherit" size="large">
