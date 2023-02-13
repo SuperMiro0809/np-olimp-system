@@ -104,7 +104,8 @@ const routes = [
           {
             path: ':id',
             children: [
-              { path: '', element: <GroupDetails /> },
+              { path: '', element: <Navigate to='details' /> },
+              { path: 'details', element: <GroupDetails /> },
               {
                 path: 'students',
                 children: [

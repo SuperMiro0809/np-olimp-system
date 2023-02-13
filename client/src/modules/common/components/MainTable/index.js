@@ -415,7 +415,7 @@ const MainTable = ({
                                         })}
                                         {options.details && (
                                             <TableCell align='right'>
-                                                <RouterLink to={routeName ? routeName + `/${row.id}` : `${row.id}`}>
+                                                <RouterLink to={routeName ? routeName + `/${row.id}/details` : `${row.id}/details`}>
                                                     <IconButton>
                                                         <MeetingRoomIcon />
                                                     </IconButton>

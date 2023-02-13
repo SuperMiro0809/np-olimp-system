@@ -40,7 +40,7 @@ const StudentAdd = () => {
             groupStudentsService.create(values, user.info.school_id, user.info.id, id)
                 .then((res) => {
                     addMessage('Ученикът е създаден успешно', 'success');
-                    navigate(`/app/groups/${id}`);
+                    navigate(`/app/groups/${id}/details`);
                 })
                 .catch((error) => {
                     if (error.response.status == 422) {

@@ -70,7 +70,7 @@ const StudentsList = () => {
                     delete: true,
                     edit: true
                 }}
-                routeName='students'
+                routeName={`/app/groups/${id}/students`}
             />
         </Box>
     );

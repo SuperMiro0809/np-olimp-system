@@ -57,7 +57,7 @@ const StudentsEdit = () => {
             groupStudentsService.edit(values, user.info.school_id, user.info.id, id, studentId)
                 .then((res) => {
                     addMessage('Ученикът е редактиран успешно', 'success');
-                    navigate(`/app/groups/${id}`);
+                    navigate(`/app/groups/${id}/details`);
                 })
                 .catch((error) => {
                     if (error.response.status == 422) {
