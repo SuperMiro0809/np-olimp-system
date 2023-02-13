@@ -111,6 +111,7 @@ const Fields = ({
                     fields={field.fields}
                     arrayVariant={field.arrayVariant || 'inline'}
                     labelVariant={field.labelVariant || 'h4'}
+                    controls={Object.hasOwn(field, 'controls') ? field.controls : true}
                     element={baseProps.element || values[baseProps.name]}
                     baseProps={baseProps}
                     itemLabel={field.itemLabel}

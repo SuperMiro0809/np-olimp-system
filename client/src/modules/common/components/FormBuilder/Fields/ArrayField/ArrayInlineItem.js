@@ -24,6 +24,7 @@ const ArrayInlineItem = ({
     baseProps,
     index,
     formikProps,
+    controls,
     ...otherProps
 }) => {
     const { touched, errors } = formikProps;
@@ -92,14 +93,16 @@ const ArrayInlineItem = ({
                     </Box>
                 );
             })}
-            <ControlsWrapper sx={{ mb: !open ? 2 : 0 }}>
-                <Fab onClick={() => onAdd()} size='small' color='primary' aria-label='add'>
-                    <AddIcon />
-                </Fab>
-                <Fab onClick={() => onRemove(index)} disabled={element.length == 1} sx={{ ml: 1 }} size='small' color='primary' aria-label='remove'>
-                    <RemoveIcon />
-                </Fab>
-            </ControlsWrapper>
+            {controls && (
+                <ControlsWrapper sx={{ mb: !open ? 2 : 0 }}>
+                    <Fab onClick={() => onAdd()} size='small' color='primary' aria-label='add'>
+                        <AddIcon />
+                    </Fab>
+                    <Fab onClick={() => onRemove(index)} disabled={element.length == 1} sx={{ ml: 1 }} size='small' color='primary' aria-label='remove'>
+                        <RemoveIcon />
+                    </Fab>
+                </ControlsWrapper>
+            )}
         </Box>
     );
 }

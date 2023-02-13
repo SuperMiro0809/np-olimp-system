@@ -31,6 +31,7 @@ const ArrayCollapseItem = ({
     baseProps,
     index,
     formikProps,
+    controls,
     ...otherProps
 }) => {
     const [open, setOpen] = useState(true);
@@ -52,14 +53,16 @@ const ArrayCollapseItem = ({
                     <ListItemText primary={itemLabel} />
 
                 </ExpandButton>
-                <ControlsWrapper sx={{ mb: !open ? 2 : 0 }}>
-                    <Fab onClick={() => onAdd()} size='small' color='primary' aria-label='add'>
-                        <AddIcon />
-                    </Fab>
-                    <Fab onClick={() => onRemove(index)} disabled={element.length == 1} sx={{ ml: 1 }} size='small' color='primary' aria-label='remove'>
-                        <RemoveIcon />
-                    </Fab>
-                </ControlsWrapper>
+                {controls && (
+                    <ControlsWrapper sx={{ mb: !open ? 2 : 0 }}>
+                        <Fab onClick={() => onAdd()} size='small' color='primary' aria-label='add'>
+                            <AddIcon />
+                        </Fab>
+                        <Fab onClick={() => onRemove(index)} disabled={element.length == 1} sx={{ ml: 1 }} size='small' color='primary' aria-label='remove'>
+                            <RemoveIcon />
+                        </Fab>
+                    </ControlsWrapper>
+                )}
             </ExpandWrapper>
 
             <Collapse in={open}>
@@ -84,7 +87,7 @@ const ArrayCollapseItem = ({
                         key: i
                     };
 
-                    if(field.type === 'custom') {
+                    if (field.type === 'custom') {
                         const props = {
                             formikProps,
                             name: name,
