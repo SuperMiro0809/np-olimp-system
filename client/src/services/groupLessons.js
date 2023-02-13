@@ -1,8 +1,14 @@
 import servicesHelper from ".";
 import axios from "axios";
 
-function getLessons(schoolId, teacherId) {
-    let url = `${servicesHelper.url}/${schoolId}/teachers/${teacherId}/groups/lessons`;
+function getLessons(schoolId, teacherId, filters = []) {
+    let url = `${servicesHelper.url}/${schoolId}/teachers/${teacherId}/groups/lessons?`;
+
+    if(filters.length > 0) {
+        filters.forEach((filter) => {
+            url += `&${filter.label}=${filter.value}`
+        })
+    }
 
     return axios.get(url, {
         headers: servicesHelper.header()

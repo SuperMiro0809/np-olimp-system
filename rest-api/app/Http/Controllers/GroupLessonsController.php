@@ -4,23 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\GroupLesson;
+use App\Traits\LessonTrait;
 
 class GroupLessonsController extends Controller
 {
+    use LessonTrait;
+
     public function index($schoolId, $teacherId)
     {
-        $query = GroupLesson::select(
-                                'group_lessons.*',
-                                'groups.class'
-                            )
-                            ->whereHas('group.teachers', function ($q) use ($teacherId) {
-                                $q->where('teacher_id', $teacherId);
-                            })
-                            ->leftJoin('groups', function ($q) {
-                                $q->on('groups.id', 'group_lessons.group_id');
-                            });
-
-        $lessons = $query->get();
+        $lessons = $this->getLessons($teacherId);
 
         return $lessons;
     }
