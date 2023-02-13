@@ -42,6 +42,8 @@ import LessonsScheduler from './pages/Lessons/Index';
 import LessonsAdd from './pages/Lessons/Create';
 import LessonDetails from './pages/Lessons/Details';
 
+import MyLesson from './pages/MyLesson/Index';
+
 import AuthGuard from '@modules/common/hoc/AuthGuard';
 import RoleGuard from '@modules/common/hoc/RoleGuard';
 
@@ -124,6 +126,13 @@ const routes = [
           { path: '', element: <LessonsScheduler /> },
           { path: 'create', element: <LessonsAdd /> },
           { path: 'details/:id', element: <LessonDetails /> }
+        ]
+      },
+      {
+        path: 'my-lesson',
+        element: <RoleGuard component={<DashboardPageLayout title='Моят час' />} accessRolesFromRoute={['User']} />,
+        children: [
+          { path: '', element: <MyLesson /> },
         ]
       },
       { path: 'dashboard', element: <Dashboard /> },

@@ -39,7 +39,7 @@ class GroupLessonsController extends Controller
 
                 foreach($students as $student) {
                     GroupLessonStudent::create([
-                        'attendance' => true,
+                        'attendance' => 1,
                         'student_id' => $student->id,
                         'lesson_id' => $l->id
                     ]);
@@ -61,6 +61,18 @@ class GroupLessonsController extends Controller
             'endHour' => $request->endHour,
         ]);
 
+        if(request('students')) {
+            $students = $request->students;
+
+            foreach($students as $student) {
+                $s = GroupLessonStudent::findOrFail($student['id']);
+
+                $s->update([
+                    'attendance' => $student['attendance']
+                ]);
+            }
+        }
+
         return $lesson;
     }
 
@@ -74,7 +86,7 @@ class GroupLessonsController extends Controller
 
     public function getById($schoolId, $teacherId, $id)
     {
-        $lesson = GroupLesson::findOrFail($id);
+        $lesson = $this->getLessons($teacherId, $id);
 
         return $lesson;
     }
