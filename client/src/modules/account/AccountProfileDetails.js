@@ -1,186 +1,137 @@
 import { useState } from 'react';
-import { 
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  Grid,
-  TextField
+import {
+    Box,
+    Button,
+    Card,
+    CardContent,
+    CardHeader,
+    Divider
 } from '@mui/material';
-
-const states = [
-  {
-    value: 'alabama',
-    label: 'Alabama'
-  },
-  {
-    value: 'new-york',
-    label: 'New York'
-  },
-  {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  }
-];
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import useAuth from '@modules/common/hooks/useAuth';
+import DetailsForm from './components/DetailsForm';
+import PasswordsForm from './components/PasswordsForm';
 
 const AccountProfileDetails = (props) => {
-  const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
-  });
+    const { user } = useAuth();
+    const [mode, setMode] = useState('details');
 
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value
+    const [initialValues, setInitialValues] = useState({
+        name: user ? user.info.name : '',
+        email: user ? user.email : '',
+        oldPassword: '',
+        password: '',
+        repeatPassword: ''
     });
-  };
 
-  return (
-    <form
-      autoComplete="off"
-      noValidate
-      {...props}
-    >
-      <Card>
-        <CardHeader
-          subheader="The information can be edited"
-          title="Profile"
-        />
-        <Divider />
-        <CardContent>
-          <Grid
-            container
-            spacing={3}
-          >
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                helperText="Please specify the first name"
-                label="First name"
-                name="firstName"
-                onChange={handleChange}
-                required
-                value={values.firstName}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Last name"
-                name="lastName"
-                onChange={handleChange}
-                required
-                value={values.lastName}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Email Address"
-                name="email"
-                onChange={handleChange}
-                required
-                value={values.email}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Phone Number"
-                name="phone"
-                onChange={handleChange}
-                type="number"
-                value={values.phone}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Country"
-                name="country"
-                onChange={handleChange}
-                required
-                value={values.country}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Select State"
-                name="state"
-                onChange={handleChange}
-                required
-                select
-                SelectProps={{ native: true }}
-                value={values.state}
-                variant="outlined"
-              >
-                {states.map((option) => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}
-              </TextField>
-            </Grid>
-          </Grid>
-        </CardContent>
-        <Divider />
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            p: 2
-          }}
+    const changeMode = () => {
+        if (mode === 'details') {
+            setMode('password');
+        } else {
+            setMode('details');
+        }
+    }
+
+    return (
+        <Formik
+            initialValues={initialValues}
+            validationSchema={Yup.object().shape(
+                mode === 'details' ?
+                    {
+                        name: Yup.string().max(255).required('Името е задължително'),
+                        email: Yup.string().email('Имейлът не е валиден').max(255).required('Имейлът е задължителен')
+                    } :
+                    {
+                        oldPassword: Yup.string().max(255).required('Старата паролата е задължителна'),
+                        password: Yup.string().max(255).required('Новата паролата е задължителна').min(8, 'Паролата трябва да бъде поне 8 символа').when('oldPassword', (oldPassword, schema) => {
+                            if (oldPassword) {
+                                return schema.test({
+                                    test: newPassword => newPassword !== oldPassword,
+                                    message: 'Новата парола трябва да е различна от старата'
+                                })
+                            }
+                        }),
+                        repeatPassword: Yup.string().max(255).required('Повтоерете новата паролата е задължително').when('password', (password, schema) => {
+                            if (password) {
+                                return schema.test({
+                                    test: repeatPassword => repeatPassword === password,
+                                    message: 'Паролите не съвпадат'
+                                })
+                            }
+                        })
+                    }
+            )}
+            onSubmit={(values, { setSubmitting }) => {
+                console.log(values)
+            }}
+            enableReinitialize
         >
-          <Button
-            color="primary"
-            variant="contained"
-          >
-            Save details
-          </Button>
-        </Box>
-      </Card>
-    </form>
-  );
+            {({
+                errors,
+                handleBlur,
+                handleChange,
+                handleSubmit,
+                isSubmitting,
+                touched,
+                values
+            }) => {
+                const formikProps = {
+                    errors,
+                    handleBlur,
+                    handleChange,
+                    handleSubmit,
+                    isSubmitting,
+                    touched,
+                    values
+                };
+
+                return (
+                    <form onSubmit={handleSubmit}>
+                        <Card>
+                            <CardHeader
+                                subheader='Информацията може да бъде редактирана'
+                                title='Профил'
+                            />
+                            <Divider />
+                            <CardContent>
+                                {mode === 'details' ? (
+                                    <DetailsForm {...formikProps} />
+                                ) : (
+                                    <PasswordsForm {...formikProps} />
+                                )}
+                            </CardContent>
+                            <Divider />
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'flex-end',
+                                    gap: 2,
+                                    p: 2
+                                }}
+                            >
+                                <Button
+                                    color='lightBlue'
+                                    variant='outlined'
+                                    size='large'
+                                    onClick={changeMode}
+                                >
+                                    {mode === 'details' ? 'Смяна на парола' : 'Редактиране на профил'}
+                                </Button>
+                                <Button
+                                    color='primary'
+                                    variant='contained'
+                                    type='submit'
+                                >
+                                    Запази
+                                </Button>
+                            </Box>
+                        </Card>
+                    </form>
+                )
+            }}
+        </Formik>
+    );
 };
 
 export default AccountProfileDetails;

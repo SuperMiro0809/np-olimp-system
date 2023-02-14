@@ -51,6 +51,9 @@ import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 //lessons
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
 
+//account
+import PersonIcon from '@mui/icons-material/Person';
+
 const formatRole = (role) => {
     if (role === 'SuperAdmin') {
         return 'МОН администратор';
@@ -68,6 +71,11 @@ const baseMenuItems = [
         href: '/app/dashboard',
         icon: SignalCellularAltIcon,
         title: 'Начало'
+    },
+    {
+        href: '/app/account',
+        icon: PersonIcon,
+        title: 'Акаунт'
     }
 ]
 

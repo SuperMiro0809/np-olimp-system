@@ -52,7 +52,11 @@ const routes = [
     path: 'app',
     element: <AuthGuard component={DashboardLayout} isLoggedFromRoute={true} />,
     children: [
-      { path: 'account', element: <Account /> },
+      {
+        path: 'account', element: <DashboardPageLayout title='Акаунт' />, children: [
+          { path: '', element: <Account /> }
+        ]
+      },
       {
         path: 'training-organizations',
         element: <RoleGuard component={<DashboardPageLayout title='Обучителни организации' />} accessRolesFromRoute={['SuperAdmin']} />,
