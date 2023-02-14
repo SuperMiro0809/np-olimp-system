@@ -12,7 +12,8 @@ use App\Http\Controllers\{
     GroupStudentsController,
     GroupTeachersController,
     GroupProgramController,
-    GroupLessonsController
+    GroupLessonsController,
+    DashboardController
 };
 
 /*
@@ -27,6 +28,8 @@ use App\Http\Controllers\{
 */
 
 Route::middleware('auth:api')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+
     Route::prefix('users')->group(function () {
         Route::post('/register', [UserController::class, 'register'])->withoutMiddleware('auth:api');
         Route::post('/login', [UserController::class, 'login'])->withoutMiddleware('auth:api');
