@@ -155,7 +155,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                     {
                         href: '/app/my-lesson',
                         icon: HourglassBottomIcon,
-                        title: 'Mоят час'
+                        title: 'Моето занятие'
                     },
                     {
                         href: '/app/forms',
