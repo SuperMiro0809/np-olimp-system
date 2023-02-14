@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\{
     User,
@@ -166,5 +167,27 @@ class UserController extends Controller
         ]);
 
         return $user->load(['info', 'role']);
+    }
+
+    public function changePassword(Request $request, $id) {
+        $user = User::findOrFail($id);
+
+        if(!Hash::check($request->oldPassword, $user->password)) {
+            return response()->json(['errors' => ['Старата парола не е правилна']], 422);
+        }
+
+        if($request->oldPassword == $request->password) {
+            return response()->json(['errors' => ['Старата парола съвпада с новата']], 422);
+        }
+
+        if($request->repeatPassword != $request->password) {
+            return response()->json(['errors' => ['Повторената парола не съвпада']], 422); 
+        }
+
+        $user->update([
+            'password' => bcrypt($request->password)
+        ]);
+
+        return $user;
     }
 }

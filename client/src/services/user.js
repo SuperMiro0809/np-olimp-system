@@ -41,12 +41,21 @@ function edit(data, id) {
     });
 }
 
+function changePassword(data, id) {
+    const url = `${servicesHelper.url}/users/${id}/changePassword`;
+
+    return axios.put(url, data, {
+        headers: servicesHelper.header()
+    });
+}
+
 const userService = {
     register,
     login,
     logout,
     profile,
-    edit
+    edit,
+    changePassword
 }
 
 export default userService;

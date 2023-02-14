@@ -33,7 +33,11 @@ Route::middleware('auth:api')->group(function () {
 
         Route::get('/profile', [UserController::class, 'profile']);
         Route::get('/logout', [UserController::class, 'logout']);
-        Route::put('/{id}', [UserController::class, 'edit']);
+        
+        Route::prefix('{id}')->group(function () {
+            Route::put('/', [UserController::class, 'edit']);
+            Route::put('/changePassword', [UserController::class, 'changePassword']);
+        });
     });
 
     Route::prefix('training-organizations')->group(function () {

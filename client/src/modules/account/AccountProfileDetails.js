@@ -79,6 +79,17 @@ const AccountProfileDetails = (props) => {
                             }
                             setSubmitting(false);
                         })
+                }else {
+                    userService.changePassword(values, user.id)
+                        .then((res) => {
+                            addMessage('Паролата е сменена успешно', 'success');
+                        })
+                        .catch((error) => {
+                            if (error.response.status == 422) {
+                                addMessage(error.response.data.errors[0], 'error');
+                            }
+                            setSubmitting(false);
+                        })
                 }
             }}
             enableReinitialize
