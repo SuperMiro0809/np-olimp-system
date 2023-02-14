@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Container, Grid } from '@mui/material';
+import moment from 'moment';
 
 import useAuth from '@modules/common/hooks/useAuth';
+import dashboardService from '@services/dashboard';
 
 import DashboardCard from '@modules/dashboard/components/DashboardCard';
 
@@ -32,22 +34,42 @@ import DescriptionIcon from '@mui/icons-material/Description';
 
 const Dashboard = () => {
     const [tiles, setTiles] = useState([]);
+    const [values, setValues] = useState({
+        trainingOrganizationsCount: 0,
+        trainingOrganizationsRequestCount: 0,
+        formsCount: 0,
+        teachersCount: 0,
+        teachersRequestsCount: 0,
+        subjectsCount: 0,
+        groupsCount: 0,
+        lessonsCount: 0
+    });
     const { user } = useAuth();
 
     useEffect(() => {
-        if (user) {
+        dashboardService.index()
+        .then((res) => {
+            console.log(res.data);
+            setValues(res.data);
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }, [])
 
+    useEffect(() => {
+        if (user) {
             if (user.role.name === 'SuperAdmin') {
                 setTiles([
                     {
                         title: 'Обучителни организации',
-                        value: 10,
+                        value: values.trainingOrganizationsCount,
                         url: '/app/training-organizations',
                         icon: SchoolIcon
                     },
                     {
                         title: 'Заявки',
-                        value: 10,
+                        value: values.trainingOrganizationsRequestCount,
                         url: '/app/training-organizations/requests',
                         icon: DescriptionIcon
                     }
@@ -58,31 +80,31 @@ const Dashboard = () => {
                 setTiles([
                     {
                         title: 'Формуляри',
-                        value: 10,
+                        value: values.formsCount,
                         url: '/app/forms',
                         icon: InsertDriveFileIcon
                     },
                     {
                         title: 'Учители',
-                        value: 10,
+                        value: values.teachersCount,
                         url: '/app/teachers',
                         icon: GroupIcon
                     },
                     {
                         title: 'Заявки',
-                        value: 10,
+                        value: values.teachersRequestsCount,
                         url: '/app/teachers/requests',
                         icon: DescriptionIcon
                     },
                     {
                         title: 'Предмети',
-                        value: 10,
+                        value: values.subjectsCount,
                         url: '/app/subjects',
                         icon: BookIcon
                     },
                     {
                         title: 'Данни за училището',
-                        value: 10,
+                        value: user.info.name,
                         url: '/app/school-data',
                         icon: SchoolIcon
                     }
@@ -91,25 +113,25 @@ const Dashboard = () => {
                 setTiles([
                     {
                         title: 'Моето занятие',
-                        value: 10,
+                        value: moment().format('DD/MM/YYYY'),
                         url: '/app/my-lesson',
                         icon: HourglassBottomIcon
                     },
                     {
                         title: 'Мои формуляри',
-                        value: 10,
+                        value: values.formsCount,
                         url: '/app/forms',
                         icon: InsertDriveFileIcon
                     },
                     {
                         title: 'Мои групи',
-                        value: 10,
+                        value: values.groupsCount,
                         url: '/app/groups',
                         icon: GroupsIcon
                     },
                     {
                         title: 'Занятия',
-                        value: 10,
+                        value: values.lessonsCount,
                         url: '/app/lessons',
                         icon: WatchLaterIcon
                     },
@@ -117,7 +139,7 @@ const Dashboard = () => {
             }
 
         }
-    }, [user])
+    }, [user, values])
 
     return (
         <>

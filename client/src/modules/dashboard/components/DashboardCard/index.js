@@ -59,7 +59,7 @@ const DashboardCard = ({ title, value, url, ...otherProps }) => {
                         color='textPrimary'
                         variant='h3'
                     >
-                        <CountUp end={value} />
+                        {typeof value === 'string' ? value : <CountUp end={value} />}
                     </Typography>
                 </Box>
                 <Box
