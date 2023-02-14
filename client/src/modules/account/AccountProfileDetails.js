@@ -10,11 +10,15 @@ import {
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import useAuth from '@modules/common/hooks/useAuth';
+import useMessage from '@modules/common/hooks/useMessage';
 import DetailsForm from './components/DetailsForm';
 import PasswordsForm from './components/PasswordsForm';
 
+import userService from '@services/user';
+
 const AccountProfileDetails = (props) => {
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
+    const { addMessage } = useMessage();
     const [mode, setMode] = useState('details');
 
     const [initialValues, setInitialValues] = useState({
@@ -63,7 +67,19 @@ const AccountProfileDetails = (props) => {
                     }
             )}
             onSubmit={(values, { setSubmitting }) => {
-                console.log(values)
+                if (mode === 'details') {
+                    userService.edit(values, user.id)
+                        .then((res) => {
+                            addMessage('Акаунтът е редактиран успешно', 'success');
+                            setUser(res.data);
+                        })
+                        .catch((error) => {
+                            if (error.response.status == 422) {
+                                addMessage(error.response.data.errors[0], 'error');
+                            }
+                            setSubmitting(false);
+                        })
+                }
             }}
             enableReinitialize
         >

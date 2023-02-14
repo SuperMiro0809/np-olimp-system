@@ -1,10 +1,7 @@
-import moment from 'moment';
 import {
     Avatar,
     Box,
-    Button,
     Card,
-    CardActions,
     CardContent,
     Divider,
     Typography
@@ -44,15 +41,15 @@ const AccountProfile = (props) => {
                         }}
                     />
                     <Typography
-                        color="textPrimary"
+                        color='textPrimary'
                         gutterBottom
-                        variant="h3"
+                        variant='h3'
                     >
                         {user && user.info.name}
                     </Typography>
                     <Typography
-                        color="textSecondary"
-                        variant="body1"
+                        color='textSecondary'
+                        variant='body1'
                     >
                         {user && formatRole(user.role.name)}
                     </Typography>

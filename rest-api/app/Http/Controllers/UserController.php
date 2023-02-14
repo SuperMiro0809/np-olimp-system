@@ -140,4 +140,31 @@ class UserController extends Controller
 
         return response()->json($user, 200);
     }
+
+    public function edit(Request $request, $id) {
+        $user = User::findOrFail($id);
+
+        $validator = validator($request->only('email'),
+            [
+                'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            ],
+            [
+                'email' => 'Имейлът вече е регистриран'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
+
+        $user->update([
+            'email' => $request->email
+        ]);
+
+        $user->info()->update([
+            'name' => $request->name
+        ]);
+
+        return $user->load(['info', 'role']);
+    }
 }

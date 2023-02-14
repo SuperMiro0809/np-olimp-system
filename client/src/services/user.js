@@ -33,11 +33,20 @@ function profile() {
     });
 }
 
+function edit(data, id) {
+    const url = `${servicesHelper.url}/users/${id}`;
+
+    return axios.put(url, data, {
+        headers: servicesHelper.header()
+    });
+}
+
 const userService = {
     register,
     login,
     logout,
-    profile
+    profile,
+    edit
 }
 
 export default userService;
