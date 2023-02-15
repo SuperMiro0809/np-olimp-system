@@ -10,7 +10,7 @@ import AccountProfileDetails from '@modules/account/AccountProfileDetails';
 const Account = () => (
   <>
     <Helmet>
-      <title>Account | Material Kit</title>
+      <title>Акаунт</title>
     </Helmet>
     <Box
       sx={{
