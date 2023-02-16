@@ -46,13 +46,14 @@ const LessonItem = ({
     const fields = [
         {
             type: 'array', arrayVariant: 'inline', controls: false, name: 'students', label: 'Ученици', labelVariant: 'h5', itemLabel: 'Ученик', fields: [
-                { type: 'text', name: 'name', label: 'Име' },
-                {
-                    type: 'select', name: 'attendance', label: 'Присъствие', options: [
-                        { label: 'Присъства', value: 1 },
-                        { label: 'Отсъства', value: -1 }
-                    ]
-                }
+                { type: 'text', name: 'name', label: 'Име', disabled: true },
+                // {
+                //     type: 'select', name: 'attendance', label: 'Присъствие', options: [
+                //         { label: 'Присъства', value: 1 },
+                //         { label: 'Отсъства', value: -1 }
+                //     ]
+                // },
+                { type: 'toggle', name: 'attendance', label: 'Присъствие' }
             ]
         },
     ];
@@ -68,7 +69,7 @@ const LessonItem = ({
             endHour: lesson.endHour,
             ...values
         }
-      
+
         if(user) {
             groupLessonsService.edit(data, user.info.school_id, user.info.id, lesson.id)
             .then((res) => {
@@ -79,7 +80,7 @@ const LessonItem = ({
                 console.log(error);
                 setSubmitting(false);
             })
-        }
+       }
     };
 
     const submitButton = {

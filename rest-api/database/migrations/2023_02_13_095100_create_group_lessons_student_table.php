@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('group_lessons_student', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('attendance')->comment('1 - present, -1 - absent');
+            $table->boolean('attendance');
             $table->foreignId('student_id')->constrained('group_students')->onDelete('cascade');
             $table->foreignId('lesson_id')->constrained('group_lessons')->onDelete('cascade');
             $table->timestamps();
