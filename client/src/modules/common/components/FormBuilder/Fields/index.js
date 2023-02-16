@@ -16,6 +16,7 @@ import DateRangePicker from './DateField/DateRangePicker';
 import DatePicker from './DateField/DatePicker';
 import TimePicker from './TimeField/TimePicker';
 import TimeRangePicker from './TimeField/TimeRangePicker';
+import Toggle from './Toggle';
 import PropTypes from 'prop-types';
 
 const Fields = ({
@@ -165,6 +166,15 @@ const Fields = ({
 
             {field.type === 'time-range' && (
                 <TimeRangePicker
+                    field={field}
+                    baseProps={baseProps}
+                    element={baseProps.element || values[baseProps.name]}
+                    {...formikProps}
+                />
+            )}
+
+            {field.type === 'toggle' && (
+                <Toggle
                     field={field}
                     baseProps={baseProps}
                     element={baseProps.element || values[baseProps.name]}
