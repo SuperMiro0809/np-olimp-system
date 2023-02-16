@@ -54,6 +54,7 @@ const TimePicker = ({
                         }}
                     />
                 }
+                disabled={baseProps.disabled}
             />
         </LocalizationProvider>
     );
