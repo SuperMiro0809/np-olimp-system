@@ -17,16 +17,20 @@ trait LessonTrait {
                             ->leftJoin('groups', function ($q) {
                                 $q->on('groups.id', 'group_lessons.group_id');
                             })
-                            ->with('students', function ($query) {
-                                $query->select(
-                                        'group_lessons_student.*',
-                                        'group_students.name',
-                                        'group_students.class'
-                                    )
-                                    ->leftJoin('group_students', function ($q) {
-                                        $q->on('group_students.id', 'group_lessons_student.student_id');
-                                    });
-                            });
+                            ->with([
+                                'students' => function ($query) {
+                                    $query->select(
+                                            'group_lessons_student.*',
+                                            'group_students.name',
+                                            'group_students.class'
+                                        )
+                                        ->leftJoin('group_students', function ($q) {
+                                            $q->on('group_students.id', 'group_lessons_student.student_id');
+                                        });
+                                },
+                                'group.program',
+                                'group.program.teachers'
+                            ]);
         
         if(request()->query('date')) {
             $query->where('date', request()->query('date'));

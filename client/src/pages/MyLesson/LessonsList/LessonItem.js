@@ -21,6 +21,9 @@ const LessonItem = ({
     lesson
 }) => {
     const [open, setOpen] = useState(true);
+    const [program, setProgram] = useState(lesson.group.program.map((p) => {
+        return { label: p.theme, value: p.id }
+    }));
     const { user } = useAuth();
     const { addMessage } = useMessage();
 
@@ -40,10 +43,16 @@ const LessonItem = ({
     };
 
     const initialValues = {
-        students: lesson.students
+        students: lesson.students,
+        //program: lesson.group.program
     };
 
     const fields = [
+        {
+            type: 'array', arrayVariant: 'inline', name: 'program', label: 'Програма', labelVariant: 'h5', itemLabel: 'Ученик', fields: [
+                { type: 'autocomplete', name: 'theme', label: 'Tема', options: program },
+            ]
+        },
         {
             type: 'array', arrayVariant: 'inline', controls: false, name: 'students', label: 'Ученици', labelVariant: 'h5', itemLabel: 'Ученик', fields: [
                 { type: 'text', name: 'name', label: 'Име', disabled: true },
