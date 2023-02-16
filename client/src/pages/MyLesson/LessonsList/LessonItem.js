@@ -47,13 +47,7 @@ const LessonItem = ({
         {
             type: 'array', arrayVariant: 'inline', controls: false, name: 'students', label: 'Ученици', labelVariant: 'h5', itemLabel: 'Ученик', fields: [
                 { type: 'text', name: 'name', label: 'Име', disabled: true },
-                // {
-                //     type: 'select', name: 'attendance', label: 'Присъствие', options: [
-                //         { label: 'Присъства', value: 1 },
-                //         { label: 'Отсъства', value: -1 }
-                //     ]
-                // },
-                { type: 'toggle', name: 'attendance', label: 'Присъствие' }
+                { type: 'toggle', name: 'attendance', label: 'Присъства', labelOnFalse: 'Oтсъства' }
             ]
         },
     ];
