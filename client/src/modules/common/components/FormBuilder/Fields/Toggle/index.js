@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ToggleButton, FormControl } from '@mui/material';
 
 const Toggle = ({ field, baseProps, element, setFieldValue }) => {
-    const [value, setValue] = useState(element);
+    const [value, setValue] = useState(Boolean(element));
 
     const handleChange = (event) => {
         const state = !value;
@@ -16,15 +16,18 @@ const Toggle = ({ field, baseProps, element, setFieldValue }) => {
             fullWidth
         >
             <ToggleButton
-                value="check"
+                value='check'
                 color='success'
                 selected={value}
                 onChange={handleChange}
                 fullWidth
                 sx={{
                     py: 1.8,
-                    backgroundColor: !value && 'rgba(211, 47, 47, 0.12)',
-                    color: !value && '#d32f2f'
+                    backgroundColor: !value && 'rgba(211, 47, 47, 0.08)',
+                    color: !value && '#d32f2f',
+                    '&:hover': {
+                        backgroundColor: !value && 'rgba(211, 47, 47, 0.12)'
+                    }
                 }}
             >
                 {value ? field.label : field.labelOnFalse || field.label}
