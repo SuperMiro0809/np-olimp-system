@@ -29,7 +29,15 @@ trait LessonTrait {
                                         });
                                 },
                                 'group.program',
-                                'group.program.teachers'
+                                'group.program.teachers' => function ($query) {
+                                    $query->select(
+                                            'group_program_teachers.*',
+                                            'teacher_info.name'
+                                        )
+                                        ->leftJoin('teacher_info', function ($q) {
+                                            $q->on('teacher_info.id', 'group_program_teachers.teacher_id');
+                                        });
+                                }
                             ]);
         
         if(request()->query('date')) {

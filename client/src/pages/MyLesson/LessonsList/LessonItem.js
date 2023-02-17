@@ -17,6 +17,8 @@ import groupLessonsService from '@services/groupLessons';
 import useAuth from '@modules/common/hooks/useAuth';
 import useMessage from '@modules/common/hooks/useMessage';
 
+import TeachersItem from './TeachersItem';
+
 const LessonItem = ({
     lesson
 }) => {
@@ -42,15 +44,29 @@ const LessonItem = ({
         disabled: true
     };
 
+    const teachers = lesson.group.program[0].teachers.map((teacher) => {
+        return {
+            teacher_name: teacher.name,
+            lessons: teacher.lessons,
+            teacher_id: teacher.teacher_id
+        }
+    });
+
     const initialValues = {
         students: lesson.students,
-        //program: lesson.group.program
+        teachers: teachers,
+        program: [
+            {
+                theme: ''
+            }
+        ]
     };
 
     const fields = [
         {
             type: 'array', arrayVariant: 'inline', name: 'program', label: 'Програма', labelVariant: 'h5', itemLabel: 'Ученик', fields: [
                 { type: 'autocomplete', name: 'theme', label: 'Tема', options: program },
+                { type: 'custom', component: TeachersItem }
             ]
         },
         {
