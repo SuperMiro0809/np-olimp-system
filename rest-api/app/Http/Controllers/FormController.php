@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use App\Models\{
     Form,
     FormBudget,
@@ -197,39 +196,9 @@ class FormController extends Controller
         foreach($ids as $id) {
             $form = Form::findOrFail($id);
 
-            $form->schoolInfo()->delete();
-
-            $form->groups()->get()->each(function ($group) {
-                $group->students()->delete();
-
-                $group->teachers()->delete();
-
-                $group->program()->delete();
-
-                $group->lessons()->delete();
-
-                $group->delete();
-            });
-
-            $form->description()->delete();
-
-            $form->budget()->delete();
-
-            $form->letters()->with('files')->get()->each(function ($letter) {
-                $letter->files->each(function ($file) {
-                    Storage::delete('public/' . $file->path);
-                    $file->delete();
-                });
-
-                $letter->delete();
-            });
-
-            $form->declarations()->get()->each(function ($declaration) {
-                Storage::delete('public/' . $declaration->path);
-                $declaration->delete();
-            });
-
-            $form->delete();
+           $this->deleteForm($form);
         }
+
+        return response()->json(['message' => 'Deleted'], 200); 
     }
 }

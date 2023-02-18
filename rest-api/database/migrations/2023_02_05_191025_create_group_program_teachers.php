@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('lessons');
             $table->integer('remainingLessons');
-            $table->foreignId('teacher_id')->constrained('teacher_info');
+            $table->foreignId('teacher_id')->constrained('teacher_info')->onDelete('cascade');;
             $table->foreignId('program_id')->constrained('group_program')->onDelete('cascade');
             $table->timestamps();
         });

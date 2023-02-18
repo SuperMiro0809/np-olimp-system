@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Traits\UserTrait;
+use App\Traits\{
+    UserTrait,
+    FormTrait
+};
 use App\Models\{
     SchoolInfo,
     SchoolAddress,
@@ -14,7 +17,7 @@ use App\Models\{
 
 class TrainingOrganizationsController extends Controller
 {
-    use UserTrait;
+    use UserTrait, FormTrait;
 
     public function index()
     {
@@ -77,6 +80,10 @@ class TrainingOrganizationsController extends Controller
             $schoolInfo->teachers()->get()->each(function ($teacher) {
                 $teacher->user()->delete();
                 $teacher->delete();
+            });
+
+            $schoolInfo->forms()->get()->each(function ($form) {
+                $this->deleteForm($form);
             });
 
             $schoolInfo->user()->delete();

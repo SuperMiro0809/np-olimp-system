@@ -9,7 +9,8 @@ use App\Models\{
     User,
     TeacherInfo,
     Subject,
-    SchoolAddress
+    SchoolAddress,
+    Form
 };
 
 class SchoolInfo extends Model
@@ -44,5 +45,9 @@ class SchoolInfo extends Model
 
     public function address() {
         return $this->hasOne(SchoolAddress::class, 'school_id');
+    }
+
+    public function forms() {
+        return $this->hasMany(Form::class, 'school_id');
     }
 }

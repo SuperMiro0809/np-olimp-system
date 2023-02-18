@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('group_teachers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('teacher_id')->constrained('teacher_info');
+            $table->foreignId('teacher_id')->constrained('teacher_info')->onDelete('cascade');;
             $table->foreignId('group_id')->constrained('groups');
             $table->timestamps();
         });
