@@ -41,18 +41,6 @@ class UsersSeeder extends Seeder
             'verified' => 1
 		]);
 
-        $info = AdministratorInfo::create([
-            'name' => 'РУО Админ'
-        ]);
-
-        $user = User::updateOrCreate(['email' => 'ruo@ruo.com'],[
-            'password' => Hash::make('admin123'),
-            'role_id' => Role::where('name', 'Admin')->first()->id,
-            'type' => AdministratorInfo::class,
-            'parent_id' => $info->id,
-            'verified' => 1
-		]);
-
         $moderatorRoleId = Role::where('name', 'Moderator')->first()->id;
         $userRoleId = Role::where('name', 'User')->first()->id;
 
