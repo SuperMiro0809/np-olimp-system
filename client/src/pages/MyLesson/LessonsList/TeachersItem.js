@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { TextField } from '@mui/material';
+import { TextField, InputAdornment } from '@mui/material';
 import { FieldArray, getIn } from 'formik';
 
 const TeachersItem = ({
@@ -58,6 +58,9 @@ const TeachersItem = ({
                                 }}
                                 value={values.themes[parentIndex].teachers[tIndex].lessons}
                                 margin='normal'
+                                InputProps={{
+                                    endAdornment: <InputAdornment position='end'>/{teacher.remainingLessons}</InputAdornment>
+                                }}
                                 key={teacher.teacher_id}
                             />
                         );

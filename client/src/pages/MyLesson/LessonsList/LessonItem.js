@@ -20,7 +20,8 @@ import useMessage from '@modules/common/hooks/useMessage';
 import TeachersItem from './TeachersItem';
 
 const LessonItem = ({
-    lesson
+    lesson,
+    getLessons
 }) => {
     const [open, setOpen] = useState(true);
     const [program, setProgram] = useState(lesson.group.program.map((p) => {
@@ -96,6 +97,7 @@ const LessonItem = ({
             .then((res) => {
                 addMessage('Занятието е запазено успешно', 'success');
                 setSubmitting(false);
+                getLessons();
             })
             .catch((error) => {
                 console.log(error);

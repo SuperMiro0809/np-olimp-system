@@ -51,8 +51,12 @@ trait LessonTrait {
                                 'themes.teachers' => function ($query) {
                                     $query->select(
                                             'lesson_theme_teachers.*',
+                                            'group_program_teachers.remainingLessons',
                                             'teacher_info.name as teacher_name'
                                         )
+                                        ->leftJoin('group_program_teachers', function ($q) {
+                                            $q->on('group_program_teachers.id', 'lesson_theme_teachers.program_teacher_id');
+                                        })
                                         ->leftJoin('teacher_info', function ($q) {
                                             $q->on('teacher_info.id', 'lesson_theme_teachers.teacher_id');
                                         });

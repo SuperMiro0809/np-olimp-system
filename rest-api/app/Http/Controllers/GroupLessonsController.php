@@ -72,7 +72,7 @@ class GroupLessonsController extends Controller
                 $s = GroupLessonStudent::findOrFail($student['id']);
 
                 $s->update([
-                    'attendance' => $student['attendance']
+                    'attendance' => (boolean) $student['attendance']
                 ]);
             }
         }
