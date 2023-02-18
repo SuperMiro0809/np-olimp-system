@@ -16,25 +16,29 @@ const TeachersItem = ({
     } = formikProps;
 
     useEffect(() => {
-        if(!values.program[parentIndex].teachers) {
-            const teachersValues = values.teachers.map((teacher) => {
+
+        if(!values.themes[parentIndex].teachers && values.themes[parentIndex].theme) {
+            
+            const teachersValues = values.program[parentIndex].teachers.map((teacher) => {
                 return {
                     lessons: '',
+                    remainingLessons: teacher.remainingLessons,
                     teacher_id: teacher.teacher_id,
-                    teacher_name: teacher.teacher_name
+                    teacher_name: teacher.name,
+                    program_teacher_id: teacher.id
                 }
             });
 
             setFieldValue(`${name}.${parentIndex}.teachers`, teachersValues);
         }
-    }, [])
+    }, [values.themes[parentIndex].theme])
 
     return (
         <FieldArray
             name={`${name}.${parentIndex}.teachers`}
             render={arrayHelpers => (
                 <>
-                    {values.program[parentIndex].teachers && values.program[parentIndex].teachers.map((teacher, tIndex) => {
+                    {values.themes[parentIndex].teachers && values.themes[parentIndex].teachers.map((teacher, tIndex) => {
                         const fieldName = `${name}.${parentIndex}.teachers.${tIndex}.lessons`;
 
                         return (
@@ -52,7 +56,7 @@ const TeachersItem = ({
                                 onBlur={(e) => {
                                     setFieldTouched(fieldName, true);
                                 }}
-                                value={values.program[parentIndex].teachers[tIndex].lessons}
+                                value={values.themes[parentIndex].teachers[tIndex].lessons}
                                 margin='normal'
                                 key={teacher.teacher_id}
                             />

@@ -44,18 +44,10 @@ const LessonItem = ({
         disabled: true
     };
 
-    const teachers = lesson.group.program[0].teachers.map((teacher) => {
-        return {
-            teacher_name: teacher.name,
-            lessons: teacher.lessons,
-            teacher_id: teacher.teacher_id
-        }
-    });
-
     const initialValues = {
         students: lesson.students,
-        teachers: teachers,
-        program: [
+        program: lesson.group.program,
+        themes: [
             {
                 theme: ''
             }
@@ -64,7 +56,7 @@ const LessonItem = ({
 
     const fields = [
         {
-            type: 'array', arrayVariant: 'inline', name: 'program', label: 'Програма', labelVariant: 'h5', itemLabel: 'Ученик', fields: [
+            type: 'array', arrayVariant: 'inline', name: 'themes', label: 'Програма', labelVariant: 'h5', itemLabel: 'Ученик', fields: [
                 { type: 'autocomplete', name: 'theme', label: 'Tема', options: program },
                 { type: 'custom', component: TeachersItem }
             ]
@@ -80,7 +72,7 @@ const LessonItem = ({
     const validationSchema = Yup.object().shape({
     });
 
-    const onSubmit = (values, { setSubmitting }) => {        
+    const onSubmit = (values, { setSubmitting }) => {
         const data = {
             label: lesson.label,
             date: lesson.date,
@@ -89,17 +81,17 @@ const LessonItem = ({
             ...values
         }
 
-        if(user) {
-            groupLessonsService.edit(data, user.info.school_id, user.info.id, lesson.id)
-            .then((res) => {
-                addMessage('Занятието е запазено успешно', 'success');
-                setSubmitting(false);
-            })
-            .catch((error) => {
-                console.log(error);
-                setSubmitting(false);
-            })
-       }
+            if(user) {
+                groupLessonsService.edit(data, user.info.school_id, user.info.id, lesson.id)
+                .then((res) => {
+                    addMessage('Занятието е запазено успешно', 'success');
+                    setSubmitting(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setSubmitting(false);
+                })
+           }
     };
 
     const submitButton = {
