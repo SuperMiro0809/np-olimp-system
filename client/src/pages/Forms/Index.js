@@ -22,7 +22,7 @@ const FormsList = () => {
         if (user) {
             const schoolId = user.role.name === 'Moderator' ? user.info.id : user.info.school_id;
 
-            if(user.role.name === 'User') {
+            if (user.role.name === 'User') {
                 filters.push({ value: user.info.id, label: 'teacher' });
             }
 
@@ -52,7 +52,15 @@ const FormsList = () => {
 
     const deleteHandler = (selected) => {
         if (user) {
+            const schoolId = user.role.name === 'Moderator' ? user.info.id : user.info.school_id;
 
+            formService.deleteForms(schoolId, selected)
+                .then((res) => {
+                    addMessage('Формулярът е изтрит успешно', 'success')
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         }
     }
 
