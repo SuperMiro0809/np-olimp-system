@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('form_description_activities_teachers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('teacher_id')->constrained('teacher_info');
-            $table->foreignId('activity_id')->constrained('form_description_activities');
+            $table->foreignId('activity_id')->constrained('form_description_activities')->onDelete('cascade');
             $table->timestamps();
         });
     }

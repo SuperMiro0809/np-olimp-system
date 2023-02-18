@@ -124,6 +124,7 @@ Route::middleware('auth:api')->group(function () {
         Route::prefix('forms')->group(function () {
             Route::get('/', [FormController::class, 'index']);
             Route::post('/', [FormController::class, 'store']);
+            Route::delete('/', [FormController::class, 'delete']);
         });
     });
 });

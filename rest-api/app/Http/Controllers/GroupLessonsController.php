@@ -6,7 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\{
     GroupLesson,
     GroupLessonStudent,
-    Group
+    Group,
+    LessonTheme,
+    LessonThemeTeacher,
+    GroupProgram,
+    GroupProgramTeacher
 };
 use App\Traits\LessonTrait;
 
@@ -68,7 +72,68 @@ class GroupLessonsController extends Controller
                 $s = GroupLessonStudent::findOrFail($student['id']);
 
                 $s->update([
-                    'attendance' => $student['attendance']
+                    'attendance' => (boolean) $student['attendance']
+                ]);
+            }
+        }
+
+        if(request('themes')) {
+            $themes = $request->themes;
+
+            foreach($themes as $theme) {
+                if(array_key_exists('lesson_theme_id', $theme)) {
+                    $lessonTheme = LessonTheme::findOrFail($theme['lesson_theme_id']);
+
+                }else {
+                    $lessonTheme = LessonTheme::create([
+                        'lessons' => 0,
+                        'lesson_id' => $id,
+                        'program_id' => $theme['theme']['value']
+                    ]);
+                }
+                
+                $sum = 0;
+                $old = 0;
+
+                foreach($theme['teachers'] as $teacher) {
+                    if(array_key_exists('id', $teacher)) {
+                        $lessonThemeTeacher = LessonThemeTeacher::findOrFail($teacher['id']);
+
+                        $diff = $teacher['lessons'] - $lessonThemeTeacher->lessons;
+                        $old += $lessonThemeTeacher->lessons;
+
+                        $lessonThemeTeacher->update([
+                            'lessons' => $teacher['lessons'],
+                        ]);
+                    }else {
+                        LessonThemeTeacher::create([
+                            'lessons' => $teacher['lessons'],
+                            'teacher_id' => $teacher['teacher_id'],
+                            'lesson_theme_id' => $lessonTheme->id,
+                            'program_teacher_id' => $teacher['program_teacher_id']
+                        ]);
+
+                        $diff = $teacher['lessons'];
+                    }
+
+                    $programTeacher = GroupProgramTeacher::findOrFail($teacher['program_teacher_id']);
+
+                    $programTeacher->update([
+                        'remainingLessons' => $programTeacher->remainingLessons - $diff
+                    ]);
+
+                    $sum += $teacher['lessons'];
+                }
+
+                $program = GroupProgram::findOrFail($theme['theme']['value']);
+
+                $sumDiff = $sum - $old;
+                $program->update([
+                    'remainingLessons' => $program->remainingLessons - $sumDiff
+                ]);
+
+                $lessonTheme->update([
+                    'lessons' => $sum
                 ]);
             }
         }
@@ -76,9 +141,18 @@ class GroupLessonsController extends Controller
         return $lesson;
     }
 
-    public function delete($id)
+    public function delete($schoolId, $teacherId, $id)
     {
         $lesson = GroupLesson::findOrFail($id);
+
+        $lesson->themes()->get()->each(function ($theme) {
+            $theme->program()->increment('remainingLessons', $theme->lessons);
+
+            $theme->teachers()->get()->each(function ($teacher) {
+                $teacher->programTeacher()->increment('remainingLessons', $teacher->lessons);
+            });
+        });
+
         $lesson->delete();
 
         return response()->json(['message' => 'Deleted'], 200);

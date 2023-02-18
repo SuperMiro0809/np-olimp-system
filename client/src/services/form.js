@@ -30,9 +30,19 @@ function create(schoolId, data) {
     });
 }
 
+function deleteForms(schoolId, selected) {
+    const url = `${servicesHelper.url}/${schoolId}/forms`;
+
+    return axios.delete(url, {
+        data: { selected: selected },
+        headers: servicesHelper.header()
+    });
+}
+
 const formService = {
     getForms,
     create,
+    deleteForms
 }
 
 export default formService;

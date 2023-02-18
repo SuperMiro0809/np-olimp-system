@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\{
     Group,
-    GroupLessonStudent
+    GroupLessonStudent,
+    LessonTheme
 };
 
 class GroupLesson extends Model
@@ -27,5 +28,9 @@ class GroupLesson extends Model
 
     public function students() {
         return $this->hasMany(GroupLessonStudent::class, 'lesson_id');
+    }
+
+    public function themes() {
+        return $this->hasMany(LessonTheme::class, 'lesson_id');
     }
 }

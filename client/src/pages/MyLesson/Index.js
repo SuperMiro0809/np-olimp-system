@@ -30,6 +30,10 @@ const MyLesson = () => {
     }
 
     useEffect(() => {
+        getLessons();
+    }, [date])
+
+    const getLessons = () => {
         if(user) {
             const filters = [
                 { label: 'date', value: date }
@@ -43,8 +47,7 @@ const MyLesson = () => {
                 console.log(error);
             })
         }
-    }, [date])
-
+    }
 
     return (
         <>
@@ -71,7 +74,7 @@ const MyLesson = () => {
                             </Box>
 
                             {lessons.length > 0 ? (
-                                <LessonsList lessons={lessons} />
+                                <LessonsList lessons={lessons} getLessons={getLessons} />
                             ) : (
                                 <Typography component='div' variant='h4' textAlign='center'>Няма часове за тази дата</Typography>
                             )}

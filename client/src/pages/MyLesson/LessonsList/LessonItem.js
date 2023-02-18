@@ -17,8 +17,11 @@ import groupLessonsService from '@services/groupLessons';
 import useAuth from '@modules/common/hooks/useAuth';
 import useMessage from '@modules/common/hooks/useMessage';
 
+import TeachersItem from './TeachersItem';
+
 const LessonItem = ({
-    lesson
+    lesson,
+    getLessons
 }) => {
     const [open, setOpen] = useState(true);
     const [program, setProgram] = useState(lesson.group.program.map((p) => {
@@ -44,13 +47,29 @@ const LessonItem = ({
 
     const initialValues = {
         students: lesson.students,
-        //program: lesson.group.program
+        program: lesson.group.program,
+        themes: [
+            {
+                theme: ''
+            }
+        ]
     };
+
+    if(lesson.themes.length > 0) {
+        initialValues.themes = lesson.themes.map((theme) => {
+            return {
+                lesson_theme_id: theme.id,
+                theme: { label: theme.theme, value: theme.program_id },
+                teachers: theme.teachers
+            }
+        })
+    }
 
     const fields = [
         {
-            type: 'array', arrayVariant: 'inline', name: 'program', label: 'Програма', labelVariant: 'h5', itemLabel: 'Ученик', fields: [
+            type: 'array', arrayVariant: 'inline', name: 'themes', label: 'Програма', labelVariant: 'h5', itemLabel: 'Ученик', fields: [
                 { type: 'autocomplete', name: 'theme', label: 'Tема', options: program },
+                { type: 'custom', component: TeachersItem }
             ]
         },
         {
@@ -64,7 +83,7 @@ const LessonItem = ({
     const validationSchema = Yup.object().shape({
     });
 
-    const onSubmit = (values, { setSubmitting }) => {        
+    const onSubmit = (values, { setSubmitting }) => {
         const data = {
             label: lesson.label,
             date: lesson.date,
@@ -78,12 +97,13 @@ const LessonItem = ({
             .then((res) => {
                 addMessage('Занятието е запазено успешно', 'success');
                 setSubmitting(false);
+                getLessons();
             })
             .catch((error) => {
                 console.log(error);
                 setSubmitting(false);
             })
-       }
+        }
     };
 
     const submitButton = {

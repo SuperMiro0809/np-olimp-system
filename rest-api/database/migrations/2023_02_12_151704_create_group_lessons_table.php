@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('date');
             $table->time('startHour');
             $table->time('endHour');
-            $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
+            $table->foreignId('group_id')->constrained('groups');
             $table->timestamps();
         });
     }

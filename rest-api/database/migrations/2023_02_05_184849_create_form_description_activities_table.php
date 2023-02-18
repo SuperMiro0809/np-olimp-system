@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('activity');
             $table->string('date');
-            $table->foreignId('form_description_id')->constrained('form_description');
+            $table->foreignId('form_description_id')->constrained('form_description')->onDelete('cascade');
             $table->timestamps();
         });
     }

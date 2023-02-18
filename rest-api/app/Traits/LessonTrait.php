@@ -29,7 +29,38 @@ trait LessonTrait {
                                         });
                                 },
                                 'group.program',
-                                'group.program.teachers'
+                                'group.program.teachers' => function ($query) {
+                                    $query->select(
+                                            'group_program_teachers.*',
+                                            'teacher_info.name'
+                                        )
+                                        ->leftJoin('teacher_info', function ($q) {
+                                            $q->on('teacher_info.id', 'group_program_teachers.teacher_id');
+                                        });
+                                },
+                                'themes' => function ($query) {
+                                    $query->select(
+                                            'lesson_themes.*',
+                                            'group_program.theme',
+                                            'group_program.remainingLessons'
+                                        )
+                                        ->leftJoin('group_program', function ($q) {
+                                            $q->on('group_program.id', 'lesson_themes.program_id');
+                                        });
+                                },
+                                'themes.teachers' => function ($query) {
+                                    $query->select(
+                                            'lesson_theme_teachers.*',
+                                            'group_program_teachers.remainingLessons',
+                                            'teacher_info.name as teacher_name'
+                                        )
+                                        ->leftJoin('group_program_teachers', function ($q) {
+                                            $q->on('group_program_teachers.id', 'lesson_theme_teachers.program_teacher_id');
+                                        })
+                                        ->leftJoin('teacher_info', function ($q) {
+                                            $q->on('teacher_info.id', 'lesson_theme_teachers.teacher_id');
+                                        });
+                                }
                             ]);
         
         if(request()->query('date')) {

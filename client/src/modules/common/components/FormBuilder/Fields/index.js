@@ -3,6 +3,7 @@ import {
     Autocomplete,
     MenuItem,
     Divider,
+    InputAdornment,
     Box,
     Typography
 } from '@mui/material';
@@ -38,6 +39,10 @@ const Fields = ({
                     }}
                     onBlur={() => {
                         setFieldTouched(baseProps.name, true)
+                    }}
+                    InputProps={{
+                        startAdornment: field.startAdornment && <InputAdornment position='start'>{field.startAdornment.text}</InputAdornment>,
+                        endAdornment: field.endAdornment && <InputAdornment position='end'>{field.endAdornment.text}</InputAdornment>
                     }}
                 />
             )}
