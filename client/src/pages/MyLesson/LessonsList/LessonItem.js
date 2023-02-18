@@ -55,7 +55,7 @@ const LessonItem = ({
         ]
     };
 
-    if(lesson.themes) {
+    if(lesson.themes.length > 0) {
         initialValues.themes = lesson.themes.map((theme) => {
             return {
                 lesson_theme_id: theme.id,
