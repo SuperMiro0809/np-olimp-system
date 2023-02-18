@@ -6,7 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\{
     GroupLesson,
     GroupLessonStudent,
-    Group
+    Group,
+    LessonTheme,
+    LessonThemeTeacher,
+    GroupProgram,
+    GroupProgramTeacher
 };
 use App\Traits\LessonTrait;
 
@@ -69,6 +73,47 @@ class GroupLessonsController extends Controller
 
                 $s->update([
                     'attendance' => $student['attendance']
+                ]);
+            }
+        }
+
+        if(request('themes')) {
+            $themes = $request->themes;
+
+            foreach($themes as $theme) {
+                $lessonTheme = LessonTheme::create([
+                    'lessons' => 0,
+                    'lesson_id' => $id,
+                    'program_id' => $theme['theme']['value']
+                ]);
+
+                $sum = 0;
+
+                foreach($theme['teachers'] as $teacher) {
+                    LessonThemeTeacher::create([
+                        'lessons' => $teacher['lessons'],
+                        'teacher_id' => $teacher['teacher_id'],
+                        'lesson_theme_id' => $lessonTheme->id,
+                        'program_teacher_id' => $teacher['program_teacher_id']
+                    ]);
+
+                    $programTeacher = GroupProgramTeacher::findOrFail($teacher['program_teacher_id']);
+
+                    $programTeacher->update([
+                        'remainingLessons' => $programTeacher->remainingLessons - $teacher['lessons']
+                    ]);
+
+                    $sum += $teacher['lessons'];
+                }
+
+                $program = GroupProgram::findOrFail($theme['theme']['value']);
+
+                $program->update([
+                    'remainingLessons' => $program->remainingLessons - $sum
+                ]);
+
+                $lessonTheme->update([
+                    'lessons' => $sum
                 ]);
             }
         }
