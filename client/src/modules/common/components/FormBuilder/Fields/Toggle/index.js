@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ToggleButton, FormControl } from '@mui/material';
 
 const Toggle = ({ field, baseProps, element, setFieldValue }) => {
-    const [value, setValue] = useState(Boolean(element));
+    const [value, setValue] = useState();
+
+    useEffect(() => {
+        setValue(Boolean(element))
+    }, [element])
 
     const handleChange = (event) => {
         const state = !value;
