@@ -6,7 +6,7 @@ const Message = () => {
     const { message, removeMessage } = useMessage();
 
     return (
-        <Collapse in={!!message}>
+        <Collapse in={!!message} sx={{ position: 'fixed', right: 30, zIndex: 1 }}>
             {!!message &&
                 <Alert
                     severity={message.status}
