@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('lesson_themes', function (Blueprint $table) {
             $table->id();
             $table->integer('lessons');
+            $table->foreignId('lesson_id')->constrained('group_program')->onDelete('cascade');
             $table->foreignId('program_id')->constrained('group_program')->onDelete('cascade');
             $table->timestamps();
         });

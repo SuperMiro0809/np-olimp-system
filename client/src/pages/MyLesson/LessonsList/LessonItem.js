@@ -54,6 +54,16 @@ const LessonItem = ({
         ]
     };
 
+    if(lesson.themes) {
+        initialValues.themes = lesson.themes.map((theme) => {
+            return {
+                lesson_theme_id: theme.id,
+                theme: { label: theme.theme, value: theme.program_id },
+                teachers: theme.teachers
+            }
+        })
+    }
+
     const fields = [
         {
             type: 'array', arrayVariant: 'inline', name: 'themes', label: 'Програма', labelVariant: 'h5', itemLabel: 'Ученик', fields: [
@@ -81,17 +91,17 @@ const LessonItem = ({
             ...values
         }
 
-            if(user) {
-                groupLessonsService.edit(data, user.info.school_id, user.info.id, lesson.id)
-                .then((res) => {
-                    addMessage('Занятието е запазено успешно', 'success');
-                    setSubmitting(false);
-                })
-                .catch((error) => {
-                    console.log(error);
-                    setSubmitting(false);
-                })
-           }
+        if(user) {
+            groupLessonsService.edit(data, user.info.school_id, user.info.id, lesson.id)
+            .then((res) => {
+                addMessage('Занятието е запазено успешно', 'success');
+                setSubmitting(false);
+            })
+            .catch((error) => {
+                console.log(error);
+                setSubmitting(false);
+            })
+        }
     };
 
     const submitButton = {
