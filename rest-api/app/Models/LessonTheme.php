@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\{
-    LessonThemeTeacher
+    LessonThemeTeacher,
+    GroupProgram
 };
 
 class LessonTheme extends Model
@@ -20,5 +21,9 @@ class LessonTheme extends Model
 
     public function teachers() {
         return $this->hasMany(LessonThemeTeacher::class);
+    }
+
+    public function program() {
+        return $this->belongsTo(GroupProgram::class, 'program_id');
     }
 }

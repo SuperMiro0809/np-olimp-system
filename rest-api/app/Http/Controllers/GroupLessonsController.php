@@ -141,9 +141,18 @@ class GroupLessonsController extends Controller
         return $lesson;
     }
 
-    public function delete($id)
+    public function delete($schoolId, $teacherId, $id)
     {
         $lesson = GroupLesson::findOrFail($id);
+
+        $lesson->themes()->get()->each(function ($theme) {
+            $theme->program()->increment('remainingLessons', $theme->lessons);
+
+            $theme->teachers()->get()->each(function ($teacher) {
+                $teacher->programTeacher()->increment('remainingLessons', $teacher->lessons);
+            });
+        });
+
         $lesson->delete();
 
         return response()->json(['message' => 'Deleted'], 200);
