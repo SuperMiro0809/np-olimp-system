@@ -81,26 +81,45 @@ class GroupLessonsController extends Controller
             $themes = $request->themes;
 
             foreach($themes as $theme) {
-                $lessonTheme = LessonTheme::create([
-                    'lessons' => 0,
-                    'lesson_id' => $id,
-                    'program_id' => $theme['theme']['value']
-                ]);
+                if(array_key_exists('lesson_theme_id', $theme)) {
+                    $lessonTheme = LessonTheme::findOrFail($theme['lesson_theme_id']);
 
+                }else {
+                    $lessonTheme = LessonTheme::create([
+                        'lessons' => 0,
+                        'lesson_id' => $id,
+                        'program_id' => $theme['theme']['value']
+                    ]);
+                }
+                
                 $sum = 0;
+                $old = 0;
 
                 foreach($theme['teachers'] as $teacher) {
-                    LessonThemeTeacher::create([
-                        'lessons' => $teacher['lessons'],
-                        'teacher_id' => $teacher['teacher_id'],
-                        'lesson_theme_id' => $lessonTheme->id,
-                        'program_teacher_id' => $teacher['program_teacher_id']
-                    ]);
+                    if(array_key_exists('id', $teacher)) {
+                        $lessonThemeTeacher = LessonThemeTeacher::findOrFail($teacher['id']);
+
+                        $diff = $teacher['lessons'] - $lessonThemeTeacher->lessons;
+                        $old += $lessonThemeTeacher->lessons;
+
+                        $lessonThemeTeacher->update([
+                            'lessons' => $teacher['lessons'],
+                        ]);
+                    }else {
+                        LessonThemeTeacher::create([
+                            'lessons' => $teacher['lessons'],
+                            'teacher_id' => $teacher['teacher_id'],
+                            'lesson_theme_id' => $lessonTheme->id,
+                            'program_teacher_id' => $teacher['program_teacher_id']
+                        ]);
+
+                        $diff = $teacher['lessons'];
+                    }
 
                     $programTeacher = GroupProgramTeacher::findOrFail($teacher['program_teacher_id']);
 
                     $programTeacher->update([
-                        'remainingLessons' => $programTeacher->remainingLessons - $teacher['lessons']
+                        'remainingLessons' => $programTeacher->remainingLessons - $diff
                     ]);
 
                     $sum += $teacher['lessons'];
@@ -108,8 +127,9 @@ class GroupLessonsController extends Controller
 
                 $program = GroupProgram::findOrFail($theme['theme']['value']);
 
+                $sumDiff = $sum - $old;
                 $program->update([
-                    'remainingLessons' => $program->remainingLessons - $sum
+                    'remainingLessons' => $program->remainingLessons - $sumDiff
                 ]);
 
                 $lessonTheme->update([
