@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('theme');
             $table->integer('lessons');
+            $table->integer('remainingLessons');
             $table->foreignId('group_id')->constrained('groups');
             $table->timestamps();
         });

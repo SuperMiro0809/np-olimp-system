@@ -11,6 +11,7 @@ class GroupProgramTeacher extends Model
 
     protected $fillable = [
         'lessons',
+        'remainingLessons',
         'teacher_id',
         'program_id'
     ];

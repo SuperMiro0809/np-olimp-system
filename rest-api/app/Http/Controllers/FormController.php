@@ -97,12 +97,14 @@ class FormController extends Controller
                 $newProgram = GroupProgram::create([
                     'theme' => $program['theme'],
                     'lessons' => $program['allLessons'],
+                    'remainingLessons' => $program['allLessons'],
                     'group_id' => $newGroup->id
                 ]);
 
                 foreach($program['teachers'] as $programTeacher) {
                     GroupProgramTeacher::create([
                         'lessons' => $programTeacher['lessons'],
+                        'remainingLessons' => $programTeacher['lessons'],
                         'teacher_id' => $programTeacher['teacher_id'],
                         'program_id' => $newProgram->id
                     ]);
