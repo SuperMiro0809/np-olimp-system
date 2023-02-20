@@ -315,7 +315,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                     {content}
                 </Drawer>
             </Hidden>
-            <Hidden xlDown>
+            <Hidden lgDown>
                 <Drawer
                     anchor="left"
                     open
