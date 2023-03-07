@@ -174,15 +174,17 @@ class FormController extends Controller
                 'form_id' => $form->id
             ]);
 
-            $letter_files = $request->file('lettersFiles.' . $key . '.files');
-        
-            foreach($letter_files as $file) {
-                $file_path = $file->store('letters', 'public');
+            if(request('lettersFiles.' . $key . '.files')) {
+                $letter_files = $request->file('lettersFiles.' . $key . '.files');
+            
+                foreach($letter_files as $file) {
+                    $file_path = $file->store('letters', 'public');
 
-                FormLetterFile::create([
-                    'path' => $file_path,
-                    'letter_id' => $newLetter->id,
-                ]);
+                    FormLetterFile::create([
+                        'path' => $file_path,
+                        'letter_id' => $newLetter->id,
+                    ]);
+                }
             }
         }
 
