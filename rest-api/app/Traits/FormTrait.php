@@ -28,6 +28,7 @@ trait FormTrait {
                         'forms.id as id',
                         'forms.schoolYear',
                         'forms.school_id',
+                        'forms.subject_id',
                         'subjects.name as subject_name'
                     )
                     ->where('forms.school_id', $schoolId)

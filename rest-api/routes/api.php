@@ -125,6 +125,7 @@ Route::middleware('auth:api')->group(function () {
             Route::get('/', [FormController::class, 'index']);
             Route::post('/', [FormController::class, 'store']);
             Route::delete('/', [FormController::class, 'delete']);
+            Route::get('/{id}', [FormController::class, 'getById']);
         });
     });
 });

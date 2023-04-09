@@ -203,4 +203,11 @@ class FormController extends Controller
 
         return response()->json(['message' => 'Deleted'], 200); 
     }
+
+    public function getById($schoolId, $id)
+    {
+        $form = $this->getForms($schoolId, $id);
+
+        return $form;
+    }
 }
