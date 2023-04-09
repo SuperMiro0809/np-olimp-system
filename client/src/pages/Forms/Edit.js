@@ -23,6 +23,8 @@ import Additional from './FormMenus/Additional';
 import Budget from './FormMenus/Budget';
 import SchoolProgram from './FormFields/SchoolProgram';
 
+import servicesHelper from '@services';
+
 const FormsEdit = () => {
     const { id } = useParams();
     const { addMessage } = useMessage();
@@ -64,15 +66,15 @@ const FormsEdit = () => {
                         groups: form.groups.map((group) => {
 
                             return {
-                                teachers: group.teachers.map((teacher) => ( { label: teacher.name, value: teacher.teacher_id } )),
+                                teachers: group.teachers.map((teacher) => ({ label: teacher.name, value: teacher.teacher_id })),
                                 class: group.class,
                                 lessons: group.lessons,
-                                students: group.students.map((student) => ( { name: student.name, class: student.class } )),
+                                students: group.students.map((student) => ({ name: student.name, class: student.class })),
                                 program: group.program.map((program) => {
                                     return {
                                         theme: program.theme,
                                         allLessons: program.lessons,
-                                        teachers: program.teachers.map((teacher) => ( { teacher_id: teacher.teacher_id, lessons: teacher.lessons } ))
+                                        teachers: program.teachers.map((teacher) => ({ teacher_id: teacher.teacher_id, lessons: teacher.lessons }))
                                     }
                                 })
                             };
@@ -83,7 +85,7 @@ const FormsEdit = () => {
                         activities: description.activities.map((activity) => {
                             return {
                                 activity: activity.activity,
-                                teachers: activity.teachers.map((teacher) => ( { label: teacher.name, value: teacher.teacher_id } )),
+                                teachers: activity.teachers.map((teacher) => ({ label: teacher.name, value: teacher.teacher_id })),
                                 date: activity.date
                             };
                         }),
@@ -92,7 +94,12 @@ const FormsEdit = () => {
                         budget: {
                             hourPrice: budget.hourPrice
                         },
-                       // declarations: form.declarations.map((declaration) => declaration.path)
+                        declarations: form.declarations.map((declaration) => {
+                            const name = declaration.path.split('/').pop();
+                            const file = new File([`${process.env.REACT_APP_ASSETS}/${declaration.path}`], name);
+
+                            return file;
+                        })
                     });
                 })
                 .catch((error) => {
