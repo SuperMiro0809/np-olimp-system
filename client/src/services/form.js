@@ -39,10 +39,19 @@ function deleteForms(schoolId, selected) {
     });
 }
 
+function getById(schoolId, formId) {
+    const url = `${servicesHelper.url}/${schoolId}/forms/${formId}`;
+
+    return axios.get(url, {
+        headers: servicesHelper.header()
+    });
+}
+
 const formService = {
     getForms,
     create,
-    deleteForms
+    deleteForms,
+    getById
 }
 
 export default formService;

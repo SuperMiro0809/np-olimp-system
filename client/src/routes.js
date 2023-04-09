@@ -31,6 +31,7 @@ import SchoolData from './pages/SchoolData/Index';
 
 import FormsList from './pages/Forms/Index';
 import FormsAdd from './pages/Forms/Create';
+import FormsEdit from './pages/Forms/Edit';
 
 import GroupsList from './pages/Groups/Index';
 import GroupDetails from './pages/Groups/Details';
@@ -99,7 +100,7 @@ const routes = [
         children: [
           { path: '', element: <FormsList /> },
           { path: 'create', element: <FormsAdd /> },
-          { path: 'edit/:id', element: <SubjectsEdit /> }
+          { path: 'edit/:id', element: <FormsEdit /> }
         ]
       },
       {
