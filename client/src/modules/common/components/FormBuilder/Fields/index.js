@@ -71,6 +71,7 @@ const Fields = ({
             {field.type === 'autocomplete' && (
                 <Autocomplete
                     multiple={Object.hasOwn(field, 'multiple') ? field.multiple : false}
+                    disabled={baseProps.disabled}
                     value={baseProps.value || (field.multiple ? [] : '')}
                     disablePortal
                     options={field.options}
