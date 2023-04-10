@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('form_budget_teachers', function (Blueprint $table) {
             $table->id();
             $table->integer('lessons');
-            $table->foreignId('teacher_id')->constrained('teacher_info')->onDelete('cascade');;
+            $table->foreignId('teacher_id')->constrained('teacher_info')->onDelete('cascade');
             $table->foreignId('budget_id')->constrained('form_budget')->onDelete('cascade');
             $table->timestamps();
         });
