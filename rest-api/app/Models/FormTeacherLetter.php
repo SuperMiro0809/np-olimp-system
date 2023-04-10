@@ -12,6 +12,7 @@ class FormTeacherLetter extends Model
 
     protected $fillable = [
         'letter',
+        'teacher_id',
         'form_id'
     ];
 
