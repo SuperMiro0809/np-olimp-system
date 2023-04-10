@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Card } from '@mui/material';
 import subjectService from '@services/subject';
-import trainingOrganizationsService from '@services/trainingOrganizations';
 import teacherService from '@services/teacher';
 import formService from '@services/form';
 import FormBuilder from '@modules/common/components/FormBuilder';
@@ -11,7 +10,6 @@ import * as Yup from 'yup';
 import useMessage from '@modules/common/hooks/useMessage';
 import useAuth from '@modules/common/hooks/useAuth';
 import formData from '@modules/common/components/FormBuilder/utils/formData';
-import getSchoolYear from '@modules/common/utils/getSchoolYear';
 
 import InfoIcon from '@mui/icons-material/Info';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -22,8 +20,6 @@ import MoreIcon from '@mui/icons-material/More';
 import Additional from './FormMenus/Additional';
 import Budget from './FormMenus/Budget';
 import SchoolProgram from './FormFields/SchoolProgram';
-
-import servicesHelper from '@services';
 
 const FormsEdit = () => {
     const { id } = useParams();
@@ -44,6 +40,7 @@ const FormsEdit = () => {
                     const schoolInfo = form.school_info;
                     const description = form.description;
                     const budget = form.budget;
+                    const letters = form.letters;
 
                     console.log(res.data)
                     setInitialValues({
@@ -99,6 +96,18 @@ const FormsEdit = () => {
                             const file = new File([`${process.env.REACT_APP_ASSETS}/${declaration.path}`], name);
 
                             return file;
+                        }),
+                        letters: letters.map((letter) => {
+                            return {
+                                teacher_id: letter.teacher_id,
+                                letter: letter.letter,
+                                files: letter.files.length > 0 ? letter.files.map((f) => {
+                                    const name = f.path.split('/').pop();
+                                    const file = new File([`${process.env.REACT_APP_ASSETS}/${f.path}`], name);
+
+                                    return file;
+                                }) : ''
+                            };
                         })
                     });
                 })

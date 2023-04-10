@@ -171,6 +171,7 @@ class FormController extends Controller
         foreach($letters as $key=>$letter) {
             $newLetter = FormTeacherLetter::create([
                 'letter' => $letter['letter'],
+                'teacher_id' => $letter['teacher_id'],
                 'form_id' => $form->id
             ]);
 
