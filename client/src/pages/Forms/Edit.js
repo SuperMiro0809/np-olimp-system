@@ -365,6 +365,10 @@ const FormsEdit = () => {
         setSubmitting(false);
     }
 
+    const submitButton = {
+        label: 'Редактиране'
+    }
+
     return (
         <>
             <Helmet>
@@ -386,6 +390,7 @@ const FormsEdit = () => {
                             validationSchema={validationSchema}
                             onSubmit={onSubmit}
                             handleOnChange={onChange}
+                            submitButton={submitButton}
                             enableReinitialize
                         />
                     </Box>
