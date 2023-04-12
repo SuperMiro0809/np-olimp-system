@@ -9,7 +9,7 @@ import {
     TableCell,
     TableBody,
     Divider,
-    Card
+    Card,
 } from '@mui/material';
 import Fields from '@modules/common/components/FormBuilder/Fields';
 import { getIn } from 'formik';
@@ -32,7 +32,7 @@ const Budget = ({ formikProps }) => {
     ];
 
     const administrationFields = [
-        { type: 'text', name: 'name', label: 'Дейност', margin: 'none' },
+        { type: 'text', name: 'activity', label: 'Дейност', margin: 'none' },
         { type: 'number', name: 'price', label: 'Разход', margin: 'none' }
     ]
 
@@ -99,10 +99,10 @@ const Budget = ({ formikProps }) => {
         let administrationValues = [];
 
         if(values.budget.administration) {
-            administrationValues = values.budget.administration.map((administration) => ( { name: administration.name, price: administration.price } ))
+            administrationValues = values.budget.administration.map((administration) => ( { activity: administration.activity, price: administration.price } ))
         }
 
-        administrationValues.push({ name: '', price: '' });
+        administrationValues.push({ activity: '', price: '' });
 
         setFieldValue('budget.administration', administrationValues);
     }
@@ -184,16 +184,10 @@ const Budget = ({ formikProps }) => {
                                     <TableCell align="right">{teacher.lessons * values.budget.hourPrice} ({teacher.lessons} часа x {values.budget.hourPrice} лв.)</TableCell>
                                 </TableRow>
                             ))}
-
-                            {/* <TableRow>
-                                <TableCell rowSpan={3} />
-                                <TableCell colSpan={2} align='right' sx={{ fontWeight: 'bold' }}>Общо</TableCell>
-                                <TableCell align='right' sx={{ fontWeight: 'bold' }}>{values.budget.trainingCosts} лв.</TableCell>
-                            </TableRow> */}
                         </TableBody>
                     </Table>
                     <Divider />
-                    <Box sx={{ mt: 1, pr: 3, textAlign: 'end' }}>
+                    <Box sx={{ mt: 1, textAlign: 'end' }}>
                         <Typography variant='h5'>Общо {values.budget.trainingCosts} лв.</Typography>
                     </Box>
                 </TableContainer>
@@ -260,18 +254,13 @@ const Budget = ({ formikProps }) => {
                                     </TableCell>
                                 </TableRow>
                             ))}
-
-                            {/* <TableRow>
-                                <TableCell rowSpan={3} />
-                                <TableCell colSpan={1}  align='right' sx={{ fontWeight: 'bold' }}>Общо</TableCell>
-                                <TableCell colSpan={2} align='right' sx={{ fontWeight: 'bold' }}>{values.budget.administrationCosts} лв.</TableCell>
-                            </TableRow> */}
                         </TableBody>
                     </Table>
                     <Divider />
-                    <Box sx={{ mt: 1, pr: 3, textAlign: 'end' }}>
+                    <Box sx={{ mt: 1, textAlign: 'end' }}>
                         <Typography variant='h5'>Общо {values.budget.administrationCosts} лв.</Typography>
                     </Box>
+                    {Boolean(getIn(errors, 'budget.administrationCosts')) && <Typography color='error' fontStyle='italic' textAlign='end'>{getIn(errors, 'budget.administrationCosts')}</Typography>}
                 </TableContainer>
             </Box>
 
