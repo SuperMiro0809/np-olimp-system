@@ -175,7 +175,29 @@ const FormsAdd = () => {
         indicatorsOfSuccess: Yup.string().required('Индикаторите за успех са задължителни'),
         resources: Yup.string().required('Ресурсите за проекта са задължителни'),
         budget: Yup.object().shape({
-            hourPrice: Yup.number().required('Цената на час е задължителна').min(10, 'Цената на час не може да бъде по-ниска от 10 лв.').max(25, 'Цената на час не може да надвишава 25 лв.')
+            hourPrice: Yup.number().required('Цената на час е задължителна').min(10, 'Цената на час не може да бъде по-ниска от 10 лв.').max(25, 'Цената на час не може да надвишава 25 лв.'),
+            administration: Yup.array().of(Yup.object({
+                activity: Yup.string().required('Дейността е задължителна'),
+                price: Yup.number().min(0, 'Цената трябва да е положително число').required('Цената е задължителна'),
+            })),
+            administrationCosts: Yup.number().when('administration', (administration) => {
+                if(administration && administration.length > 0) {
+                    let sum = 0;
+
+                    administration.forEach((el) => {
+                        if(el.price) {
+                            sum += el.price
+                        } 
+                    });
+
+                    return Yup.number().test({
+                        message: 'Разпределените цени не съвпадат с общата',
+                        test: (value) => {
+                            return value === sum
+                        }
+                    })
+                }
+            })
         })
     });
 
