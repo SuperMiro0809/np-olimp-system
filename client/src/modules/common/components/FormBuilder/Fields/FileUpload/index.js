@@ -78,11 +78,11 @@ const FileUpload = ({
             <FileUploadContainer>
                 <Typography
                     component='label'
+                    variant='h5'
                     sx={{
                         position: 'absolute',
                         left: 0,
-                        top: '-22px',
-                        fontSize: '14px'
+                        top: '-22px'
                     }}
                 >
                     {label}
