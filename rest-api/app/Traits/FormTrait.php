@@ -74,6 +74,7 @@ trait FormTrait {
                                 $q->on('teacher_info.id', 'form_budget_teachers.teacher_id');
                             });
                         },
+                        'budget.administration',
                         'letters', 'letters.files',
                         'declarations'
                     ])

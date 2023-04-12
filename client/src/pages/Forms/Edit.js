@@ -89,7 +89,8 @@ const FormsEdit = () => {
                         indicatorsOfSuccess: description.indicatorsOfSuccess,
                         resources: description.resources,
                         budget: {
-                            hourPrice: budget.hourPrice
+                            hourPrice: budget.hourPrice,
+                            administration: budget.administration
                         },
                         declarations: form.declarations.map((declaration) => {
                             const name = declaration.path.split('/').pop();

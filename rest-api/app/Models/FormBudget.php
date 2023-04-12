@@ -4,7 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\FormBudgetTeacher;
+use App\Models\{
+    FormBudgetAdministration,
+    FormBudgetTeacher
+};
 
 class FormBudget extends Model
 {
@@ -21,5 +24,9 @@ class FormBudget extends Model
 
     public function teachers() {
         return $this->hasMany(FormBudgetTeacher::class, 'budget_id');
+    }
+
+    public function administration() {
+        return $this->hasMany(FormBudgetAdministration::class, 'budget_id');
     }
 }
