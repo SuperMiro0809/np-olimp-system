@@ -5,7 +5,7 @@ const AddFab = ({
     color = 'primary',
     size = 'small',
     sx = {},
-    handler
+    handler = () => { }
 }) => {
     return (
         <Fab
