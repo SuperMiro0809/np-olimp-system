@@ -4,7 +4,8 @@ import RemoveIcon from '@mui/icons-material/Remove';
 const RemoveFab = ({
     color = 'error',
     size = 'small',
-    sx = {}
+    sx = {},
+    handler = () => { }
 }) => {
     return (
         <Fab
@@ -12,6 +13,7 @@ const RemoveFab = ({
             aria-label='remove'
             size={size}
             sx={sx}
+            onClick={handler}
         >
             <RemoveIcon />
         </Fab>

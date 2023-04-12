@@ -4,7 +4,8 @@ import AddIcon from '@mui/icons-material/Add';
 const AddFab = ({
     color = 'primary',
     size = 'small',
-    sx = {}
+    sx = {},
+    handler
 }) => {
     return (
         <Fab
@@ -12,6 +13,7 @@ const AddFab = ({
             aria-label='add'
             size={size}
             sx={sx}
+            onClick={handler}
         >
             <AddIcon />
         </Fab>
