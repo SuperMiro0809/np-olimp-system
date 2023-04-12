@@ -9,6 +9,8 @@ class FormBudgetAdministration extends Model
 {
     use HasFactory;
 
+    protected $table = 'form_budget_administration';
+
     protected $fillable = [
         'activity',
         'cost',

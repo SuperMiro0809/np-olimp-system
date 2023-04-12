@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\{
     Form,
     FormBudget,
+    FormBudgetAdministration,
     FormBudgetTeacher,
     FormDeclaration,
     FormDescription,
@@ -153,6 +154,16 @@ class FormController extends Controller
                 'teacher_id' => $teacher['teacher_id'],
                 'budget_id' => $budget->id
             ]);
+        }
+
+        if($budgetObj['administration']) {
+            foreach($budgetObj['administration'] as $administration) {
+                FormBudgetAdministration::create([
+                    'activity' => $administration['activity'],
+                    'cost' => $administration['cost'],
+                    'budget_id' => $budget->id
+                ]);
+            }
         }
 
         //additional

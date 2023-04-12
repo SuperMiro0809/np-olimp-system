@@ -181,13 +181,13 @@ const FormsAdd = () => {
                 cost: Yup.number().min(0, 'Цената трябва да е положително число').required('Цената е задължителна'),
             })),
             administrationCosts: Yup.number().when('administration', (administration) => {
-                if(administration && administration.length > 0) {
+                if (administration && administration.length > 0) {
                     let sum = 0;
 
                     administration.forEach((el) => {
-                        if(el.cost) {
+                        if (el.cost) {
                             sum += el.cost
-                        } 
+                        }
                     });
 
                     return Yup.number().test({
@@ -303,7 +303,7 @@ const FormsAdd = () => {
                         const t = teachersArray.find(obj => {
                             return obj.value === teacher.value
                         });
-    
+
                         if (!t) {
                             teachersArray.push(teacher);
                         }
@@ -319,11 +319,13 @@ const FormsAdd = () => {
         const data = formData(values, [], ['declarations']);
 
         values.letters.forEach(function (obj, index) {
-            obj.files.forEach((file) => {
-                data.append("lettersFiles[" + index + "][files][]", file);
-            })
+            if (obj.files) {
+                obj.files.forEach((file) => {
+                    data.append("lettersFiles[" + index + "][files][]", file);
+                })
+            }
         });
-
+        console.log(values)
         formService.create(user.info.school_id, data)
             .then((res) => {
                 addMessage('Формулярът е създаден успешно', 'success');
