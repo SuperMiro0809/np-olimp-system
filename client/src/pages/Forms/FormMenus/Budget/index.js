@@ -33,7 +33,7 @@ const Budget = ({ formikProps }) => {
 
     const administrationFields = [
         { type: 'text', name: 'activity', label: 'Дейност', margin: 'none' },
-        { type: 'number', name: 'price', label: 'Разход', margin: 'none' }
+        { type: 'number', name: 'cost', label: 'Разход', margin: 'none' }
     ]
 
     useEffect(() => {
@@ -99,10 +99,10 @@ const Budget = ({ formikProps }) => {
         let administrationValues = [];
 
         if(values.budget.administration) {
-            administrationValues = values.budget.administration.map((administration) => ( { activity: administration.activity, price: administration.price } ))
+            administrationValues = values.budget.administration.map((administration) => ( { activity: administration.activity, cost: administration.cost } ))
         }
 
-        administrationValues.push({ activity: '', price: '' });
+        administrationValues.push({ activity: '', cost: '' });
 
         setFieldValue('budget.administration', administrationValues);
     }
