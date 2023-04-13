@@ -7,7 +7,8 @@ const FormMenuControls = ({
     isSubmitting,
     handleTabChange,
     touched,
-    errors
+    errors,
+    menusValidationHandler
 }) => {
     return (
         <>
@@ -20,6 +21,7 @@ const FormMenuControls = ({
                         fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
                         disabled={isSubmitting}
                         type="submit"
+                        onClick={() => menusValidationHandler(touched, errors)}
                     >
                         {submitButton && submitButton.label ? submitButton.label : 'Добави'}
                     </Button>

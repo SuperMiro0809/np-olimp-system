@@ -36,10 +36,13 @@ const FormBuilder = ({
     const [selectedMenu, setSelectedMenu] = useState(0);
     const [menusValidation, setMenusValidation] = useState(menus.map(el => ''));
 
-    const handleTabChange = (newValue, touched, errors) => {
+    const menusValidationHandler = (touched, errors) => {
         const newMenuValidation = constructMenusValidation(menus, fields, touched, errors, menusValidation);
-
         setMenusValidation(newMenuValidation);
+    }
+
+    const handleTabChange = (newValue, touched, errors) => {
+        menusValidationHandler(touched, errors)
         setSelectedMenu(newValue);
     };
 
@@ -168,6 +171,7 @@ const FormBuilder = ({
                                                     handleTabChange={handleTabChange}
                                                     touched={touched}
                                                     errors={errors}
+                                                    menusValidationHandler={menusValidationHandler}
                                                 />
                                             </TabPanel>
                                         );
@@ -221,6 +225,7 @@ const FormBuilder = ({
                                                     handleTabChange={handleTabChange}
                                                     touched={touched}
                                                     errors={errors}
+                                                    menusValidationHandler={menusValidationHandler}
                                                 />
                                             </TabPanel>
                                         );
