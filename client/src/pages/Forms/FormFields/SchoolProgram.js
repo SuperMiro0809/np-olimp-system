@@ -31,11 +31,13 @@ const SchoolProgram = ({
                     const t = teacherValues.find(obj => {
                         return obj.teacher_id === teacher.teacher_id
                     });
-
+                   
                     if (t) {
                         const tIndex = teacherValues.findIndex((obj => obj.teacher_id == teacher.teacher_id));
                         teacherValues[tIndex].lessons = teacher.lessons;
+                        teacherValues[tIndex].id = teacher.id ?? null;
                     }
+                    
                 })
 
                 setFieldValue(`${name}.${parentIndex}.teachers`, teacherValues);

@@ -30,6 +30,17 @@ function create(schoolId, data) {
     });
 }
 
+function edit(schoolId, id, data) {
+    const url = `${servicesHelper.url}/${schoolId}/forms/${id}`;
+
+    return axios.post(url, data, {
+        headers: {
+            ...servicesHelper.header(),
+            'Content-Type': 'multipart/form-data',
+        }
+    });
+}
+
 function deleteForms(schoolId, selected) {
     const url = `${servicesHelper.url}/${schoolId}/forms`;
 
@@ -50,6 +61,7 @@ function getById(schoolId, formId) {
 const formService = {
     getForms,
     create,
+    edit,
     deleteForms,
     getById
 }

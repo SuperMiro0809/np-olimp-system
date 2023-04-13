@@ -203,6 +203,226 @@ class FormController extends Controller
         return $form;
     }
 
+    public function edit(Request $request, $schoolId, $id)
+    {
+        $form = Form::findOrFail($id);
+
+        //school info
+        $form->schoolInfo()->update([
+            'fullName' => $request->fullName,
+            'type' => $request->type,
+            'key' => $request->key,
+            'director' => $request->director
+        ]);
+
+        $schoolInfo = $form->schoolInfo()->first();
+        
+        $address = json_decode($request->address, true);
+        $schoolInfo->address()->update([
+            'address' => $address['address'],
+            'phone' => $address['phone'],
+            'email' => $address['email']
+        ]);
+
+        $contact = json_decode($request->contact, true);
+        $schoolInfo->contact()->update([
+            'name' => $contact['name'],
+            'phone' => $contact['phone'],
+            'email' => $contact['email']
+        ]);
+
+        //groups
+        $groups = json_decode($request->groups, true);
+
+        $ids = array_map(function ($group) {
+            return $group['id'] ?? null;
+        }, $groups);
+        
+        $form->groups()->whereNotIn('id', $ids)->get()->each(function ($group) {
+            $group->students()->delete();
+
+            $group->teachers()->delete();
+
+            $group->program()->delete();
+
+            $group->lessons()->delete();
+
+            $group->delete();
+        });
+
+        foreach($groups as $group) {
+            $newGroup = $form->groups()->updateOrCreate(['id' => $group['id'] ?? null], [
+                'class' => $group['class'],
+                'lessons' => $group['lessons']
+            ]);
+
+            $ids = array_map(function ($student) {
+                return $student['id'] ?? null;
+            }, $group['students']);
+
+            $newGroup->students()->whereNotIn('id', $ids)->delete();
+
+            foreach($group['students'] as $student) {
+                $newGroup->students()->updateOrCreate(['id' => $student['id'] ?? null], [
+                    'name' => $student['name'],
+                    'class' => $student['class']
+                ]);
+            }
+
+            $ids = array_map(function ($teacher) {
+                return $teacher['id'] ?? null;
+            }, $group['teachers']);
+
+            $newGroup->teachers()->whereNotIn('id', $ids)->delete();
+
+            foreach($group['teachers'] as $teacher) {
+                $newGroup->teachers()->updateOrCreate(['id' => $teacher['id'] ?? null], [
+                    'teacher_id' => $teacher['value']
+                ]);
+            }
+
+            $ids = array_map(function ($program) {
+                return $program['id'] ?? null;
+            }, $group['program']);
+
+            $newGroup->program()->whereNotIn('id', $ids)->delete();
+
+            foreach($group['program'] as $program) {
+                $newProgram = $newGroup->program()->updateOrCreate(['id' => $program['id'] ?? null], [
+                    'theme' => $program['theme'],
+                    'lessons' => $program['allLessons'],
+                    'remainingLessons' => $program['allLessons']
+                ]);
+
+                $ids = array_map(function ($programTeacher) {
+                    return $programTeacher['id'] ?? null;
+                }, $program['teachers']);
+
+                $newProgram->teachers()->whereNotIn('id', $ids)->delete();
+
+                foreach($program['teachers'] as $programTeacher) {
+                    $newProgram->teachers()->updateOrCreate(['id' => $programTeacher['id'] ?? null], [
+                        'lessons' => $programTeacher['lessons'],
+                        'remainingLessons' => $programTeacher['lessons'],
+                        'teacher_id' => $programTeacher['teacher_id']
+                    ]);
+                }
+            }
+        }
+
+        //description
+        $form->description()->update([
+            'description' => $request->description,
+            'goals' => $request->goals,
+            'results' => $request->results,
+            'indicatorsOfSuccess' => $request->indicatorsOfSuccess,
+            'resources' => $request->resources
+        ]);
+
+        $description = $form->description()->first();
+        $activities = json_decode($request->activities, true);
+
+        $ids = array_map(function ($activity) {
+            return $activity['id'] ?? null;
+        }, $activities);
+
+        $description->activities()->whereNotIn('id', $ids)->delete();
+
+        foreach($activities as $activity) {
+            $formDescriptionActivity = $description->activities()->updateOrCreate(['id' => $activity['id'] ?? null], [
+                'activity' => $activity['activity'],
+                'date' => $activity['date']
+            ]);
+
+            $ids = array_map(function ($teacher) {
+                return $teacher['id'] ?? null;
+            }, $activity['teachers']);
+
+            $formDescriptionActivity->teachers()->whereNotIn('id', $ids)->delete();
+
+            foreach($activity['teachers'] as $teacher) {
+                $formDescriptionActivity->teachers()->updateOrCreate(['id' => $teacher['id'] ?? null], [
+                    'teacher_id' => $teacher['value']
+                ]);
+            }
+        }
+
+        //budget
+        $budgetObj = json_decode($request->budget, true);
+        $form->budget()->update([
+            'hourPrice' => $budgetObj['hourPrice'],
+            'trainingCosts' => $budgetObj['trainingCosts'],
+            'administrationCosts' => $budgetObj['administrationCosts']
+        ]);
+
+        $budget = $form->budget()->first();
+
+        $ids = array_map(function ($teacher) {
+            return $teacher['teacher_id'];
+        }, $budgetObj['teachers']);
+
+        $budget->teachers()->whereNotIn('teacher_id', $ids)->delete();
+
+        foreach($budgetObj['teachers'] as $teacher) {
+            $budget->teachers()->updateOrCreate(['teacher_id' => $teacher['teacher_id']], [
+                'lessons' => $teacher['lessons']
+            ]);
+        }
+
+        if(count($budgetObj['administration']) > 0) {
+            $ids = array_map(function ($administration) {
+                return $administration['id'] ?? null;
+            }, $budgetObj['administration']);
+
+            $budget->administration()->whereNotIn('id', $ids)->delete();
+
+            foreach($budgetObj['administration'] as $administration) {
+                $budget->administration()->updateOrCreate(['id' => $administration['id'] ?? null], [
+                    'activity' => $administration['activity'],
+                    'cost' => $administration['cost']
+                ]);
+            }
+        }else {
+            $budget->administration()->delete();
+        }
+
+        //additional
+        // $declarations = $request->file('declarations');
+
+        // foreach($declarations as $declaration) {
+        //     $file_path = $declaration->store('declarations', 'public');
+
+        //     FormDeclaration::create([
+        //         'path' => $file_path,
+        //         'form_id' => $form->id
+        //     ]);
+        // }
+
+        // $letters = json_decode($request->letters, true);
+        // foreach($letters as $key=>$letter) {
+        //     $newLetter = FormTeacherLetter::create([
+        //         'letter' => $letter['letter'],
+        //         'teacher_id' => $letter['teacher_id'],
+        //         'form_id' => $form->id
+        //     ]);
+
+        //     if(request('lettersFiles.' . $key . '.files')) {
+        //         $letter_files = $request->file('lettersFiles.' . $key . '.files');
+            
+        //         foreach($letter_files as $file) {
+        //             $file_path = $file->store('letters', 'public');
+
+        //             FormLetterFile::create([
+        //                 'path' => $file_path,
+        //                 'letter_id' => $newLetter->id,
+        //             ]);
+        //         }
+        //     }
+        // }
+
+        return $form;
+    }
+
     public function delete(Request $request)
     {
         $ids = $request->selected;

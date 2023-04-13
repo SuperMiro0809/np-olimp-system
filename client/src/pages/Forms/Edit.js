@@ -21,6 +21,7 @@ import Additional from './FormMenus/Additional';
 import Budget from './FormMenus/Budget';
 import SchoolProgram from './FormFields/SchoolProgram';
 
+//when changing teachers, budget not updates. You need to go to Budget menu to perform an update
 const FormsEdit = () => {
     const { id } = useParams();
     const { addMessage } = useMessage();
@@ -63,15 +64,17 @@ const FormsEdit = () => {
                         groups: form.groups.map((group) => {
 
                             return {
-                                teachers: group.teachers.map((teacher) => ({ label: teacher.name, value: teacher.teacher_id })),
+                                id: group.id,
+                                teachers: group.teachers.map((teacher) => ({ id: teacher.id, label: teacher.name, value: teacher.teacher_id })),
                                 class: group.class,
                                 lessons: group.lessons,
-                                students: group.students.map((student) => ({ name: student.name, class: student.class })),
+                                students: group.students.map((student) => ({ id: student.id, name: student.name, class: student.class })),
                                 program: group.program.map((program) => {
                                     return {
+                                        id: program.id,
                                         theme: program.theme,
                                         allLessons: program.lessons,
-                                        teachers: program.teachers.map((teacher) => ({ teacher_id: teacher.teacher_id, lessons: teacher.lessons }))
+                                        teachers: program.teachers.map((teacher) => ({ id: teacher.id, teacher_id: teacher.teacher_id, lessons: teacher.lessons }))
                                     }
                                 })
                             };
@@ -81,8 +84,9 @@ const FormsEdit = () => {
                         results: description.results,
                         activities: description.activities.map((activity) => {
                             return {
+                                id: activity.id,
                                 activity: activity.activity,
-                                teachers: activity.teachers.map((teacher) => ({ label: teacher.name, value: teacher.teacher_id })),
+                                teachers: activity.teachers.map((teacher) => ({ label: teacher.name, value: teacher.teacher_id, id: teacher.id })),
                                 date: activity.date
                             };
                         }),
@@ -90,6 +94,8 @@ const FormsEdit = () => {
                         resources: description.resources,
                         budget: {
                             hourPrice: budget.hourPrice,
+                            trainingCosts: budget.trainingCosts,
+                            administrationCosts: budget.administrationCosts,
                             administration: budget.administration
                         },
                         declarations: form.declarations.map((declaration) => {
@@ -371,20 +377,22 @@ const FormsEdit = () => {
         const data = formData(values, [], ['declarations']);
 
         values.letters.forEach(function (obj, index) {
-            obj.files.forEach((file) => {
-                data.append("lettersFiles[" + index + "][files][]", file);
-            })
+            if (obj.files) {
+                obj.files.forEach((file) => {
+                    data.append("lettersFiles[" + index + "][files][]", file);
+                })
+            }
         });
 
         console.log(values);
-        // formService.create(user.info.school_id, data)
-        //     .then((res) => {
-        //         addMessage('Формулярът е създаден успешно', 'success');
-        //         navigate('/app/forms');
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     })
+        formService.edit(user.info.school_id, id, data)
+            .then((res) => {
+                addMessage('Формулярът е редактиран успешно', 'success');
+                //navigate('/app/forms');
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
         setSubmitting(false);
     }
