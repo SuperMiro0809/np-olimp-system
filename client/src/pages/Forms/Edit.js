@@ -96,7 +96,8 @@ const FormsEdit = () => {
                             hourPrice: budget.hourPrice,
                             trainingCosts: budget.trainingCosts,
                             administrationCosts: budget.administrationCosts,
-                            administration: budget.administration
+                            administration: budget.administration,
+                            teachers: budget.teachers.map((teacher) => ({ id: teacher.id, teacher_id: teacher.teacher_id, teacher_name: teacher.name, lessons: teacher.lessons  }))
                         },
                         declarations: form.declarations.map((declaration) => {
                             const name = declaration.path.split('/').pop();
