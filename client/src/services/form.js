@@ -58,12 +58,21 @@ function getById(schoolId, formId) {
     });
 }
 
+function submit(schoolId, selected) {
+    const url = `${servicesHelper.url}/${schoolId}/forms/submit`;
+
+    return axios.put(url, { selected }, {
+        headers: servicesHelper.header()
+    });
+}
+
 const formService = {
     getForms,
     create,
     edit,
     deleteForms,
-    getById
+    getById,
+    submit
 }
 
 export default formService;

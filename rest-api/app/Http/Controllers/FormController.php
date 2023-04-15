@@ -454,7 +454,7 @@ class FormController extends Controller
            $this->deleteForm($form);
         }
 
-        return response()->json(['message' => 'Deleted'], 200); 
+        return response()->json(['message' => 'Deleted'], 200);
     }
 
     public function getById($schoolId, $id)
@@ -462,5 +462,18 @@ class FormController extends Controller
         $form = $this->getForms($schoolId, $id);
 
         return $form;
+    }
+
+    public function submit(Request $request)
+    {
+        $ids = $request->selected;
+
+        foreach($ids as $id) {
+            $form = Form::findOrFail($id);
+
+            $form->settings()->update(['submitted' => true]);
+        }
+
+        return response()->json(['message' => 'Submitted'], 200); 
     }
 }

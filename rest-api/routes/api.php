@@ -126,6 +126,7 @@ Route::middleware('auth:api')->group(function () {
             Route::post('/', [FormController::class, 'store']);
             Route::post('/{id}', [FormController::class, 'edit']);
             Route::delete('/', [FormController::class, 'delete']);
+            Route::put('/submit', [FormController::class, 'submit']);
             Route::get('/{id}', [FormController::class, 'getById']);
         });
     });
