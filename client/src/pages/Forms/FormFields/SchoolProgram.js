@@ -95,7 +95,7 @@ const SchoolProgram = ({
                                     }}
                                     value={values.groups[index].program[parentIndex].teachers[tIndex].lessons}
                                     margin='normal'
-                                    key={teacher.teacher_id}
+                                    key={tIndex}
                                 />
                             );
                         })}
