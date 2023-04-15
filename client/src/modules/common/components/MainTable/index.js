@@ -18,10 +18,10 @@ import {
 import { makeStyles, withStyles, styled } from '@mui/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import EnhancedTableHead from './EnhancedTableHead';
-import DeleteDialog from './DeleteDialog';
 import ChipColumn from './ChipColumn';
 import Pagination from '@modules/common/components/Pagination/Pagination';
 import PropTypes from 'prop-types';
+import ButtonDialog from './ButtonDialog';
 
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -118,9 +118,16 @@ const MainTable = ({
             label: heading.id,
         }))
     );
-    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-    const [deleteId, setDeleteId] = useState(0);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [dialog, setDialog] = useState(null);
+    const [selectedId, setSelectedId] = useState(0);
     const [allColsNum, setAllColsNum] = useState(headings.length);
+
+    const deleteDialog = {
+        title: 'Изтриване',
+        contentText: 'Сигурни ли сте, че искате да изтриете?',
+        agreeText: 'Изтрий'
+    }
 
     const newRequest = () => {
         method(page, rowsPerPage, searches, { field: orderBy, direction: order });
@@ -158,14 +165,14 @@ const MainTable = ({
         setSearches(newSearches);
     };
 
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
+    // const handleChangePage = (event, newPage) => {
+    //     setPage(newPage);
+    // };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(event.target.value);
-        setPage(0);
-    };
+    // const handleChangeRowsPerPage = (event) => {
+    //     setRowsPerPage(event.target.value);
+    //     setPage(0);
+    // };
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -211,13 +218,12 @@ const MainTable = ({
         setSelected(newSelected);
     };
 
-    const handleOpenDeleteDialog = () => {
-        setOpenDeleteDialog(true);
-    }
+    const handleOpenDialog = (dialog, handler, id = 0) => {
+        let d = { ...dialog, handler };
 
-    const handleDeleteClick = (id) => {
-        setOpenDeleteDialog(true);
-        setDeleteId(id)
+        setSelectedId(id);
+        setOpenDialog(true);
+        setDialog(d)
     }
 
     const itemOption = (item, option) => {
@@ -239,21 +245,10 @@ const MainTable = ({
                                 color='lightBlue'
                                 textcolor='lightBlue'
                                 disabled={selected.length === 0}
-                                onClick={handleOpenDeleteDialog}
+                                onClick={() => handleOpenDialog(deleteDialog, deleteHandler)}
                             >
                                 Изтриване на избраните
                             </Button>
-
-                            <DeleteDialog
-                                selected={selected}
-                                setSelected={setSelected}
-                                deleteId={deleteId}
-                                setDeleteId={setDeleteId}
-                                deleteHandler={deleteHandler}
-                                newRequest={newRequest}
-                                open={openDeleteDialog}
-                                setOpen={setOpenDeleteDialog}
-                            />
                         </>
                     )}
                     {options.add && (
@@ -270,6 +265,19 @@ const MainTable = ({
                     )}
 
                 </Box>
+            )}
+
+            {dialog && (
+                <ButtonDialog
+                    selected={selected}
+                    setSelected={setSelected}
+                    selectedId={selectedId}
+                    setSelectedId={setSelectedId}
+                    dialog={dialog}
+                    newRequest={newRequest}
+                    openDialog={openDialog}
+                    setOpenDialog={setOpenDialog}
+                />
             )}
 
             <Table
@@ -411,6 +419,21 @@ const MainTable = ({
                                                         />
                                                     </TableCell>
                                                 );
+                                            } else if (type === 'button') {
+                                                const handler = heading.handler;
+
+                                                return (
+                                                    <TableCell key={heading.id} align={heading.align} style={{ maxHeight: "20px", overflow: "hidden" }}>
+                                                        <Button
+                                                            variant={heading.button && Object.hasOwn(heading.button, 'variant') ? heading.button.variant : 'contained'}
+                                                            color={heading.button && Object.hasOwn(heading.button, 'color') ? heading.button.color : 'primary'}
+                                                            textcolor={heading.button && Object.hasOwn(heading.button, 'textColor') ? heading.button.textColor : 'primary'}
+                                                            onClick={() => handleOpenDialog(heading['dialog'], handler, row.id)}
+                                                        >
+                                                            {heading.button && Object.hasOwn(heading.button, 'label') ? heading.button.label : heading.label}
+                                                        </Button>
+                                                    </TableCell>
+                                                );
                                             } else {
 
                                                 return (
@@ -448,7 +471,7 @@ const MainTable = ({
                                             <TableCell align='right'>
                                                 <IconButton
                                                     color='error'
-                                                    onClick={() => handleDeleteClick(row['id'])}
+                                                    onClick={() => handleOpenDialog(deleteDialog, deleteHandler, row['id'])}
                                                     disabled={!itemOption(row, 'delete')}
                                                 >
                                                     <DeleteIcon />
