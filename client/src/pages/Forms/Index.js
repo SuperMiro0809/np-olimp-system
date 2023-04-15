@@ -38,11 +38,41 @@ const FormsList = () => {
         }
     }
 
+    const formSubmitHandler = (selected) => {
+        formService.submit(user.info.id, selected)
+            .then((res) => {
+                addMessage('Формулярът е изпратен успешно', 'success')
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
     const headings = [
         { id: 'id', label: 'ID', order: true },
         { id: 'schoolYear', label: 'Учебна година', order: true },
         { id: 'subject_name', label: 'Учебен предмет', order: false }
     ];
+
+    if (user && user.role.name === 'Moderator') {
+        headings.push({
+            id: 'submitted',
+            label: 'Предаване',
+            type: 'button',
+            button: {
+                color: 'lightBlue',
+                textColor: 'lightBlue',
+                variant: 'outlined'
+            },
+            dialog: {
+                title: 'Предаване',
+                contentText: 'Сигурни ли сте, че искате да предадете формуляра?',
+                agreeText: 'Предай'
+            },
+            handler: formSubmitHandler,
+            order: false
+        });
+    }
 
     const headFilters = {
         'id': { type: 'search', name: 'id', placeholder: 'Търси по ID' },
@@ -56,7 +86,7 @@ const FormsList = () => {
 
             formService.deleteForms(schoolId, selected)
                 .then((res) => {
-                    addMessage('Формулярът е изтрит успешно', 'success')
+                    addMessage('Формулярът е изтрит успешно', 'success');
                 })
                 .catch((error) => {
                     console.log(error);
@@ -86,11 +116,13 @@ const FormsList = () => {
                                 total={total}
                                 method={get}
                                 deleteHandler={deleteHandler}
+                                itemOptionsKey='settings'
                                 options={{
                                     checkbox: true,
                                     add: Boolean(user && user.info.form_permission),
                                     delete: Boolean(user && user.info.form_permission),
-                                    edit: Boolean(user && user.info.form_permission)
+                                    edit: Boolean(user && user.info.form_permission),
+                                    details: true
                                 }}
                             />
                         </Box>
