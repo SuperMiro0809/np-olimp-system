@@ -72,9 +72,12 @@ const Fields = ({
                 <Autocomplete
                     multiple={Object.hasOwn(field, 'multiple') ? field.multiple : false}
                     disabled={baseProps.disabled}
-                    value={baseProps.value || (field.multiple ? [] : '')}
                     disablePortal
                     options={field.options}
+                    defaultValue={baseProps.value || (field.multiple ? [] : '')}
+                    value={baseProps.value || (field.multiple ? [] : '')}
+                    getOptionLabel={(option) => option.label || option.title || ''}
+                    isOptionEqualToValue={(option, value) => option.value === value.value}
                     onChange={(e, value) => (
                         setFieldValue(baseProps.name, value)
                     )}
