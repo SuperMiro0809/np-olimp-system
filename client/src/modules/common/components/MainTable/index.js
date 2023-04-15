@@ -100,6 +100,7 @@ const MainTable = ({
         edit: false,
         details: false
     },
+    itemOptionsKey = '',
     routeName = '',
     dense,
     rowClick
@@ -142,7 +143,7 @@ const MainTable = ({
             colsNum++;
         }
 
-        if(options.details) {
+        if (options.details) {
             colsNum++;
         }
 
@@ -217,6 +218,14 @@ const MainTable = ({
     const handleDeleteClick = (id) => {
         setOpenDeleteDialog(true);
         setDeleteId(id)
+    }
+
+    const itemOption = (item, option) => {
+        if (itemOptionsKey && item[itemOptionsKey]) {
+            return item[itemOptionsKey].hasOwn(option) && item[itemOptionsKey][option];
+        }
+
+        return options[option];
     }
 
     return (
@@ -415,25 +424,33 @@ const MainTable = ({
                                         })}
                                         {options.details && (
                                             <TableCell align='right'>
-                                                <RouterLink to={routeName ? routeName + `/${row.id}/details` : `${row.id}/details`}>
-                                                    <IconButton>
-                                                        <MeetingRoomIcon />
-                                                    </IconButton>
-                                                </RouterLink>
+                                                <IconButton
+                                                    component={RouterLink}
+                                                    to={routeName ? routeName + `/${row.id}/details` : `${row.id}/details`}
+                                                    disabled={!itemOption(row, 'details')}
+                                                >
+                                                    <MeetingRoomIcon />
+                                                </IconButton>
                                             </TableCell>
                                         )}
                                         {options.edit && (
                                             <TableCell align='right'>
-                                                <RouterLink to={routeName ? routeName + `/edit/${row.id}` : `edit/${row.id}`}>
-                                                    <IconButton>
-                                                        <EditIcon />
-                                                    </IconButton>
-                                                </RouterLink>
+                                                <IconButton
+                                                    component={RouterLink}
+                                                    to={routeName ? routeName + `/edit/${row.id}` : `edit/${row.id}`}
+                                                    disabled={!itemOption(row, 'edit')}
+                                                >
+                                                    <EditIcon />
+                                                </IconButton>
                                             </TableCell>
                                         )}
                                         {options.delete && (
                                             <TableCell align='right'>
-                                                <IconButton color='error' onClick={() => handleDeleteClick(row['id'])}>
+                                                <IconButton
+                                                    color='error'
+                                                    onClick={() => handleDeleteClick(row['id'])}
+                                                    disabled={!itemOption(row, 'delete')}
+                                                >
                                                     <DeleteIcon />
                                                 </IconButton>
                                             </TableCell>
