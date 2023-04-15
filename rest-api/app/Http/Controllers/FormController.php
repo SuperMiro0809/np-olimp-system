@@ -407,26 +407,35 @@ class FormController extends Controller
             return $letter['id'] ?? null;
         }, $letters);
 
-        $form->letters()->whereNotIn('id', $ids)->delete();
+        $form->letters()->whereNotIn('id', $ids)->with(['files'])->get()->each(function ($letter) {
+            $letter->files->each(function ($file) {
+                Storage::delete('public/' . $file->path);
+                $file->delete();
+            });
+
+            $letter->delete();
+        });
 
         foreach($letters as $key=>$letter) {
-            $form->letters()->updateOrCreate(['id' => $letter['id'] ?? null], [
+            $newLetter = $form->letters()->updateOrCreate(['id' => $letter['id'] ?? null], [
                 'letter' => $letter['letter'],
                 'teacher_id' => $letter['teacher_id'],
             ]);
 
-            // if(request('lettersFiles.' . $key . '.files')) {
-            //     $letter_files = $request->file('lettersFiles.' . $key . '.files');
-            
-            //     foreach($letter_files as $file) {
-            //         $file_path = $file->store('letters', 'public');
+            $newLetter->files()->get()->each(function ($file) {
+                Storage::delete('public/' . $file->path);
+                $file->delete();
+            });
 
-            //         FormLetterFile::create([
-            //             'path' => $file_path,
-            //             'letter_id' => $newLetter->id,
-            //         ]);
-            //     }
-            // }
+            if(request('lettersFiles.' . $key . '.files')) {
+                $letter_files = $request->file('lettersFiles.' . $key . '.files');
+            
+                foreach($letter_files as $file) {
+                    $file_path = $file->store('letters', 'public');
+
+                    $newLetter->files()->create(['path' => $file_path]);
+                }
+            }
         }
 
         return $form;
