@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\{
     Form,
@@ -388,16 +388,18 @@ class FormController extends Controller
         }
 
         //additional
-        // $declarations = $request->file('declarations');
+        $declarations = $request->file('declarations');
+        
+        $form->declarations()->get()->each(function ($declaration) {
+            Storage::delete('public/' . $declaration->path);
+            $declaration->delete();
+        });
 
-        // foreach($declarations as $declaration) {
-        //     $file_path = $declaration->store('declarations', 'public');
+        foreach($declarations as $declaration) {
+            $file_path = $declaration->store('declarations', 'public');
 
-        //     FormDeclaration::create([
-        //         'path' => $file_path,
-        //         'form_id' => $form->id
-        //     ]);
-        // }
+            $form->declarations()->create(['path' => $file_path]);
+        }
 
         $letters = json_decode($request->letters, true);
 
