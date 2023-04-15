@@ -17,6 +17,7 @@ use App\Models\{
     FormSchoolContact,
     FormSchoolInfo,
     FormTeacherLetter,
+    FormSetting,
     Group,
     GroupProgram,
     GroupProgramTeacher,
@@ -44,6 +45,8 @@ class FormController extends Controller
             'subject_id' => $subject['value'],
             'school_id' => $schoolId
         ]);
+
+        FormSetting::create(['form_id' => $form->id]);
 
         //school info
         $formSchoolInfo = FormSchoolInfo::create([

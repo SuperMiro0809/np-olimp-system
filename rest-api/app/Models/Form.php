@@ -10,7 +10,8 @@ use App\Models\{
     FormDescription,
     FormBudget,
     FormTeacherLetter,
-    FormDeclaration
+    FormDeclaration,
+    FormSetting
 };
 
 class Form extends Model
@@ -45,5 +46,9 @@ class Form extends Model
 
     public function declarations() {
         return $this->hasMany(FormDeclaration::class);
+    }
+
+    public function settings() {
+        return $this->hasOne(FormSetting::class);
     }
 }

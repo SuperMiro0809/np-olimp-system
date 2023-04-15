@@ -76,7 +76,8 @@ trait FormTrait {
                         },
                         'budget.administration',
                         'letters', 'letters.files',
-                        'declarations'
+                        'declarations',
+                        'settings'
                     ])
                     ->leftJoin('subjects', function($q) {
                         $q->on('subjects.id', 'forms.subject_id');
@@ -147,6 +148,8 @@ trait FormTrait {
             Storage::delete('public/' . $declaration->path);
             $declaration->delete();
         });
+
+        $form->settings()->delete();
 
         $form->delete();
     }
