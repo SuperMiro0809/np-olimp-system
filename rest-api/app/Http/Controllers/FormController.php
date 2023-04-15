@@ -358,14 +358,15 @@ class FormController extends Controller
         $budget = $form->budget()->first();
 
         $ids = array_map(function ($teacher) {
-            return $teacher['teacher_id'];
+            return $teacher['id'] ?? null;
         }, $budgetObj['teachers']);
 
-        $budget->teachers()->whereNotIn('teacher_id', $ids)->delete();
+        $budget->teachers()->whereNotIn('id', $ids)->delete();
 
         foreach($budgetObj['teachers'] as $teacher) {
-            $budget->teachers()->updateOrCreate(['teacher_id' => $teacher['teacher_id']], [
-                'lessons' => $teacher['lessons']
+            $budget->teachers()->updateOrCreate(['id' => $teacher['id'] ?? null], [
+                'lessons' => $teacher['lessons'],
+                'teacher_id' => $teacher['teacher_id']
             ]);
         }
 
@@ -398,27 +399,33 @@ class FormController extends Controller
         //     ]);
         // }
 
-        // $letters = json_decode($request->letters, true);
-        // foreach($letters as $key=>$letter) {
-        //     $newLetter = FormTeacherLetter::create([
-        //         'letter' => $letter['letter'],
-        //         'teacher_id' => $letter['teacher_id'],
-        //         'form_id' => $form->id
-        //     ]);
+        $letters = json_decode($request->letters, true);
 
-        //     if(request('lettersFiles.' . $key . '.files')) {
-        //         $letter_files = $request->file('lettersFiles.' . $key . '.files');
+        $ids = array_map(function ($letter) {
+            return $letter['id'] ?? null;
+        }, $letters);
+
+        $form->letters()->whereNotIn('id', $ids)->delete();
+
+        foreach($letters as $key=>$letter) {
+            $form->letters()->updateOrCreate(['id' => $letter['id'] ?? null], [
+                'letter' => $letter['letter'],
+                'teacher_id' => $letter['teacher_id'],
+            ]);
+
+            // if(request('lettersFiles.' . $key . '.files')) {
+            //     $letter_files = $request->file('lettersFiles.' . $key . '.files');
             
-        //         foreach($letter_files as $file) {
-        //             $file_path = $file->store('letters', 'public');
+            //     foreach($letter_files as $file) {
+            //         $file_path = $file->store('letters', 'public');
 
-        //             FormLetterFile::create([
-        //                 'path' => $file_path,
-        //                 'letter_id' => $newLetter->id,
-        //             ]);
-        //         }
-        //     }
-        // }
+            //         FormLetterFile::create([
+            //             'path' => $file_path,
+            //             'letter_id' => $newLetter->id,
+            //         ]);
+            //     }
+            // }
+        }
 
         return $form;
     }

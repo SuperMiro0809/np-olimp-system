@@ -107,6 +107,7 @@ const FormsEdit = () => {
                         }),
                         letters: letters.map((letter) => {
                             return {
+                                id: letter.id,
                                 teacher_id: letter.teacher_id,
                                 letter: letter.letter,
                                 files: letter.files.length > 0 ? letter.files.map((f) => {

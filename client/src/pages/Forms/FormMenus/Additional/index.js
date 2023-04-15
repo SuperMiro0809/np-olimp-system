@@ -51,6 +51,7 @@ const Additional = ({ formikProps }) => {
                     if(letter.teacher_id === id) {
                         teacher.letter = letter.letter;
                         teacher.files = letter.files;
+                        teacher.id = letter.id ?? null;
                     } 
                 });
 
