@@ -52,8 +52,24 @@ const Budget = ({ formikProps }) => {
                 })
             }
         });
+        
+        let teacherValues = teachersArray.map((teacher) => ({ teacher_id: teacher.value, teacher_name: teacher.label, lessons: 0 }));
 
-        let teacherValues = teachersArray.map((teacher) => ({ teacher_id: teacher.value, teacher_name: teacher.label, lessons: 0 }))
+        if(values.budget.teachers) {
+            teacherValues = teacherValues.map((teacher) => {
+                const t = values.budget.teachers.find(obj => {
+                    return obj.teacher_id === teacher.teacher_id
+                });
+
+                let el = teacher;
+
+                if(t) {
+                    el.id = t.id ?? null;
+                }
+
+                return el;
+            })
+        }
 
         teacherValues = teacherValues.map((teacher) => {
             const id = teacher.teacher_id;
