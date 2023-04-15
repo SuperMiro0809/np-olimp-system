@@ -228,7 +228,7 @@ const MainTable = ({
 
     const itemOption = (item, option) => {
         if (itemOptionsKey && item[itemOptionsKey]) {
-            return item[itemOptionsKey].hasOwn(option) && item[itemOptionsKey][option];
+            return Object.hasOwn(item[itemOptionsKey], option) && item[itemOptionsKey][option];
         }
 
         return options[option];
