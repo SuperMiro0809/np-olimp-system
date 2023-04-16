@@ -29,7 +29,11 @@ trait FormTrait {
                         'forms.schoolYear',
                         'forms.school_id',
                         'forms.subject_id',
-                        'subjects.name as subject_name'
+                        'subjects.name as subject_name',
+                        'form_settings.edit',
+                        'form_settings.delete',
+                        'form_settings.submitted',
+                        'form_settings.approved'
                     )
                     ->where('forms.school_id', $schoolId)
                     ->with([
@@ -76,11 +80,13 @@ trait FormTrait {
                         },
                         'budget.administration',
                         'letters', 'letters.files',
-                        'declarations',
-                        'settings'
+                        'declarations'
                     ])
                     ->leftJoin('subjects', function($q) {
                         $q->on('subjects.id', 'forms.subject_id');
+                    })
+                    ->leftJoin('form_settings', function($q) {
+                        $q->on('form_settings.form_id', 'forms.id');
                     });
         
         if(request()->query('id')) {
