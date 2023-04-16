@@ -114,7 +114,12 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                 ]);
             } else if (user.role.name === 'Admin') {
                 setMenuItems([
-                    ...baseMenuItems
+                    ...baseMenuItems,
+                    {
+                        href: '/app/school-forms',
+                        icon: SchoolIcon,
+                        title: 'Училища и формуляри'
+                    },
                 ]);
             } else if (user.role.name === 'Moderator') {
                 setMenuItems([
