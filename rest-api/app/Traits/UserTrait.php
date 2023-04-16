@@ -8,7 +8,7 @@ use App\Models\{
 
 trait UserTrait {
 
-    public function getSchoolInfo($verified, $id=null) {
+    public function getSchoolInfo($verified, $id=null, $key=null) {
         $query = SchoolInfo::select(
                                 'school_info.id',
                                 'school_info.name',
@@ -64,6 +64,10 @@ trait UserTrait {
 
         if(request()->has(['field', 'direction'])){
             $query->orderBy(request()->query('field'), request()->query('direction'));
+        }
+
+        if($key) {
+            $query->whereRaw('(LENGTH(`key`) = 6 AND LEFT(`key`, 1) = ' . $key . ') OR (LENGTH(`key`) = 7 AND LEFT(`key`, 2) = ' . $key . ')');
         }
 
         if($id) {

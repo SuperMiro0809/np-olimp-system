@@ -204,4 +204,21 @@ class TrainingOrganizationsController extends Controller
 
         return response()->json($schoolInfo, 200);
     }
+
+    public function getFromRegion($key)
+    {
+        $validator = validator(['key' => $key], 
+            [
+                'key' => 'required|numeric',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
+        
+        $schoolInfo = $this->getSchoolInfo(true, null, $key);
+
+        return $schoolInfo;
+    }
 }
