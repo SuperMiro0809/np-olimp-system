@@ -44,6 +44,10 @@ trait UserTrait {
                                 $q->where('users.type', 'App\Models\SchoolInfo');
                             });
 
+        if($key) {
+            $query->whereRaw('(LENGTH(`key`) = 6 AND LEFT(`key`, 1) = ' . $key . ') OR (LENGTH(`key`) = 7 AND LEFT(`key`, 2) = ' . $key . ')');
+        }
+
         if(request()->query('id')) {
             $query->where('school_info.id', 'LIKE', '%'.request()->query('id').'%');
         }
@@ -64,10 +68,6 @@ trait UserTrait {
 
         if(request()->has(['field', 'direction'])){
             $query->orderBy(request()->query('field'), request()->query('direction'));
-        }
-
-        if($key) {
-            $query->whereRaw('(LENGTH(`key`) = 6 AND LEFT(`key`, 1) = ' . $key . ') OR (LENGTH(`key`) = 7 AND LEFT(`key`, 2) = ' . $key . ')');
         }
 
         if($id) {
