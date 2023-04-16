@@ -127,9 +127,13 @@ const FormsList = () => {
                                     edit: Boolean(user && user.info.form_permission),
                                     details: Boolean(user && user.role.name === 'Moderator')
                                 }}
-                                actionButtons={[
-                                    { label: 'Предаване на избраните', color: 'lightBlue', textColor: 'lightBlue', endIcon: <ForwardIcon />, handler: formSubmitHandler, dialog: sumbitDialog }
-                                ]}
+                                actionButtons={user && user.role.name === 'Moderator' ?
+                                    [
+                                        { label: 'Предаване на избраните', color: 'lightBlue', textColor: 'lightBlue', endIcon: <ForwardIcon />, handler: formSubmitHandler, dialog: sumbitDialog }
+                                    ]
+                                    :
+                                    []
+                                }
                             />
                         </Box>
                     </PerfectScrollbar>
