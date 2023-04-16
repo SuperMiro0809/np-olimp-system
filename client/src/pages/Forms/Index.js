@@ -7,11 +7,19 @@ import MainTable from '@modules/common/components/MainTable';
 import useMessage from '@modules/common/hooks/useMessage';
 import useAuth from '@modules/common/hooks/useAuth';
 
+import ForwardIcon from '@mui/icons-material/Forward';
+
 const FormsList = () => {
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
     const { addMessage } = useMessage();
     const { user } = useAuth();
+
+    const sumbitDialog = {
+        title: 'Предаване',
+        contentText: 'Сигурни ли сте, че искате да предадете формуляра?',
+        agreeText: 'Предай'
+    };
 
     const get = (page, total, filters = [], order = {}) => {
         const pagination = {
@@ -64,11 +72,7 @@ const FormsList = () => {
                 textColor: 'lightBlue',
                 variant: 'outlined'
             },
-            dialog: {
-                title: 'Предаване',
-                contentText: 'Сигурни ли сте, че искате да предадете формуляра?',
-                agreeText: 'Предай'
-            },
+            dialog: sumbitDialog,
             handler: formSubmitHandler,
             order: false
         });
@@ -116,14 +120,16 @@ const FormsList = () => {
                                 total={total}
                                 method={get}
                                 deleteHandler={deleteHandler}
-                                itemOptionsKey='settings'
                                 options={{
                                     checkbox: true,
                                     add: Boolean(user && user.info.form_permission),
                                     delete: Boolean(user && user.info.form_permission),
                                     edit: Boolean(user && user.info.form_permission),
-                                    details: true
+                                    details: Boolean(user && user.role.name === 'Moderator')
                                 }}
+                                actionButtons={[
+                                    { label: 'Предаване на избраните', color: 'lightBlue', textColor: 'lightBlue', endIcon: <ForwardIcon />, handler: formSubmitHandler, dialog: sumbitDialog }
+                                ]}
                             />
                         </Box>
                     </PerfectScrollbar>
