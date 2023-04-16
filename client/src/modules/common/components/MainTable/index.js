@@ -100,6 +100,7 @@ const MainTable = ({
         edit: false,
         details: false
     },
+    actionButtons = [],
     itemOptionsKey = '',
     routeName = '',
     dense,
@@ -230,14 +231,41 @@ const MainTable = ({
         if (itemOptionsKey && item[itemOptionsKey]) {
             return Object.hasOwn(item[itemOptionsKey], option) && item[itemOptionsKey][option];
         }
+        if(!itemOptionsKey && item[option]) {
+            return item[option];
+        }
 
         return options[option];
     }
 
     return (
         <Box>
-            {(options.delete || options.add) && (
+            {(options.delete || options.add || actionButtons.length > 0) && (
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mb: 3 }}>
+                    {actionButtons.map((button, index) => (
+                        <Button
+                            variant={button.variant || 'contained'}
+                            color={button.color || 'primary'}
+                            textcolor={button.textColor || 'primary'}
+                            disabled={selected.length === 0}
+                            onClick={() => {
+                                const handler = button.handler;
+
+                                if(button.dialog) {
+                                    handleOpenDialog(button.dialog, handler)
+                                }else {
+                                    handler(selected);
+                                    newRequest();
+                                }
+                            }}
+                            startIcon={button.startIcon}
+                            endIcon={button.endIcon}
+                            key={index}
+                        >
+                            {button.label}
+                        </Button>
+                    ))}
+
                     {options.delete && (
                         <>
                             <Button
@@ -251,6 +279,7 @@ const MainTable = ({
                             </Button>
                         </>
                     )}
+                    
                     {options.add && (
                         <Button
                             component={RouterLink}
@@ -429,6 +458,7 @@ const MainTable = ({
                                                             color={heading.button && Object.hasOwn(heading.button, 'color') ? heading.button.color : 'primary'}
                                                             textcolor={heading.button && Object.hasOwn(heading.button, 'textColor') ? heading.button.textColor : 'primary'}
                                                             onClick={() => handleOpenDialog(heading['dialog'], handler, row.id)}
+                                                            disabled={!!value}
                                                         >
                                                             {heading.button && Object.hasOwn(heading.button, 'label') ? heading.button.label : heading.label}
                                                         </Button>
