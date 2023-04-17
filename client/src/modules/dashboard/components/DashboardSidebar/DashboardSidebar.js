@@ -116,7 +116,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                 setMenuItems([
                     ...baseMenuItems,
                     {
-                        href: '/app/school-forms',
+                        href: '/app/schools',
                         icon: SchoolIcon,
                         title: 'Училища и формуляри'
                     },
