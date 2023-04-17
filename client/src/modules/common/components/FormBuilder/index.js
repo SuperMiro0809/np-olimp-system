@@ -138,9 +138,11 @@ const FormBuilder = ({
                                     }}
                                     aria-label="Vertical tabs example"
                                     sx={{
-                                        maxWidth: '200px',
+                                        //maxWidth: '200px',
+                                        width: '150px',
                                         borderRight: 1,
                                         borderColor: 'divider',
+                                        overflow: 'visible',
                                         '& .MuiTabs-indicator': { backgroundColor: '#ff7701!important' },
                                         //'& .MuiTab-root': { color: 'text.success' },
                                         //'& .Mui-selected': { color: '#96011c!important' },
