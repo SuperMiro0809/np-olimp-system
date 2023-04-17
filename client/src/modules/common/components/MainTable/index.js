@@ -13,7 +13,8 @@ import {
     TextField,
     Grid,
     Chip,
-    Switch
+    Switch,
+    Autocomplete
 } from '@mui/material';
 import { makeStyles, withStyles, styled } from '@mui/styles';
 import { Link as RouterLink } from 'react-router-dom';
@@ -22,6 +23,7 @@ import ChipColumn from './ChipColumn';
 import Pagination from '@modules/common/components/Pagination/Pagination';
 import PropTypes from 'prop-types';
 import ButtonDialog from './ButtonDialog';
+import Select from '../filters/Select';
 
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -160,9 +162,9 @@ const MainTable = ({
     }, [page, rowsPerPage, searches, order, orderBy])
 
 
-    const handleSearchChange = (index) => (event) => {
+    const handleSearchChange = (index) => (event, newValue) => {
         const newSearches = [...searches];
-        newSearches[index].value = event.target.value;
+        newSearches[index].value = newValue ? newValue.value : event.target.value || '';
         setSearches(newSearches);
     };
 
@@ -231,7 +233,7 @@ const MainTable = ({
         if (itemOptionsKey && item[itemOptionsKey]) {
             return Object.hasOwn(item[itemOptionsKey], option) && item[itemOptionsKey][option];
         }
-        if(!itemOptionsKey && Object.hasOwn(item, option)) {
+        if (!itemOptionsKey && Object.hasOwn(item, option)) {
             return item[option];
         }
 
@@ -251,9 +253,9 @@ const MainTable = ({
                             onClick={() => {
                                 const handler = button.handler;
 
-                                if(button.dialog) {
+                                if (button.dialog) {
                                     handleOpenDialog(button.dialog, handler)
-                                }else {
+                                } else {
                                     handler(selected);
                                     newRequest();
                                 }
@@ -279,7 +281,7 @@ const MainTable = ({
                             </Button>
                         </>
                     )}
-                    
+
                     {options.add && (
                         <Button
                             component={RouterLink}
@@ -347,6 +349,36 @@ const MainTable = ({
                                                     size='small'
                                                     fullWidth
                                                     sx={{ backgroundColor: 'white' }}
+                                                />
+                                            )}
+                                            {headFilters[heading.id].type === 'select' && (
+                                                // <TextField
+                                                //     select
+                                                //     value={searches[index].value || 'none'}
+                                                //     onChange={handleSearchChange(index)}
+                                                //     size='small'
+                                                //     fullWidth
+                                                //     sx={{ backgroundColor: 'white' }}
+                                                // >
+                                                //     <MenuItem value="none" disabled>{headFilters[heading.id].placeholder}</MenuItem>
+                                                //     {headFilters[heading.id].options.map((option) => (
+                                                //         <MenuItem key={option.value} value={option.value}>
+                                                //             {option.label}
+                                                //         </MenuItem>
+                                                //     ))}
+                                                // </TextField>
+                                                <Autocomplete
+                                                    disablePortal
+                                                    options={headFilters[heading.id].options}
+                                                    sx={{ backgroundColor: 'white' }}
+                                                    onChange={handleSearchChange(index)}
+                                                    renderInput={(params) => (
+                                                        <TextField
+                                                            {...params}
+                                                            placeholder={headFilters[heading.id].placeholder}
+                                                            size='small'
+                                                        />
+                                                    )}
                                                 />
                                             )}
                                         </TableCell>
