@@ -20,6 +20,7 @@ const FormMenuControls = ({
                         variant={submitButton && submitButton.variant ? submitButton.variant : 'contained'}
                         fullWidth={submitButton && Object.hasOwn(submitButton, 'fullWidth') ? submitButton.fullWidth : true}
                         disabled={isSubmitting}
+                        sx={(submitButton && Object.hasOwn(submitButton, 'hidden') && submitButton.hidden) ? { display: 'none' } : {}}
                         type="submit"
                         onClick={() => menusValidationHandler(touched, errors)}
                     >
