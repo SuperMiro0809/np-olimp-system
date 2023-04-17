@@ -66,13 +66,22 @@ function submit(schoolId, selected) {
     });
 }
 
+function changePermissions(schoolId, id, data) {
+    const url = `${servicesHelper.url}/${schoolId}/forms/permissions/${id}`;
+
+    return axios.put(url, data, {
+        headers: servicesHelper.header()
+    });
+}
+
 const formService = {
     getForms,
     create,
     edit,
     deleteForms,
     getById,
-    submit
+    submit,
+    changePermissions
 }
 
 export default formService;

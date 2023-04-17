@@ -11,6 +11,7 @@ const FormsList = () => {
     const { id: schoolId } = useParams();
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
+    const { addMessage } = useMessage();
 
     const get = (page, total, filters = [], order = {}) => {
         const pagination = {
@@ -31,10 +32,40 @@ const FormsList = () => {
             })
     }
 
+    const editPermissionHandler = (event, id) => {
+        const data = {
+            edit: event.target.checked
+        };
+        console.log(data);
+        formService.changePermissions(schoolId, id, data)
+            .then((res) => {
+                addMessage('Правата за формуляра са редактирани успешно', 'success');
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
+    const deletePermissionHandler = (event, id) => {
+        const data = {
+            delete: event.target.checked
+        };
+
+        formService.changePermissions(schoolId, id, data)
+            .then((res) => {
+                addMessage('Правата за формуляра са редактирани успешно', 'success');
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
     const headings = [
         { id: 'id', label: 'ID', order: true },
         { id: 'schoolYear', label: 'Учебна година', order: true },
-        { id: 'subject_name', label: 'Учебен предмет', order: false }
+        { id: 'subject_name', label: 'Учебен предмет', order: false },
+        { id: 'edit', label: 'Права за редактиране', type: 'switch', handler: editPermissionHandler },
+        { id: 'delete', label: 'Права за триене', type: 'switch', handler: deletePermissionHandler }
     ];
 
     const headFilters = {

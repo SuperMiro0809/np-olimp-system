@@ -476,4 +476,19 @@ class FormController extends Controller
 
         return response()->json(['message' => 'Submitted'], 200); 
     }
+
+    public function changePermissions(Request $request, $schoolId, $id)
+    {
+        $form = Form::findOrFail($id);
+
+        if($request->has('edit')) {
+            $form->settings()->update(['edit' => $request->edit]);
+        }
+
+        if($request->has('delete')) {
+            $form->settings()->update(['delete' => $request->delete]);
+        }
+
+        return $form;
+    }
 }

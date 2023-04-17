@@ -128,6 +128,7 @@ Route::middleware('auth:api')->group(function () {
             Route::post('/{id}', [FormController::class, 'edit']);
             Route::delete('/', [FormController::class, 'delete']);
             Route::put('/submit', [FormController::class, 'submit']);
+            Route::put('/permissions/{id}', [FormController::class, 'changePermissions']);
             Route::get('/{id}', [FormController::class, 'getById']);
         });
     });
