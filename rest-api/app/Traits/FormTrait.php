@@ -79,7 +79,19 @@ trait FormTrait {
                             });
                         },
                         'budget.administration',
-                        'letters', 'letters.files',
+                        'letters' => function ($query) {
+                            $query->select(
+                                'form_teacher_letters.id',
+                                'form_teacher_letters.letter',
+                                'form_teacher_letters.form_id',
+                                'form_teacher_letters.teacher_id',
+                                'teacher_info.name as teacher_name'
+                            )
+                            ->leftJoin('teacher_info', function($q) {
+                                $q->on('teacher_info.id', 'form_teacher_letters.teacher_id');
+                            });
+                        },
+                        'letters.files',
                         'declarations'
                     ])
                     ->leftJoin('subjects', function($q) {
