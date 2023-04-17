@@ -106,6 +106,10 @@ trait FormTrait {
                 $q->where('teacher_id', request()->query('teacher'));
             });
         }
+
+        if(request()->query('submitted')) {
+            $query->where('submitted', request()->query('submitted'));
+        }
         
         if($id) {
             $forms = $query->where('forms.id', $id)->first();

@@ -46,6 +46,7 @@ import LessonDetails from './pages/Lessons/Details';
 import MyLesson from './pages/MyLesson/Index';
 
 import SchoolFormsList from './pages/SchoolForms/Index';
+import SchoolFormsDetails from './pages/SchoolForms/Details';
 
 import AuthGuard from '@modules/common/hoc/AuthGuard';
 import RoleGuard from '@modules/common/hoc/RoleGuard';
@@ -75,6 +76,19 @@ const routes = [
         element: <RoleGuard component={<DashboardPageLayout title='Училища и формуляри' />} accessRolesFromRoute={['Admin']} />,
         children: [
           { path: '', element: <SchoolFormsList /> },
+          {
+            path: ':id',
+            children: [
+              { path: '', element: <Navigate to='details' /> },
+              { path: 'details', element: <SchoolFormsDetails /> },
+              {
+                path: 'forms',
+                children: [
+                  { path: 'edit/:formId', element: <StudentsEdit /> }
+                ]
+              }
+            ]
+          }
         ]
       },
       {
