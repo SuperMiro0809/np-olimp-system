@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Card } from '@mui/material';
-import PerfectScrollbar from 'react-perfect-scrollbar';
+import { Box } from '@mui/material';
 import formService from '@services/form';
 import MainTable from '@modules/common/components/MainTable';
 import useMessage from '@modules/common/hooks/useMessage';
@@ -12,6 +11,18 @@ const FormsList = () => {
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
     const { addMessage } = useMessage();
+    const [options, setOptions] = useState([]);
+
+    useEffect(() => {
+        formService.getSchoolYears(schoolId)
+            .then((res) => {
+                const opt = res.data.map((el) => ({ label: el.schoolYear, value: el.schoolYear }))
+                setOptions(opt);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, []);
 
     const get = (page, total, filters = [], order = {}) => {
         const pagination = {
@@ -19,7 +30,9 @@ const FormsList = () => {
             total: total || 10
         }
 
-        filters.push({ value: 1, label: 'submitted' });
+        if(!filters.some(el => el.label === 'submitted')) {
+            filters.push({ value: 1, label: 'submitted' });
+        }
 
         formService.getForms(schoolId, pagination, filters, order)
             .then((res) => {
@@ -70,7 +83,7 @@ const FormsList = () => {
 
     const headFilters = {
         'id': { type: 'search', name: 'id', placeholder: 'Търси по ID' },
-        'schoolYear': { type: 'search', name: 'schoolYear', placeholder: 'Търси по Учебна година' },
+        'schoolYear': { type: 'select', name: 'schoolYear', placeholder: 'Търси по Учебна година', options: options },
         'subject_name': { type: 'search', name: 'subject_name', placeholder: 'Търси по Учебен предмет' }
     }
 

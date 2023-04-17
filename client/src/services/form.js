@@ -74,6 +74,14 @@ function changePermissions(schoolId, id, data) {
     });
 }
 
+function getSchoolYears(schoolId) {
+    const url = `${servicesHelper.url}/${schoolId}/forms/school-years`;
+
+    return axios.get(url, {
+        headers: servicesHelper.header()
+    });
+}
+
 const formService = {
     getForms,
     create,
@@ -81,7 +89,8 @@ const formService = {
     deleteForms,
     getById,
     submit,
-    changePermissions
+    changePermissions,
+    getSchoolYears
 }
 
 export default formService;

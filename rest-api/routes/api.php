@@ -129,6 +129,7 @@ Route::middleware('auth:api')->group(function () {
             Route::delete('/', [FormController::class, 'delete']);
             Route::put('/submit', [FormController::class, 'submit']);
             Route::put('/permissions/{id}', [FormController::class, 'changePermissions']);
+            Route::get('/school-years', [FormController::class, 'getSchoolYears']);
             Route::get('/{id}', [FormController::class, 'getById']);
         });
     });

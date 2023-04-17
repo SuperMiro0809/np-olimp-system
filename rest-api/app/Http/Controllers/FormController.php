@@ -491,4 +491,13 @@ class FormController extends Controller
 
         return $form;
     }
+
+    public function getSchoolYears($schoolId)
+    {
+        $query = Form::select('schoolYear')
+                    ->where('school_id', $schoolId)
+                    ->groupBy('schoolYear');
+        
+        return $query->get();
+    }
 }
