@@ -28,6 +28,7 @@ const ArrayInlineItem = ({
     ...otherProps
 }) => {
     const { touched, errors } = formikProps;
+    const { disabled } = baseProps;
 
     const onAdd = () => {
         arrayHelpers.push(dataScheme(fields));
@@ -95,10 +96,10 @@ const ArrayInlineItem = ({
             })}
             {controls && (
                 <ControlsWrapper sx={{ mb: !open ? 2 : 0 }}>
-                    <Fab onClick={() => onAdd()} size='small' color='primary' aria-label='add'>
+                    <Fab onClick={() => onAdd()} size='small' color='primary' aria-label='add' disabled={disabled}>
                         <AddIcon />
                     </Fab>
-                    <Fab onClick={() => onRemove(index)} disabled={element.length == 1} sx={{ ml: 1 }} size='small' color='primary' aria-label='remove'>
+                    <Fab onClick={() => onRemove(index)} disabled={disabled || element.length == 1} sx={{ ml: 1 }} size='small' color='primary' aria-label='remove'>
                         <RemoveIcon />
                     </Fab>
                 </ControlsWrapper>

@@ -42,7 +42,8 @@ const Fields = ({
                     }}
                     InputProps={{
                         startAdornment: field.startAdornment && <InputAdornment position='start'>{field.startAdornment.text}</InputAdornment>,
-                        endAdornment: field.endAdornment && <InputAdornment position='end'>{field.endAdornment.text}</InputAdornment>
+                        endAdornment: field.endAdornment && <InputAdornment position='end'>{field.endAdornment.text}</InputAdornment>,
+                        readOnly: field.readOnly || false
                     }}
                 />
             )}
@@ -51,6 +52,7 @@ const Fields = ({
                 <RichTextEditor
                     rows={field.rows || 2}
                     formikProps={formikProps}
+                    readOnly={field.readOnly || false}
                     {...baseProps}
                 />
             )}
@@ -59,6 +61,11 @@ const Fields = ({
                 <TextField
                     select
                     {...baseProps}
+                    InputProps={{
+                        startAdornment: field.startAdornment && <InputAdornment position='start'>{field.startAdornment.text}</InputAdornment>,
+                        endAdornment: field.endAdornment && <InputAdornment position='end'>{field.endAdornment.text}</InputAdornment>,
+                        readOnly: field.readOnly || false
+                    }}
                 >
                     {field.options.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
@@ -82,6 +89,7 @@ const Fields = ({
                         setFieldValue(baseProps.name, value)
                     )}
                     freeSolo
+                    readOnly={field.readOnly || false}
                     renderInput={(params) => (
                         <TextField
                             {...params}

@@ -145,6 +145,7 @@ class RichTextEditor extends React.Component {
               spellCheck={true}
               onFocus={this.onFocus}
               onBlur={this.onBlur}
+              readOnly={this.props.readOnly}
             />
           </div>
         </div>
