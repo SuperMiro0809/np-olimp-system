@@ -23,7 +23,6 @@ import ChipColumn from './ChipColumn';
 import Pagination from '@modules/common/components/Pagination/Pagination';
 import PropTypes from 'prop-types';
 import ButtonDialog from './ButtonDialog';
-import Select from '../filters/Select';
 
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
