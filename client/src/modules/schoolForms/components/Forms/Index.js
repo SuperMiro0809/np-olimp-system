@@ -75,29 +75,17 @@ const FormsList = () => {
     }
 
     return (
-        <Box
-            sx={{
-                backgroundColor: 'background.default',
-                minHeight: '100%',
-                py: 3
-            }}
-        >
-            <Card sx={{ p: 2 }}>
-                <PerfectScrollbar>
-                    <Box>
-                        <MainTable
-                            headings={headings}
-                            headFilters={headFilters}
-                            rows={data}
-                            total={total}
-                            method={get}
-                            options={{
-                                details: true
-                            }}
-                        />
-                    </Box>
-                </PerfectScrollbar>
-            </Card>
+        <Box sx={{ mt: 3 }}>
+            <MainTable
+                headings={headings}
+                headFilters={headFilters}
+                rows={data}
+                total={total}
+                method={get}
+                options={{
+                    details: true
+                }}
+            />
         </Box>
     );
 }
