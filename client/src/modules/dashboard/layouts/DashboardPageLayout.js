@@ -20,6 +20,7 @@ const DashboardPageLayout = ({ title }) => {
         'details': 'Детайли',
         'requests': 'Заявки',
         'students': 'Ученици',
+        'forms': 'Формуляри'
     }
 
     return (

@@ -4,7 +4,6 @@ import { Box } from '@mui/material';
 import formService from '@services/form';
 import MainTable from '@modules/common/components/MainTable';
 import useMessage from '@modules/common/hooks/useMessage';
-import useAuth from '@modules/common/hooks/useAuth';
 
 const FormsList = () => {
     const { id: schoolId } = useParams();
@@ -96,8 +95,9 @@ const FormsList = () => {
                 total={total}
                 method={get}
                 options={{
-                    details: true
+                    edit: true
                 }}
+                routeName={`/app/schools/${schoolId}/forms`}
             />
         </Box>
     );
