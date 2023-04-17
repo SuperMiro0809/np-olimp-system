@@ -6,17 +6,18 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const Select = ({ title, options, value, setValue }) => {
+const Select = ({ title, options, value, setValue, fullWidth = false, size = 'medium' }) => {
 
     const handleChange = (event) => {
         setValue(event.target.value);
     }
 
     return (
-        <FormControl >
+        <FormControl fullWidth={fullWidth} size={size}>
             <InputLabel id="label">{title}</InputLabel>
             <SelectMUI
                 labelId="label"
+                hidden
                 value={value}
                 label={title}
                 onChange={handleChange}
@@ -33,7 +34,9 @@ const Select = ({ title, options, value, setValue }) => {
 Select.propTypes = {
     title: PropTypes.string.isRequired,
     options: PropTypes.array.isRequired,
-    setValue: PropTypes.func.isRequired
+    setValue: PropTypes.func.isRequired,
+    fullWidth: PropTypes.bool,
+    size: PropTypes.string
 }
 
 export default Select;
