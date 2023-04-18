@@ -5,11 +5,13 @@ const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
 
 const orangeColor = createColor('#ff7701');
 const lightBlueColor = createColor('#3c8dbc');
+const yellowColor = createColor('#fbc02d');
 
 const theme = createTheme({
   palette: {
     orange: orangeColor,
     lightBlue: lightBlueColor,
+    yellow: yellowColor,
     background: {
       default: '#f4f6f8',
       paper: '#ffffff'

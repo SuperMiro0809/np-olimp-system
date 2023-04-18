@@ -86,7 +86,7 @@ const routes = [
               {
                 path: 'forms',
                 children: [
-                  { path: 'edit/:formId', element: <FormGrade /> }
+                  { path: 'grade/:formId', element: <FormGrade /> }
                 ]
               }
             ]

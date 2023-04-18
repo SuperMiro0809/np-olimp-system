@@ -4,6 +4,7 @@ import { Box } from '@mui/material';
 import formService from '@services/form';
 import MainTable from '@modules/common/components/MainTable';
 import useMessage from '@modules/common/hooks/useMessage';
+import GradeIcon from '@mui/icons-material/Grade';
 
 const FormsList = () => {
     const { id: schoolId } = useParams();
@@ -29,7 +30,7 @@ const FormsList = () => {
             total: total || 10
         }
 
-        if(!filters.some(el => el.label === 'submitted')) {
+        if (!filters.some(el => el.label === 'submitted')) {
             filters.push({ value: 1, label: 'submitted' });
         }
 
@@ -95,8 +96,11 @@ const FormsList = () => {
                 total={total}
                 method={get}
                 options={{
-                    edit: true
+                    grade: true
                 }}
+                customOptions={[
+                    { name: 'grade', icon: GradeIcon, color: 'yellow' }
+                ]}
                 routeName={`/app/schools/${schoolId}/forms`}
             />
         </Box>

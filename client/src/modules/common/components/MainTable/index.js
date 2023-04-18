@@ -522,7 +522,7 @@ const MainTable = ({
                                             return (
                                                 <TableCell align='right' key={index}>
                                                     <IconButton
-                                                        color='yellow'
+                                                        color={option.color || ''}
                                                         component={RouterLink}
                                                         to={routeName ? routeName + `/${option.name}/${row.id}` : `${option.name}/${row.id}`}
                                                         disabled={!itemOption(row, option.name)}
