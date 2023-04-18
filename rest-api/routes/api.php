@@ -13,7 +13,8 @@ use App\Http\Controllers\{
     GroupTeachersController,
     GroupProgramController,
     GroupLessonsController,
-    DashboardController
+    DashboardController,
+    FileController
 };
 
 /*
@@ -29,6 +30,8 @@ use App\Http\Controllers\{
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    Route::get('/file', [FileController::class, 'show']);
 
     Route::prefix('users')->group(function () {
         Route::post('/register', [UserController::class, 'register'])->withoutMiddleware('auth:api');
