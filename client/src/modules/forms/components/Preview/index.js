@@ -41,7 +41,6 @@ const FormPreview = ({ id, schoolId }) => {
                     const budget = form.budget;
                     const letters = form.letters;
 
-                    console.log(res.data)
                     setInitialValues({
                         schoolYear: form.schoolYear,
                         fullName: schoolInfo.fullName,

@@ -1,18 +1,28 @@
-import { Box, Card, Grid } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Grid } from '@mui/material';
+import formService from '@services/form';
 import GradeItem from './GradeItem';
 
-const Grade = () => {
+const Grade = ({ id, schoolId }) => {
+    const [groups, setGroups] = useState([]);
+
+    useEffect(() => {
+        formService.getById(schoolId, id)
+            .then((res) => {
+                setGroups(res.data.groups)
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [])
+
     return (
         <Grid container spasing={2} rowGap={2}>
-            <Grid item xs={12}>
-                <GradeItem />
-            </Grid>
-            <Grid item xs={12}>
-                <GradeItem />
-            </Grid>
-            <Grid item xs={12}>
-                <GradeItem />
-            </Grid>
+            {groups.map((group, index) => (
+                <Grid item xs={12} key={index}>
+                    <GradeItem group={group}/>
+                </Grid>
+            ))}
         </Grid>
     );
 }
