@@ -10,6 +10,7 @@ import {
 import RichTextEditor from './RichTextEditor';
 import LangFields from './LangFields';
 import FileUpload from './FileUpload';
+import FileDownload from './FileDownload';
 import ArrayField from './ArrayField';
 import FieldGroup from './FieldGroup';
 import GroupHeading from './FieldGroup/GroupHeading';
@@ -118,6 +119,16 @@ const Fields = ({
                     label={field.label}
                     multiple={field.multiple}
                     updateFilesCb={updateUploadedFiles}
+                    name={baseProps.name}
+                    element={baseProps.element || values[baseProps.name]}
+                    {...formikProps}
+                />
+            )}
+
+            {field.type === 'download' && (
+                <FileDownload
+                    label={field.label}
+                    multiple={field.multiple}
                     name={baseProps.name}
                     element={baseProps.element || values[baseProps.name]}
                     {...formikProps}
