@@ -1,0 +1,229 @@
+import { Paragraph, Document, Packer, AlignmentType, TextRun, Table, TableCell, TableRow, WidthType, PageOrientation, TextDirection } from "docx";
+import { saveAs } from "file-saver";
+
+export default function generateGradeWord(grade) {
+    const tHeaders = [
+        '№ по ред на проекта',
+        'Област',
+        'Населено място',
+        'Име на училището',
+        'Учебен предмет и клас',
+        'Допустимост',
+        'Формуляр за кандидатстване',
+        'Училищен екип',
+        'Описание на проекта',
+        'Бюджет',
+        'Списък на учениците ( 3т. при 7 и 8 уч.; 2 т. – при 5 и 6 уч.; 1 т. – при 4 уч.)',
+        'Декларации на родителите',
+        'Мотивационни писма',
+        'План за обучението',
+        'График',
+        'Общ брой точки',
+        'Сума (за възнаграждения и  за административни разходи и за участие в олимпиади) лв.'
+    ];
+    const pointsValues = [ '1', '1', '1', '6', '2', '3', '1', '1', '1', '1', '18' ];
+    
+    const doc = new Document({
+        sections: [
+            {
+                properties: {
+                    page: {
+                        size: {
+                            orientation: PageOrientation.LANDSCAPE
+                        },
+                        margin: {
+                            left: 1250,
+                            right: 1250
+                        }
+                    }
+                },
+                children: [
+                    new Paragraph({
+                        alignment: AlignmentType.CENTER,
+                        spacing: {
+                            after: 100
+                        },
+                        children: [
+                            new TextRun({
+                                text: 'НАЦИОНАЛНА ПРОГРАМА „УЧЕНИЧЕСКИ ОЛИМПИАДИ И СЪСТЕЗАНИЯ” – 2022 г.',
+                                bold: true,
+                                size: 24
+                            })
+                        ]
+                    }),
+                    new Paragraph({
+                        alignment: AlignmentType.CENTER,
+                        spacing: {
+                            after: 500
+                        },
+                        children: [
+                            new TextRun({
+                                text: 'Формуляр за оценяване на проекти – Модул „Осигуряване на обучение на талантливи ученици за участие в ученическите олимпиади“, 2022 г.',
+                                italics: true,
+                                size: 24
+                            })
+                        ]
+                    }),
+                    new Table({
+                        width: {
+                            size: 100,
+                            type: WidthType.PERCENTAGE
+                        },
+                        columnWidths: [3505, 5505],
+                        rows: [
+                            new TableRow({
+                                height: {
+                                    value: 3600,
+                                },
+                                children: tHeaders.map((header) => (
+                                    new TableCell({
+                                        width: {
+                                            size: 3505,
+                                            type: WidthType.DXA,
+                                        },
+                                        textDirection: TextDirection.BOTTOM_TO_TOP_LEFT_TO_RIGHT,
+                                        children: [new Paragraph({
+                                            alignment: AlignmentType.CENTER,
+                                            children: [
+                                                new TextRun({
+                                                    text: header,
+                                                    size: 24
+                                                })
+                                            ]
+                                        })],
+                                    })
+                                ))
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        columnSpan: 5,
+                                        width: {
+                                            size: 3505,
+                                            type: WidthType.DXA,
+                                        },
+                                        children: [new Paragraph({
+                                            alignment: AlignmentType.LEFT,
+                                            children: [
+                                                new TextRun({
+                                                    text: 'Критерии',
+                                                    size: 24
+                                                })
+                                            ]
+                                        })],
+                                    }),
+                                    ...[...Array(10).keys()].map((i) => (
+                                        new TableCell({
+                                            width: {
+                                                size: 3505,
+                                                type: WidthType.DXA,
+                                            },
+                                            children: [new Paragraph({
+                                                alignment: AlignmentType.CENTER,
+                                                children: [
+                                                    new TextRun({
+                                                        text: (i + 1).toString(),
+                                                        size: 24,
+                                                        italics: true
+                                                    })
+                                                ]
+                                            })],
+                                        })
+                                    )),
+                                    ...[...Array(2).keys()].map((i) => (
+                                        new TableCell({
+                                            width: {
+                                                size: 3505,
+                                                type: WidthType.DXA,
+                                            },
+                                            children: [new Paragraph({
+                                                alignment: AlignmentType.CENTER,
+                                                children: [
+                                                    new TextRun({
+                                                        text: '',
+                                                        size: 24
+                                                    })
+                                                ]
+                                            })],
+                                        })
+                                    ))
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({
+                                        columnSpan: 5,
+                                        width: {
+                                            size: 3505,
+                                            type: WidthType.DXA,
+                                        },
+                                        children: [new Paragraph({
+                                            alignment: AlignmentType.LEFT,
+                                            children: [
+                                                new TextRun({
+                                                    text: 'Максимален брой точки',
+                                                    size: 24,
+                                                    bold: true
+                                                })
+                                            ]
+                                        })],
+                                    }),
+                                    ...pointsValues.map((el) => (
+                                        new TableCell({
+                                            width: {
+                                                size: 3505,
+                                                type: WidthType.DXA,
+                                            },
+                                            children: [new Paragraph({
+                                                alignment: AlignmentType.CENTER,
+                                                children: [
+                                                    new TextRun({
+                                                        text: el,
+                                                        size: 24,
+                                                        bold: true
+                                                    })
+                                                ]
+                                            })],
+                                        })
+                                    )),
+                                    new TableCell({
+                                        width: {
+                                            size: 3505,
+                                            type: WidthType.DXA,
+                                        },
+                                        children: [new Paragraph({
+                                            alignment: AlignmentType.CENTER,
+                                            children: [
+                                                new TextRun({
+                                                    text: '',
+                                                    size: 24
+                                                })
+                                            ]
+                                        })],
+                                    })
+                                ]
+                            }),
+                        ]
+                    }),
+                    new Paragraph({
+                        alignment: AlignmentType.CENTER,
+                        spacing: {
+                            before: 500
+                        },
+                        children: [
+                            new TextRun({
+                                text: 'Дата:…………….Председател: …………                       Членове на комисията:       1…………………        2…………………',
+                                italics: true,
+                                size: 24
+                            })
+                        ]
+                    }),
+                ]
+            }
+        ]
+    });
+
+    Packer.toBlob(doc).then((blob) => {
+        saveAs(blob, `olimp_otsenyavane.docx`);
+    });
+}

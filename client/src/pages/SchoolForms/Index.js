@@ -1,17 +1,28 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Box, Card } from '@mui/material';
+import { Box, Card, Button, Typography } from '@mui/material';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import trainingOrganizationsService from '@services/trainingOrganizations';
 import MainTable from '@modules/common/components/MainTable';
 import useMessage from '@modules/common/hooks/useMessage';
 import useAuth from '@modules/common/hooks/useAuth';
+import Select from '@modules/common/components/filters/Select';
+import getSchoolYear from '@modules/common/utils/getSchoolYear';
+import generateGradeWord from '@modules/schoolForms/utils/generateGradeWord';
+
+import DownloadIcon from '@mui/icons-material/Download';
 
 const SchoolFormsList = () => {
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
+    const [schoolYear, setSchoolYear] = useState(getSchoolYear());
     const { addMessage } = useMessage();
     const { user } = useAuth();
+
+
+    useEffect(() => {
+
+    }, [schoolYear])
 
     const get = (page, total, filters = [], order = {}) => {
         const pagination = {
@@ -55,6 +66,26 @@ const SchoolFormsList = () => {
                     py: 3
                 }}
             >
+                <Card sx={{ p: 2, mb: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 5, justifyContent: 'flex-end' }}>
+                        <Typography variant='h4'>Изтегляне на оценачната карта в Word формат</Typography>
+                        <Select
+                            title='Учебна година'
+                            value={schoolYear}
+                            options={[ {value: '2022-2023', label: '2022-2023' }]}
+                            setValue={setSchoolYear}
+                            size='small'
+                        />
+                        <Button
+                            variant='contained'
+                            color='wordBlue'
+                            endIcon={<DownloadIcon />}
+                            onClick={() => generateGradeWord()}
+                        >
+                            Изтегли в Word
+                        </Button>
+                    </Box>
+                </Card>
                 <Card sx={{ p: 2 }}>
                     <PerfectScrollbar>
                         <Box>
