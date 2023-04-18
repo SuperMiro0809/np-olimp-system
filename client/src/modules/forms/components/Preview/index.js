@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Card } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Box } from '@mui/material';
 import subjectService from '@services/subject';
 import teacherService from '@services/teacher';
 import formService from '@services/form';
+import fileService from '@services/file';
 import FormBuilder from '@modules/common/components/FormBuilder';
 import * as Yup from 'yup';
 import useMessage from '@modules/common/hooks/useMessage';
 import useAuth from '@modules/common/hooks/useAuth';
-import formData from '@modules/common/components/FormBuilder/utils/formData';
 
 import InfoIcon from '@mui/icons-material/Info';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -39,7 +38,54 @@ const FormPreview = ({ id, schoolId }) => {
                     const schoolInfo = form.school_info;
                     const description = form.description;
                     const budget = form.budget;
-                    const letters = form.letters;
+
+                    let declarations = [];
+                    form.declarations.forEach(async (declaration) => {
+                        try {
+                            const url = `${process.env.REACT_APP_ASSETS}/${declaration.path}`;
+                            const name = declaration.path.split('/').pop();
+
+                            const response = await fileService.show(declaration.path);
+                            const blob = new Blob([response.data]);
+                            const file = new File([blob], name);
+
+                            declarations.push({ file, url });
+                        } catch (error) {
+                            console.error('Failed to download file:', error);
+                        }
+                    });
+
+                    let letters = [];
+                    form.letters.forEach(async (letter) => {
+                        let obj = {
+                            id: letter.id,
+                            teacher_id: letter.teacher_id,
+                            letter: letter.letter,
+                            files: ''
+                        }
+
+                        if(letter.files.length > 0) {
+                            let files = [];
+                            letter.files.forEach(async (f) => {
+                                try {
+                                    const url = `${process.env.REACT_APP_ASSETS}/${f.path}`;
+                                    const name = f.path.split('/').pop();
+
+                                    const response = await fileService.show(f.path);
+                                    const blob = new Blob([response.data]);
+                                    const file = new File([blob], name);
+
+                                    files.push({ file, url });
+                                } catch (error) {
+                                    console.error('Failed to download file:', error);
+                                }
+                            });
+
+                            obj.files = files;
+                        }
+
+                        letters.push(obj);
+                    });
 
                     setInitialValues({
                         schoolYear: form.schoolYear,
@@ -96,28 +142,8 @@ const FormPreview = ({ id, schoolId }) => {
                             administration: budget.administration,
                             teachers: budget.teachers.map((teacher) => ({ id: teacher.id, teacher_id: teacher.teacher_id, teacher_name: teacher.name, lessons: teacher.lessons }))
                         },
-                        declarations: form.declarations.map((declaration) => {
-                            const name = declaration.path.split('/').pop();
-                            const url = `${process.env.REACT_APP_ASSETS}/${declaration.path}`;
-                            const file = new File([url], name);
-
-                            return { file, url };
-                        }),
-                        letters: letters.map((letter) => {
-                            return {
-                                id: letter.id,
-                                teacher_id: letter.teacher_id,
-                                teacher_name: letter.teacher_name,
-                                letter: letter.letter,
-                                files: letter.files.length > 0 ? letter.files.map((f) => {
-                                    const name = f.path.split('/').pop();
-                                    const url = `${process.env.REACT_APP_ASSETS}/${f.path}`;
-                                    const file = new File([`${process.env.REACT_APP_ASSETS}/${f.path}`], name);
-
-                                    return { file, url };
-                                }) : ''
-                            };
-                        })
+                        declarations: declarations,
+                        letters: letters
                     });
                 })
                 .catch((error) => {
