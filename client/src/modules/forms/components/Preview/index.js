@@ -6,6 +6,7 @@ import teacherService from '@services/teacher';
 import formService from '@services/form';
 import fileService from '@services/file';
 import FormBuilder from '@modules/common/components/FormBuilder';
+import fileMimeType from '@modules/common/components/FormBuilder/utils/fileMimeType';
 import * as Yup from 'yup';
 import useMessage from '@modules/common/hooks/useMessage';
 import useAuth from '@modules/common/hooks/useAuth';
@@ -47,7 +48,7 @@ const FormPreview = ({ id, schoolId }) => {
 
                             const response = await fileService.show(declaration.path);
                             const blob = new Blob([response.data]);
-                            const file = new File([blob], name);
+                            const file = new File([blob], name, { type: fileMimeType(name) });
 
                             declarations.push({ file, url });
                         } catch (error) {
@@ -73,7 +74,7 @@ const FormPreview = ({ id, schoolId }) => {
 
                                     const response = await fileService.show(f.path);
                                     const blob = new Blob([response.data]);
-                                    const file = new File([blob], name);
+                                    const file = new File([blob], name, { type: fileMimeType(name) });
 
                                     files.push({ file, url });
                                 } catch (error) {

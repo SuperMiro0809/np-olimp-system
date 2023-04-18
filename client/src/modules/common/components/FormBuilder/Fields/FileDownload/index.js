@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { IconButton, Typography, Box, Grid } from '@mui/material';
+import { Link } from 'react-router-dom';
 import {
     FilePreviewContainer,
     ImagePreview,
@@ -45,7 +46,7 @@ const FileDownload = ({
                         let fileObj = files[fileName];
                         const file = fileObj.file || fileObj;
                         let isImageFile = file.type.split("/")[0] === "image";
-                        const url = fileObj.url || URL.createObjectURL(file);
+                        const url = URL.createObjectURL(file);
 
                         return (
                             <Grid
@@ -69,7 +70,7 @@ const FileDownload = ({
                                                     <DownloadIcon color='black' />
                                                 </IconButton>
                                             </aside>
-                                            <a href={url} download={name} className="hidden" target='_blank' ref={ref}/>
+                                            <a href={url} download ref={ref}/>
                                         </FileMetaData>
                                     </div>
                                 </PreviewContainer>
