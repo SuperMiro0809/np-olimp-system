@@ -20,6 +20,7 @@ const EnhancedTableHead = ({
     headings,
     headFilters,
     options,
+    customOptions,
     onSelectAllClick,
     order,
     orderBy,
@@ -96,6 +97,9 @@ const EnhancedTableHead = ({
                             </>
                         )} */}
                     </TableCell>
+                ))}
+                {customOptions.map((el, index) => (
+                    <TableCell sx={ Object.keys(headFilters).length > 0 && { border: 'none', pb: 0 } } key={index}></TableCell>
                 ))}
                 {options.details && (
                     <TableCell sx={ Object.keys(headFilters).length > 0 && { border: 'none', pb: 0 } }></TableCell>

@@ -101,6 +101,7 @@ const MainTable = ({
         edit: false,
         details: false
     },
+    customOptions = [],
     actionButtons = [],
     itemOptionsKey = '',
     routeName = '',
@@ -154,6 +155,10 @@ const MainTable = ({
 
         if (options.details) {
             colsNum++;
+        }
+
+        if(customOptions.length > 0) {
+            customOptions.map((el) => colsNum++);
         }
 
         setAllColsNum(colsNum);
@@ -319,6 +324,7 @@ const MainTable = ({
                     searches={searches}
                     handleSearchChange={handleSearchChange}
                     options={options}
+                    customOptions={customOptions}
                     classes={classes}
                     numSelected={selected.length}
                     order={order}
@@ -386,6 +392,10 @@ const MainTable = ({
                                     return <TableCell key={heading.id} sx={{ pt: 0.5 }}></TableCell>
                                 }
                             })}
+
+                            {customOptions.map((option, index) => (
+                                 <TableCell key={index}></TableCell>
+                            ))}
 
                             {options.details && (
                                 <TableCell></TableCell>
@@ -505,6 +515,22 @@ const MainTable = ({
                                                     </TableCell>
                                                 );
                                             }
+                                        })}
+                                        {customOptions.map((option, index) => {
+                                            const { icon: Icon } = option;
+
+                                            return (
+                                                <TableCell align='right' key={index}>
+                                                    <IconButton
+                                                        color='yellow'
+                                                        component={RouterLink}
+                                                        to={routeName ? routeName + `/${option.name}/${row.id}` : `${option.name}/${row.id}`}
+                                                        disabled={!itemOption(row, option.name)}
+                                                    >
+                                                        <Icon />
+                                                    </IconButton>
+                                                </TableCell>
+                                            );
                                         })}
                                         {options.details && (
                                             <TableCell align='right'>
