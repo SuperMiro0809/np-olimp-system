@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Traits\GroupTrait;
+use App\Models\Group;
 
 class GroupController extends Controller
 {
@@ -28,5 +29,25 @@ class GroupController extends Controller
         $groups = $this->getGroups($teacherId, null, true);
 
         return $groups;
+    }
+
+    public function grade(Request $request, $id)
+    {
+        $group = Group::findOrFail($id);
+
+        $group->grade()->update([
+            'acceptability' => $request->acceptability,
+            'form' => $request->form,
+            'teachers' => $request->teachers,
+            'description' => $request->description,
+            'budget' => $request->budget,
+            'students' => $request->students,
+            'declarations' => $request->declarations,
+            'letters' => $request->letters,
+            'plan' => $request->plan,
+            'schedule' => $request->schedule
+        ]);
+
+        return $group;
     }
 }

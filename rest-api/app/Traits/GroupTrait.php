@@ -32,7 +32,8 @@ trait GroupTrait {
                             ->leftJoin('teacher_info', function($q) {
                                 $q->on('teacher_info.id', 'group_program_teachers.teacher_id');
                             });
-                        }
+                        },
+                        'grade'
                     ])
                     ->whereHas('teachers', function ($q) use ($teacherId) {
                         $q->where('teacher_id', $teacherId);

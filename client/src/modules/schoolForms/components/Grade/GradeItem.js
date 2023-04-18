@@ -1,9 +1,27 @@
 import { Box, Card, Typography } from '@mui/material';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import FormBuilder from '@modules/common/components/FormBuilder';
+import groupService from '@services/group';
 import * as Yup from 'yup';
+import useMessage from '@modules/common/hooks/useMessage';
 
 const GradeItem = ({ group }) => {
+    const { addMessage } = useMessage();
+    const { grade } = group;
+    
+    const initialValues = {
+        acceptability: grade.acceptability,
+        form: grade.form,
+        teachers: grade.teachers,
+        description: grade.description,
+        budget: grade.budget,
+        students: grade.students,
+        declarations: grade.declarations,
+        letters: grade.letters,
+        plan: grade.plan,
+        schedule: grade.schedule,
+    }
+
     const validationSchema = Yup.object().shape({
         acceptability: Yup.number().min(0, 'Минималният брой точки е 0').max(1, 'Максималният брой точки е 1').required('Точките за допустимост са задължителни'),
         form: Yup.number().min(0, 'Минималният брой точки е 0').max(1, 'Максималният брой точки е 1').required('Точките за формуляр за кандидатстване са задължителни'),
@@ -31,7 +49,15 @@ const GradeItem = ({ group }) => {
     ];
 
     const onSubmit = (values, { setSubmitting }) => {
-       
+        groupService.grade(values, group.id)
+            .then((res) => {
+                addMessage('Групата е оценена успешно', 'success');
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+        setSubmitting(false);
     }
 
     const submitButton = {
@@ -46,6 +72,7 @@ const GradeItem = ({ group }) => {
                     <Box>
                         <FormBuilder
                             fields={fields}
+                            initialValues={initialValues}
                             validationSchema={validationSchema}
                             onSubmit={onSubmit}
                             submitButton={submitButton}

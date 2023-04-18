@@ -32,8 +32,7 @@ trait FormTrait {
                         'subjects.name as subject_name',
                         'form_settings.edit',
                         'form_settings.delete',
-                        'form_settings.submitted',
-                        'form_settings.approved'
+                        'form_settings.submitted'
                     )
                     ->where('forms.school_id', $schoolId)
                     ->with([
@@ -58,6 +57,7 @@ trait FormTrait {
                                 $q->on('teacher_info.id', 'group_program_teachers.teacher_id');
                             });
                         },
+                        'groups.grade',
                         'description', 'description.activities', 
                         'description.activities.teachers' => function ($query) {
                             $query->select(

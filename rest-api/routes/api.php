@@ -57,6 +57,10 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/{id}', [TrainingOrganizationsController::class, 'edit']);
     });
 
+    Route::prefix('groups')->group(function () {
+        Route::put('/grade/{id}', [GroupController::class, 'grade']);
+    });
+
     Route::prefix('{schoolId}')->group(function () {
         Route::prefix('teachers')->group(function () {
             Route::get('/', [TeacherController::class, 'index']);
