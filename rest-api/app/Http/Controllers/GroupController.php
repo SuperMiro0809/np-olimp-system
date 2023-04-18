@@ -35,6 +35,27 @@ class GroupController extends Controller
     {
         $group = Group::findOrFail($id);
 
+        $validator = validator($request->only(
+            'acceptability', 'form', 'teachers', 'description', 'budget', 'students', 'declarations', 'letters', 'plan', 'schedule'
+        ), 
+            [
+                'acceptability' => 'required|integer|min:0|max:1',
+                'form' => 'required|integer|min:0|max:1',
+                'teachers' => 'required|integer|min:0|max:1',
+                'description' => 'required|integer|min:0|max:6',
+                'budget' => 'required|integer|min:0|max:2',
+                'students' => 'required|integer|min:0|max:3',
+                'declarations' => 'required|integer|min:0|max:1',
+                'letters' => 'required|integer|min:0|max:1',
+                'plan' => 'required|integer|min:0|max:1',
+                'schedule' => 'required|integer|min:0|max:1'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
+
         $group->grade()->update([
             'acceptability' => $request->acceptability,
             'form' => $request->form,
