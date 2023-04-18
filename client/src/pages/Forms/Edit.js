@@ -5,6 +5,7 @@ import { Box, Card } from '@mui/material';
 import subjectService from '@services/subject';
 import teacherService from '@services/teacher';
 import formService from '@services/form';
+import fileService from '@services/file';
 import FormBuilder from '@modules/common/components/FormBuilder';
 import * as Yup from 'yup';
 import useMessage from '@modules/common/hooks/useMessage';
@@ -41,9 +42,51 @@ const FormsEdit = () => {
                     const schoolInfo = form.school_info;
                     const description = form.description;
                     const budget = form.budget;
-                    const letters = form.letters;
 
-                    console.log(res.data)
+                    let declarations = [];
+                    form.declarations.forEach(async (declaration) => {
+                        try {
+                            const response = await fileService.show(declaration.path);
+                            const name = declaration.path.split('/').pop();
+                            const blob = new Blob([response.data]);
+                            const file = new File([blob], name);
+
+                            declarations.push(file);
+                        } catch (error) {
+                            console.error('Failed to download file:', error);
+                        }
+                    });
+
+                    let letters = [];
+                    form.letters.forEach(async (letter) => {
+                        let obj = {
+                            id: letter.id,
+                            teacher_id: letter.teacher_id,
+                            letter: letter.letter,
+                            files: ''
+                        }
+
+                        if(letter.files.length > 0) {
+                            let files = [];
+                            letter.files.forEach(async (f) => {
+                                try {
+                                    const response = await fileService.show(f.path);
+                                    const name = f.path.split('/').pop();
+                                    const blob = new Blob([response.data]);
+                                    const file = new File([blob], name);
+
+                                    files.push(file);
+                                } catch (error) {
+                                    console.error('Failed to download file:', error);
+                                }
+                            });
+
+                            obj.files = files;
+                        }
+
+                        letters.push(obj);
+                    });
+
                     setInitialValues({
                         schoolYear: form.schoolYear,
                         fullName: schoolInfo.fullName,
@@ -97,27 +140,10 @@ const FormsEdit = () => {
                             trainingCosts: budget.trainingCosts,
                             administrationCosts: budget.administrationCosts,
                             administration: budget.administration,
-                            teachers: budget.teachers.map((teacher) => ({ id: teacher.id, teacher_id: teacher.teacher_id, teacher_name: teacher.name, lessons: teacher.lessons  }))
+                            teachers: budget.teachers.map((teacher) => ({ id: teacher.id, teacher_id: teacher.teacher_id, teacher_name: teacher.name, lessons: teacher.lessons }))
                         },
-                        declarations: form.declarations.map((declaration) => {
-                            const name = declaration.path.split('/').pop();
-                            const file = new File([`${process.env.REACT_APP_ASSETS}/${declaration.path}`], name);
-
-                            return file;
-                        }),
-                        letters: letters.map((letter) => {
-                            return {
-                                id: letter.id,
-                                teacher_id: letter.teacher_id,
-                                letter: letter.letter,
-                                files: letter.files.length > 0 ? letter.files.map((f) => {
-                                    const name = f.path.split('/').pop();
-                                    const file = new File([`${process.env.REACT_APP_ASSETS}/${f.path}`], name);
-
-                                    return file;
-                                }) : ''
-                            };
-                        })
+                        declarations: declarations,
+                        letters: letters
                     });
                 })
                 .catch((error) => {
@@ -241,13 +267,13 @@ const FormsEdit = () => {
                 cost: Yup.number().min(0, 'Цената трябва да е положително число').required('Цената е задължителна'),
             })),
             administrationCosts: Yup.number().when('administration', (administration) => {
-                if(administration && administration.length > 0) {
+                if (administration && administration.length > 0) {
                     let sum = 0;
 
                     administration.forEach((el) => {
-                        if(el.cost) {
+                        if (el.cost) {
                             sum += el.cost
-                        } 
+                        }
                     });
 
                     return Yup.number().test({
