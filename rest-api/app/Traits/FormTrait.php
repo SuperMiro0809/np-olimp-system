@@ -150,6 +150,8 @@ trait FormTrait {
 
             $group->lessons()->delete();
 
+            $group->grade()->delete();
+
             $group->delete();
         });
 

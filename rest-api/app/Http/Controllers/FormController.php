@@ -22,7 +22,8 @@ use App\Models\{
     GroupProgram,
     GroupProgramTeacher,
     GroupStudent,
-    GroupTeacher
+    GroupTeacher,
+    GroupGrade
 };
 use App\Traits\FormTrait;
 
@@ -81,6 +82,8 @@ class FormController extends Controller
                 'lessons' => $group['lessons'],
                 'form_id' => $form->id
             ]);
+
+            GroupGrade::create(['group_id' => $newGroup->id]);
 
             foreach($group['students'] as $student) {
                 GroupStudent::create([
@@ -249,6 +252,8 @@ class FormController extends Controller
             $group->program()->delete();
 
             $group->lessons()->delete();
+
+            $group->grade()->delete();
 
             $group->delete();
         });

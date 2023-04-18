@@ -8,7 +8,8 @@ use App\Models\{
     GroupStudent,
     GroupTeacher,
     GroupProgram,
-    GroupLesson
+    GroupLesson,
+    GroupGrade
 };
 
 class Group extends Model
@@ -35,5 +36,9 @@ class Group extends Model
 
     public function lessons() {
         return $this->hasMany(GroupLesson::class);
+    }
+
+    public function grade() {
+        return $this->hasOne(GroupGrade::class);
     }
 }
