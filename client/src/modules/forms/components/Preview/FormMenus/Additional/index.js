@@ -14,11 +14,11 @@ const Additional = ({ formikProps }) => {
 
     const teacherFields = [
         { type: 'multiline', name: 'letter', label: 'Писмо', readOnly: true },
-        { type: 'upload', name: 'files', label: 'Файлове', accept: '.docx,.pdf,.doc', multiple: true },
+        { type: 'download', name: 'files', label: 'Файлове', accept: '.docx,.pdf,.doc', multiple: true },
     ];
 
     const fields = [
-        { type: 'upload', name: 'declarations', label: 'Копия от декларации', accept: '.pdf', multiple: true },
+        { type: 'download', name: 'declarations', label: 'Копия от декларации', accept: '.pdf', multiple: true },
     ]
 
     return (

@@ -99,9 +99,10 @@ const FormPreview = ({ id, schoolId }) => {
                         },
                         declarations: form.declarations.map((declaration) => {
                             const name = declaration.path.split('/').pop();
-                            const file = new File([`${process.env.REACT_APP_ASSETS}/${declaration.path}`], name);
+                            const url = `${process.env.REACT_APP_ASSETS}/${declaration.path}`;
+                            const file = new File([url], name);
 
-                            return file;
+                            return { file, url };
                         }),
                         letters: letters.map((letter) => {
                             return {
@@ -111,9 +112,10 @@ const FormPreview = ({ id, schoolId }) => {
                                 letter: letter.letter,
                                 files: letter.files.length > 0 ? letter.files.map((f) => {
                                     const name = f.path.split('/').pop();
+                                    const url = `${process.env.REACT_APP_ASSETS}/${f.path}`;
                                     const file = new File([`${process.env.REACT_APP_ASSETS}/${f.path}`], name);
 
-                                    return file;
+                                    return { file, url };
                                 }) : ''
                             };
                         })
