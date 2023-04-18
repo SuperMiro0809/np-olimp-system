@@ -74,7 +74,7 @@ const FileUpload = ({
     };
 
     return (
-        <Box {...(!otherProps.multiple ? { sx: { display: 'flex', gap: 5 } } : {})}>
+        <Box {...(!otherProps.multiple ? { sx: { display: 'flex', gap: 5, my: 2 } } : { my: 2 })}>
             <FileUploadContainer>
                 <Typography
                     component='label'

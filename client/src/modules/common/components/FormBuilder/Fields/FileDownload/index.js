@@ -31,7 +31,7 @@ const FileDownload = ({
     }
 
     return (
-        <Box>
+        <Box sx={{ my: 2 }}>
             <Typography
                 variant='h5'
                 color="textPrimary"
@@ -40,45 +40,55 @@ const FileDownload = ({
                 {label}
             </Typography>
 
-            <FilePreviewContainer>
-                <Grid container spacing={1} sx={{ maxWidth: '1570px' }}>
-                    {Object.keys(files).map((fileName, index) => {
-                        let fileObj = files[fileName];
-                        const file = fileObj.file || fileObj;
-                        let isImageFile = file.type.split("/")[0] === "image";
-                        const url = URL.createObjectURL(file);
+            {files.length > 0 ? (
+                <FilePreviewContainer>
+                    <Grid container spacing={1} sx={{ maxWidth: '1570px' }}>
+                        {Object.keys(files).map((fileName, index) => {
+                            let fileObj = files[fileName];
+                            const file = fileObj.file || fileObj;
+                            let isImageFile = file.type.split("/")[0] === "image";
+                            const url = URL.createObjectURL(file);
 
-                        return (
-                            <Grid
-                                item
-                                sm={12} md={6} lg={3}
-                                key={fileName}
-                            >
-                                <PreviewContainer>
-                                    <div>
-                                        {isImageFile && (
-                                            <ImagePreview
-                                                src={URL.createObjectURL(file)}
-                                                alt={`file preview ${index}`}
-                                            />
-                                        )}
-                                        <FileMetaData isImageFile={isImageFile}>
-                                            <span>{file.name}</span>
-                                            <aside>
-                                                <span>{convertBytesToKB(file.size)} kb</span>
-                                                <IconButton sx={{ p: 0 }} onClick={() => downloadFile(file, fileName)}>
-                                                    <DownloadIcon color='black' />
-                                                </IconButton>
-                                            </aside>
-                                            <a href={url} download ref={ref}/>
-                                        </FileMetaData>
-                                    </div>
-                                </PreviewContainer>
-                            </Grid>
-                        );
-                    })}
-                </Grid>
-            </FilePreviewContainer>
+                            return (
+                                <Grid
+                                    item
+                                    sm={12} md={6} lg={3}
+                                    key={fileName}
+                                >
+                                    <PreviewContainer>
+                                        <div>
+                                            {isImageFile && (
+                                                <ImagePreview
+                                                    src={URL.createObjectURL(file)}
+                                                    alt={`file preview ${index}`}
+                                                />
+                                            )}
+                                            <FileMetaData isImageFile={isImageFile}>
+                                                <span>{file.name}</span>
+                                                <aside>
+                                                    <span>{convertBytesToKB(file.size)} kb</span>
+                                                    <IconButton sx={{ p: 0 }} onClick={() => downloadFile(file, fileName)}>
+                                                        <DownloadIcon color='black' />
+                                                    </IconButton>
+                                                </aside>
+                                                <a href={url} download ref={ref} />
+                                            </FileMetaData>
+                                        </div>
+                                    </PreviewContainer>
+                                </Grid>
+                            );
+                        })}
+                    </Grid>
+                </FilePreviewContainer>
+            ) : (
+                <Typography
+                    variant='p'
+                    color="textPrimary"
+                    sx={{ py: 1, fontStyle: 'italic' }}
+                >
+                    Няма файлове
+                </Typography>
+            )}
         </Box>
     );
 }
