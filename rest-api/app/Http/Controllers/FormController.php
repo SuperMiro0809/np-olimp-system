@@ -162,7 +162,7 @@ class FormController extends Controller
             ]);
         }
 
-        if($budgetObj['administration']) {
+        if(array_key_exists('administration', $budgetObj)) {
             foreach($budgetObj['administration'] as $administration) {
                 FormBudgetAdministration::create([
                     'activity' => $administration['activity'],
