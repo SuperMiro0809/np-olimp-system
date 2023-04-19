@@ -12,7 +12,11 @@ trait GroupTrait {
                         'forms.subject_id',
                         'forms.schoolYear',
                         'forms.school_id',
-                        'school_info.key'
+                        'school_info.key',
+                        'school_info.name as school_name',
+                        'form_settings.submitted',
+                        'form_budget.hourPrice',
+                        'subjects.name as subject_name'
                     )
                     ->with([
                         'students',
@@ -39,6 +43,15 @@ trait GroupTrait {
                     ])
                     ->leftJoin('forms', function ($q) {
                         $q->on('forms.id', 'groups.form_id');
+                    })
+                    ->leftJoin('form_settings', function ($q) {
+                        $q->on('form_settings.form_id', 'groups.form_id');
+                    })
+                    ->leftJoin('form_budget', function ($q) {
+                        $q->on('form_budget.form_id', 'groups.form_id');
+                    })
+                    ->leftJoin('subjects', function ($q) {
+                        $q->on('subjects.id', 'subject_id');
                     })
                     ->leftJoin('school_info', function ($q) {
                         $q->on('school_info.id', 'forms.school_id');

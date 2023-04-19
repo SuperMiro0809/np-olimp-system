@@ -17,37 +17,39 @@ const SchoolFormsList = () => {
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
     const [schoolYear, setSchoolYear] = useState('');
-    const [options, setOptions] = useState([])
+    const [options, setOptions] = useState([]);
+    const [groups, setGroups] = useState([]);
     const { addMessage } = useMessage();
     const { user } = useAuth();
 
 
     useEffect(() => {
-        if(user) {
+        if (user) {
             trainingOrganizationsService.regionSchoolYears(user.info.key)
-            .then((res) => {
-                const opt = res.data.map((option) => ({ value: option.schoolYear, label: option.schoolYear }));
-                opt.sort((a, b) => -a.label.localeCompare(b.label));
-                const year = getSchoolYear();
+                .then((res) => {
+                    const opt = res.data.map((option) => ({ value: option.schoolYear, label: option.schoolYear }));
+                    opt.sort((a, b) => -a.label.localeCompare(b.label));
+                    const year = getSchoolYear();
 
-                setOptions(opt);
-                setSchoolYear(year);
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+                    setOptions(opt);
+                    setSchoolYear(year);
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
         }
     }, [user]);
 
     useEffect(() => {
-        if(user) {
+        if (user) {
             groupService.getGrades(user.info.key, schoolYear)
-            .then((res) => {
-                console.log(res.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+                .then((res) => {
+                    console.log(res.data);
+                    setGroups(res.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         }
     }, [schoolYear])
 
@@ -107,7 +109,7 @@ const SchoolFormsList = () => {
                             variant='contained'
                             color='wordBlue'
                             endIcon={<DownloadIcon />}
-                            onClick={() => generateGradeWord()}
+                            onClick={() => generateGradeWord(groups, user.info.region)}
                         >
                             Изтегли в Word
                         </Button>
