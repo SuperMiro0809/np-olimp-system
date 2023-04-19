@@ -25,6 +25,7 @@ const SchoolFormsList = () => {
         if(user) {
             trainingOrganizationsService.regionSchoolYears(user.info.key)
             .then((res) => {
+                console.log(res.data)
                 const opt = res.data.map((option) => ({ value: option.schoolYear, label: option.schoolYear }));
                 const year = getSchoolYear();
                 setOptions(opt);

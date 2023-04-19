@@ -236,12 +236,18 @@ class TrainingOrganizationsController extends Controller
 
         $query = SchoolInfo::select(
                     'school_info.id',
-                    'forms.schoolYear'
+                    'forms.schoolYear',
+                    'forms.id as form_id',
+                    'form_settings.submitted'
                 )
                 ->leftJoin('forms', function($q) {
                     $q->on('forms.school_id', 'school_info.id');
                 })
+                ->leftJoin('form_settings', function($q) {
+                    $q->on('form_settings.form_id', 'forms.id');
+                })
                 ->whereRaw('(LENGTH(`key`) = 6 AND LEFT(`key`, 1) = ' . $key . ') OR (LENGTH(`key`) = 7 AND LEFT(`key`, 2) = ' . $key . ')')
+                ->where('form_settings.submitted', 1)
                 ->groupBy('forms.schoolYear');
 
         return $query->get();
