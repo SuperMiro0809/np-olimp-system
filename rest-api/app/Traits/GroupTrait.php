@@ -78,6 +78,10 @@ trait GroupTrait {
         if(request()->query('class')) {
             $query->where('class', 'LIKE', '%'.request()->query('class').'%');
         }
+
+        if(request()->query('submitted')) {
+            $query->where('submitted', request()->query('submitted'));
+        }
         
         if($id) {
             $groups = $query->where('groups.id', $id)->first();

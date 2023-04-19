@@ -44,7 +44,7 @@ function grade(data, id) {
 }
 
 function getGrades(schoolKey, schoolYear) {
-    let url = `${servicesHelper.url}/groups/grade/${schoolKey}?schoolYear=${schoolYear}`;
+    let url = `${servicesHelper.url}/groups/grade/${schoolKey}?schoolYear=${schoolYear}&submitted=1`;
 
     return axios.get(url, {
         headers: servicesHelper.header()
