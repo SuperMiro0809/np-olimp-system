@@ -66,6 +66,7 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::prefix('groups')->group(function () {
+        Route::get('/grade/{schoolKey}', [GroupController::class, 'getGrades']);
         Route::put('/grade/{id}', [GroupController::class, 'grade']);
     });
 

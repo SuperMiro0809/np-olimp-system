@@ -6,11 +6,13 @@ use App\Models\{
 };
 
 trait GroupTrait {
-    public function getGroups($teacherId, $id=null, $all=false) {
+    public function getGroups($teacherId=null, $id=null, $all=false, $schoolKey=null) {
         $query = Group::select(
                         'groups.*',
                         'forms.subject_id',
-                        'forms.schoolYear'
+                        'forms.schoolYear',
+                        'forms.school_id',
+                        'school_info.key'
                     )
                     ->with([
                         'students',
@@ -35,12 +37,22 @@ trait GroupTrait {
                         },
                         'grade'
                     ])
-                    ->whereHas('teachers', function ($q) use ($teacherId) {
-                        $q->where('teacher_id', $teacherId);
-                    })
                     ->leftJoin('forms', function ($q) {
                         $q->on('forms.id', 'groups.form_id');
+                    })
+                    ->leftJoin('school_info', function ($q) {
+                        $q->on('school_info.id', 'forms.school_id');
                     });
+        
+        if($teacherId) {
+            $query->whereHas('teachers', function ($q) use ($teacherId) {
+                $q->where('teacher_id', $teacherId);
+            });
+        }
+
+        if($schoolKey) {
+            $query->whereRaw('(LENGTH(`key`) = 6 AND LEFT(`key`, 1) = ' . $schoolKey . ') OR (LENGTH(`key`) = 7 AND LEFT(`key`, 2) = ' . $schoolKey . ')');
+        }
         
         if(request()->query('id')) {
             $query->where('groups.id', 'LIKE', '%'.request()->query('id').'%');

@@ -43,11 +43,20 @@ function grade(data, id) {
     });
 }
 
+function getGrades(schoolKey, schoolYear) {
+    let url = `${servicesHelper.url}/groups/grade/${schoolKey}?schoolYear=${schoolYear}`;
+
+    return axios.get(url, {
+        headers: servicesHelper.header()
+    });
+}
+
 const groupService = {
     getGroups,
     getById,
     getAll,
-    grade
+    grade,
+    getGrades
 }
 
 export default groupService;

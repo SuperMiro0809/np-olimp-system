@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import { Box, Card, Button, Typography } from '@mui/material';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import trainingOrganizationsService from '@services/trainingOrganizations';
+import groupService from '@services/group';
 import MainTable from '@modules/common/components/MainTable';
 import useMessage from '@modules/common/hooks/useMessage';
 import useAuth from '@modules/common/hooks/useAuth';
@@ -25,10 +26,10 @@ const SchoolFormsList = () => {
         if(user) {
             trainingOrganizationsService.regionSchoolYears(user.info.key)
             .then((res) => {
-                console.log(res.data)
                 const opt = res.data.map((option) => ({ value: option.schoolYear, label: option.schoolYear }));
                 opt.sort((a, b) => -a.label.localeCompare(b.label));
                 const year = getSchoolYear();
+
                 setOptions(opt);
                 setSchoolYear(year);
             })
@@ -36,7 +37,19 @@ const SchoolFormsList = () => {
                 console.log(error)
             })
         }
-    }, [user])
+    }, [user]);
+
+    useEffect(() => {
+        if(user) {
+            groupService.getGrades(user.info.key, schoolYear)
+            .then((res) => {
+                console.log(res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
+    }, [schoolYear])
 
     const get = (page, total, filters = [], order = {}) => {
         const pagination = {

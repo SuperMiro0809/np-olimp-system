@@ -71,4 +71,21 @@ class GroupController extends Controller
 
         return $group;
     }
+
+    public function getGrades($schoolKey)
+    {
+        $validator = validator(['key' => $schoolKey], 
+            [
+                'key' => 'required|numeric',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
+
+        $groups = $this->getGroups(null, null, true, $schoolKey);
+
+        return $groups;
+    }
 }
