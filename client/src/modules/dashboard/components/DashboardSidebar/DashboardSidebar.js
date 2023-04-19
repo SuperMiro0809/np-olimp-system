@@ -54,6 +54,9 @@ import WatchLaterIcon from '@mui/icons-material/WatchLater';
 //account
 import PersonIcon from '@mui/icons-material/Person';
 
+//approve
+import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
+
 const formatRole = (role) => {
     if (role === 'SuperAdmin') {
         return 'МОН администратор';
@@ -110,6 +113,11 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                             content: trainingOrganizationsRequestCount,
                             color: 'primary'
                         }
+                    },
+                    {
+                        href: '/app/approve',
+                        icon: LibraryAddCheckIcon,
+                        title: 'Удобряване на проекти'
                     }
                 ]);
             } else if (user.role.name === 'Admin') {

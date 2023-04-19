@@ -50,6 +50,8 @@ import SchoolFormsList from './pages/SchoolForms/Index';
 import SchoolFormsDetails from './pages/SchoolForms/Details';
 import FormGrade from './pages/SchoolForms/FormGrade';
 
+import ApproveList from './pages/Approve/Index';
+
 import AuthGuard from '@modules/common/hoc/AuthGuard';
 import RoleGuard from '@modules/common/hoc/RoleGuard';
 
@@ -71,6 +73,13 @@ const routes = [
           { path: 'create', element: <TrainingOrganizationsAdd /> },
           { path: 'requests', element: <TrainingOrganizationsRequestList /> },
           { path: 'edit/:id', element: <TrainingOrganizationsEdit /> }
+        ]
+      },
+      {
+        path: 'approve',
+        element: <RoleGuard component={<DashboardPageLayout title='Удобряване на проекти' />} accessRolesFromRoute={['SuperAdmin']} />,
+        children: [
+          { path: '', element: <ApproveList /> },
         ]
       },
       {

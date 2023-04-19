@@ -12,6 +12,7 @@ import getSchoolYear from '@modules/common/utils/getSchoolYear';
 import generateGradeWord from '@modules/schoolForms/utils/generateGradeWord';
 
 import DownloadIcon from '@mui/icons-material/Download';
+import ForwardIcon from '@mui/icons-material/Forward';
 
 const SchoolFormsList = () => {
     const [data, setData] = useState([]);
@@ -113,6 +114,14 @@ const SchoolFormsList = () => {
                         >
                             Изтегли в Word
                         </Button>
+                        {/* <Button
+                            variant='contained'
+                            color='lightBlue'
+                            endIcon={<ForwardIcon />}
+                            onClick={() => generateGradeWord(groups, user.info.region)}
+                        >
+                            Изпрати към МОН
+                        </Button> */}
                     </Box>
                 </Card>
                 <Card sx={{ p: 2 }}>
