@@ -16,7 +16,8 @@ trait GroupTrait {
                         'school_info.name as school_name',
                         'form_settings.submitted',
                         'form_budget.hourPrice',
-                        'subjects.name as subject_name'
+                        'subjects.name as subject_name',
+                        'group_grades.approved'
                     )
                     ->with([
                         'students',
@@ -53,6 +54,9 @@ trait GroupTrait {
                     ->leftJoin('subjects', function ($q) {
                         $q->on('subjects.id', 'subject_id');
                     })
+                    ->leftJoin('group_grades', function ($q) {
+                        $q->on('group_grades.group_id', 'groups.id');
+                    })
                     ->leftJoin('school_info', function ($q) {
                         $q->on('school_info.id', 'forms.school_id');
                     });
@@ -81,6 +85,10 @@ trait GroupTrait {
 
         if(request()->query('submitted')) {
             $query->where('submitted', request()->query('submitted'));
+        }
+
+        if(request()->query('approved')) {
+            $query->where('approved', request()->query('approved'));
         }
         
         if($id) {
