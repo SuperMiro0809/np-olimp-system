@@ -12,7 +12,6 @@ class FormSetting extends Model
     protected $fillable = [
         'edit',
         'delete',
-        'approved',
         'submitted',
         'form_id'
     ];

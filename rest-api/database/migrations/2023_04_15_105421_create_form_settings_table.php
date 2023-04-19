@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->boolean('edit')->default(true);
             $table->boolean('delete')->default(true);
-            $table->boolean('approved')->default(false);
             $table->boolean('submitted')->default(false);
             $table->foreignId('form_id')->constrained('forms');
             $table->timestamps();
