@@ -55,7 +55,12 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/accept/{id}', [TrainingOrganizationsController::class, 'accept']);
         Route::put('/reject/{id}', [TrainingOrganizationsController::class, 'reject']);
         Route::put('/school-data/{id}', [TrainingOrganizationsController::class, 'editSchoolData']);
-        Route::get('/region/{key}', [TrainingOrganizationsController::class, 'getFromRegion']);
+
+        Route::prefix('region')->group(function () {
+            Route::get('/{key}', [TrainingOrganizationsController::class, 'getFromRegion']);
+            Route::get('/{key}/schoolYears', [TrainingOrganizationsController::class, 'regionSchoolYears']);
+        });
+
         Route::get('/{id}', [TrainingOrganizationsController::class, 'getById']);
         Route::put('/{id}', [TrainingOrganizationsController::class, 'edit']);
     });

@@ -221,4 +221,29 @@ class TrainingOrganizationsController extends Controller
 
         return $schoolInfo;
     }
+
+    public function regionSchoolYears($key)
+    {
+        $validator = validator(['key' => $key], 
+            [
+                'key' => 'required|numeric',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response(['errors'=>$validator->errors()->all()], 422);
+        }
+
+        $query = SchoolInfo::select(
+                    'school_info.id',
+                    'forms.schoolYear'
+                )
+                ->leftJoin('forms', function($q) {
+                    $q->on('forms.school_id', 'school_info.id');
+                })
+                ->whereRaw('(LENGTH(`key`) = 6 AND LEFT(`key`, 1) = ' . $key . ') OR (LENGTH(`key`) = 7 AND LEFT(`key`, 2) = ' . $key . ')')
+                ->groupBy('forms.schoolYear');
+
+        return $query->get();
+    }
 }

@@ -15,14 +15,26 @@ import DownloadIcon from '@mui/icons-material/Download';
 const SchoolFormsList = () => {
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
-    const [schoolYear, setSchoolYear] = useState(getSchoolYear());
+    const [schoolYear, setSchoolYear] = useState('');
+    const [options, setOptions] = useState([])
     const { addMessage } = useMessage();
     const { user } = useAuth();
 
 
     useEffect(() => {
-
-    }, [schoolYear])
+        if(user) {
+            trainingOrganizationsService.regionSchoolYears(user.info.key)
+            .then((res) => {
+                const opt = res.data.map((option) => ({ value: option.schoolYear, label: option.schoolYear }));
+                const year = getSchoolYear();
+                setOptions(opt);
+                setSchoolYear(year);
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        }
+    }, [user])
 
     const get = (page, total, filters = [], order = {}) => {
         const pagination = {
@@ -72,7 +84,7 @@ const SchoolFormsList = () => {
                         <Select
                             title='Учебна година'
                             value={schoolYear}
-                            options={[ {value: '2022-2023', label: '2022-2023' }]}
+                            options={options}
                             setValue={setSchoolYear}
                             size='small'
                         />

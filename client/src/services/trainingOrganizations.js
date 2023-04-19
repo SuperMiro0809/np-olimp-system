@@ -114,6 +114,14 @@ function getFromRegion(key, pagination, filters, order) {
     });
 }
 
+function regionSchoolYears(key) {
+    let url = `${servicesHelper.url}/training-organizations/region/${key}/schoolYears`;
+
+    return axios.get(url, {
+        headers: servicesHelper.header()
+    });
+}
+
 const trainingOrganizationsService = {
     getVerified,
     create,
@@ -125,7 +133,8 @@ const trainingOrganizationsService = {
     reject,
     requestsCount,
     editSchoolData,
-    getFromRegion
+    getFromRegion,
+    regionSchoolYears
 }
 
 export default trainingOrganizationsService;
