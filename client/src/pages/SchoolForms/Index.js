@@ -27,6 +27,7 @@ const SchoolFormsList = () => {
             .then((res) => {
                 console.log(res.data)
                 const opt = res.data.map((option) => ({ value: option.schoolYear, label: option.schoolYear }));
+                opt.sort((a, b) => -a.label.localeCompare(b.label));
                 const year = getSchoolYear();
                 setOptions(opt);
                 setSchoolYear(year);
