@@ -77,7 +77,7 @@ const routes = [
       },
       {
         path: 'approve',
-        element: <RoleGuard component={<DashboardPageLayout title='Удобряване на проекти' />} accessRolesFromRoute={['SuperAdmin']} />,
+        element: <RoleGuard component={<DashboardPageLayout title='Одобряване на проекти' />} accessRolesFromRoute={['SuperAdmin']} />,
         children: [
           { path: '', element: <ApproveList /> },
         ]

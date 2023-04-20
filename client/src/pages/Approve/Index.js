@@ -12,7 +12,7 @@ const ApproveList = () => {
     return (
         <>
             <Helmet>
-                <title>Удобряване на проекти</title>
+                <title>Одобряване на проекти</title>
             </Helmet>
             <Box
                 sx={{
@@ -39,7 +39,7 @@ const ApproveList = () => {
                                         color='lightBlue'
                                         endIcon={<DoneIcon />}
                                     >
-                                        Удобряване
+                                        Одобряване
                                     </Button>
                                 </Box>
                             </Box>

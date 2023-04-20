@@ -117,7 +117,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                     {
                         href: '/app/approve',
                         icon: LibraryAddCheckIcon,
-                        title: 'Удобряване на проекти'
+                        title: 'Одобряване на проекти'
                     }
                 ]);
             } else if (user.role.name === 'Admin') {
