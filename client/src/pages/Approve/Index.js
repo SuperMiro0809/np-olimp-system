@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet';
 import { Box, Card, Typography, Button, Stack } from '@mui/material';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -22,14 +22,21 @@ const ApproveList = () => {
 
     useEffect(() => {
         ruoService.getSchoolYears()
-        .then((res) => {
-            const opt = res.data.map((el) => ({ label: el.schoolYear, value: el.schoolYear }));
-            setOption(opt);
-            setSchoolYear(getSchoolYear());
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+            .then((res) => {
+                const opt = res.data.map((el) => ({ label: el.schoolYear, value: el.schoolYear }));
+                opt.sort((a, b) => -a.label.localeCompare(b.label));
+                const currentSchoolYear = getSchoolYear();
+
+                if (opt.length === 0) {
+                    opt.push({ label: currentSchoolYear, value: currentSchoolYear });
+                }
+
+                setOption(opt);
+                setSchoolYear(currentSchoolYear);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }, []);
 
     useEffect(() => {
@@ -44,12 +51,12 @@ const ApproveList = () => {
 
     const getGroups = (key) => {
         groupService.getGrades(key, schoolYear)
-        .then((res) => {
-            generateGradeWord(res.data)
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+            .then((res) => {
+                generateGradeWord(res.data)
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     const handleNaviagate = (key) => {
@@ -76,6 +83,11 @@ const ApproveList = () => {
                         setValue={setSchoolYear}
                     />
                 </Box>
+
+                {ruos.length === 0 && (
+                    <Typography component='div' variant='h4' textAlign='center'>Няма подадени оценъчни карти</Typography>
+                )}
+
                 <Stack spacing={2}>
                     {ruos.map((ruo, index) => (
                         <Card sx={{ p: 2 }} key={index}>

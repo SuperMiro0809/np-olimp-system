@@ -33,6 +33,10 @@ const SchoolFormsList = () => {
                     opt.sort((a, b) => -a.label.localeCompare(b.label));
                     const year = getSchoolYear();
 
+                    if(opt.length === 0) {
+                        opt.push({ label: year, value: year });
+                    }
+
                     setOptions(opt);
                     setSchoolYear(year);
                 })
@@ -133,6 +137,7 @@ const SchoolFormsList = () => {
                                 color='lightBlue'
                                 endIcon={<ForwardIcon />}
                                 onClick={submitToMonHandler}
+                                disabled={groups.length === 0}
                             >
                                 Изпрати към МОН
                             </Button>
