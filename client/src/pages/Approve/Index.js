@@ -1,14 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom'
 import { Helmet } from 'react-helmet';
 import { Box, Card, Typography, Button, Stack } from '@mui/material';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import useMessage from '@modules/common/hooks/useMessage';
 import useAuth from '@modules/common/hooks/useAuth';
+import ruoService from '@services/ruo';
+import groupService from '@services/group';
+import Select from '@modules/common/components/filters/Select';
+import generateGradeWord from '@modules/schoolForms/utils/generateGradeWord';
 
 import DownloadIcon from '@mui/icons-material/Download';
-import DoneIcon from '@mui/icons-material/Done';
+import ForwardIcon from '@mui/icons-material/Forward';
 
 const ApproveList = () => {
+    const [ruos, setRuos] = useState([]);
+    const [schoolYear, setSchoolYear] = useState('2022-2023')
+
+    useEffect(() => {
+        ruoService.getAll()
+            .then((res) => {
+                setRuos(res.data)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }, [])
+
+    const getGroups = (key) => {
+        groupService.getGrades(key, schoolYear)
+        .then((res) => {
+            generateGradeWord(res.data)
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+
     return (
         <>
             <Helmet>
@@ -21,30 +49,44 @@ const ApproveList = () => {
                     py: 3
                 }}
             >
+                <Box sx={{ mb: 2 }}>
+                    <Select
+                        title='Учебна година'
+                        value={schoolYear}
+                        options={[]}
+                        setValue={setSchoolYear}
+                        fullWidth
+                    />
+                </Box>
                 <Stack spacing={2}>
-                    <Card sx={{ p: 2 }}>
-                        <PerfectScrollbar>
-                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <Typography variant='h3'>РУО София-град</Typography>
-                                <Box sx={{ display: 'flex', gap: 5 }}>
-                                    <Button
-                                        variant='contained'
-                                        color='wordBlue'
-                                        endIcon={<DownloadIcon />}
-                                    >
-                                        Изтегли оценачна карта
-                                    </Button>
-                                    <Button
-                                        variant='outlined'
-                                        color='lightBlue'
-                                        endIcon={<DoneIcon />}
-                                    >
-                                        Одобряване
-                                    </Button>
+                    {ruos.map((ruo, index) => (
+                        <Card sx={{ p: 2 }} key={index}>
+                            <PerfectScrollbar>
+                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <Typography variant='h3'>{ruo.name}</Typography>
+                                    <Box sx={{ display: 'flex', gap: 5 }}>
+                                        <Button
+                                            variant='contained'
+                                            color='wordBlue'
+                                            endIcon={<DownloadIcon />}
+                                            onClick={() => getGroups(ruo.key)}
+                                        >
+                                            Изтегли оценачна карта
+                                        </Button>
+                                        <Button
+                                            component={RouterLink}
+                                            variant='outlined'
+                                            color='lightBlue'
+                                            endIcon={<ForwardIcon />}
+                                            to={`/app/approve/${ruo.key}/details`}
+                                        >
+                                            Одобряване
+                                        </Button>
+                                    </Box>
                                 </Box>
-                            </Box>
-                        </PerfectScrollbar>
-                    </Card>
+                            </PerfectScrollbar>
+                        </Card>
+                    ))}
                 </Stack>
             </Box>
         </>

@@ -14,7 +14,8 @@ use App\Http\Controllers\{
     GroupProgramController,
     GroupLessonsController,
     DashboardController,
-    FileController
+    FileController,
+    RuoController
 };
 
 /*
@@ -63,6 +64,10 @@ Route::middleware('auth:api')->group(function () {
 
         Route::get('/{id}', [TrainingOrganizationsController::class, 'getById']);
         Route::put('/{id}', [TrainingOrganizationsController::class, 'edit']);
+    });
+
+    Route::prefix('ruo')->group(function () {
+        Route::get('/', [RuoController::class, 'index']);
     });
 
     Route::prefix('groups')->group(function () {
