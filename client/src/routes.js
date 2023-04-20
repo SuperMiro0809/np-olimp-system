@@ -51,6 +51,7 @@ import SchoolFormsDetails from './pages/SchoolForms/Details';
 import FormGrade from './pages/SchoolForms/FormGrade';
 
 import ApproveList from './pages/Approve/Index';
+import ApproveDetails from './pages/Approve/Details';
 
 import AuthGuard from '@modules/common/hoc/AuthGuard';
 import RoleGuard from '@modules/common/hoc/RoleGuard';
@@ -80,6 +81,7 @@ const routes = [
         element: <RoleGuard component={<DashboardPageLayout title='Одобряване на проекти' />} accessRolesFromRoute={['SuperAdmin']} />,
         children: [
           { path: '', element: <ApproveList /> },
+          { path: ':key/details', element: <ApproveDetails /> }
         ]
       },
       {
