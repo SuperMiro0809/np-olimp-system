@@ -88,7 +88,7 @@ trait GroupTrait {
         }
 
         if(request()->query('approved')) {
-            $query->where('approved', request()->query('approved'));
+            $query->where('group_grades.approved', request()->query('approved'));
         }
         
         if($id) {

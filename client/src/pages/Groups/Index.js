@@ -19,6 +19,10 @@ const GroupsList = () => {
             total: total || 10
         }
 
+        if (!filters.some(el => el.label === 'approved')) {
+            filters.push({ value: 1, label: 'approved' });
+        }
+
         if (user) {
             groupService.getGroups(user.info.school_id, user.info.id, pagination, filters, order)
                 .then((res) => {

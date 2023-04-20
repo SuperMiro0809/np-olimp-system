@@ -21,7 +21,9 @@ const LessonsAdd = () => {
 
     useEffect(() => {
         if (user) {
-            groupService.getAll(user.info.school_id, user.info.id)
+            const filters = [ { label: 'approved', value: 1 } ];
+
+            groupService.getAll(user.info.school_id, user.info.id, filters)
                 .then((res) => {
                     let options = [];
 

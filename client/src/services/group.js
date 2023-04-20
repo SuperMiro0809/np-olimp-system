@@ -27,8 +27,14 @@ function getById(schoolId, teacherId, id) {
     });
 }
 
-function getAll(schoolId, teacherId) {
-    let url = `${servicesHelper.url}/${schoolId}/teachers/${teacherId}/groups/all`;
+function getAll(schoolId, teacherId, filters = []) {
+    let url = `${servicesHelper.url}/${schoolId}/teachers/${teacherId}/groups/all?`;
+
+    if(filters.length > 0) {
+        filters.forEach((filter) => {
+            url += `&${filter.label}=${filter.value}`
+        })
+    }
 
     return axios.get(url, {
         headers: servicesHelper.header()
