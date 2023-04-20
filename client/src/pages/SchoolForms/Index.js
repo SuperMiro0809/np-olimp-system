@@ -4,6 +4,7 @@ import { Box, Card, Button, Typography } from '@mui/material';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import trainingOrganizationsService from '@services/trainingOrganizations';
 import groupService from '@services/group';
+import ruoService from '@services/ruo';
 import MainTable from '@modules/common/components/MainTable';
 import useMessage from '@modules/common/hooks/useMessage';
 import useAuth from '@modules/common/hooks/useAuth';
@@ -84,6 +85,18 @@ const SchoolFormsList = () => {
         'name': { type: 'search', name: 'name', placeholder: 'Търси по Име' }
     }
 
+    const submitToMonHandler = () => {
+        let data = { schoolYear };
+
+        ruoService.submitCard(data, user.info.id)
+            .then((res) => {
+                addMessage('Оценъчната карта е успешно изпратена', 'success');
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    };
+
     return (
         <>
             <Helmet>
@@ -106,22 +119,24 @@ const SchoolFormsList = () => {
                             setValue={setSchoolYear}
                             size='small'
                         />
-                        <Button
-                            variant='contained'
-                            color='wordBlue'
-                            endIcon={<DownloadIcon />}
-                            onClick={() => generateGradeWord(groups, user.info.region)}
-                        >
-                            Изтегли в Word
-                        </Button>
-                        {/* <Button
-                            variant='contained'
-                            color='lightBlue'
-                            endIcon={<ForwardIcon />}
-                            onClick={() => generateGradeWord(groups, user.info.region)}
-                        >
-                            Изпрати към МОН
-                        </Button> */}
+                        <Box sx={{ display: 'flex', gap: 2 }}>
+                            <Button
+                                variant='contained'
+                                color='wordBlue'
+                                endIcon={<DownloadIcon />}
+                                onClick={() => generateGradeWord(groups, user.info.region)}
+                            >
+                                Изтегли в Word
+                            </Button>
+                            <Button
+                                variant='contained'
+                                color='lightBlue'
+                                endIcon={<ForwardIcon />}
+                                onClick={submitToMonHandler}
+                            >
+                                Изпрати към МОН
+                            </Button>
+                        </Box>
                     </Box>
                 </Card>
                 <Card sx={{ p: 2 }}>

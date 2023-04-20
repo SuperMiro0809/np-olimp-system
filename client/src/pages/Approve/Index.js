@@ -20,7 +20,7 @@ const ApproveList = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        ruoService.getAll()
+        ruoService.getAll(schoolYear)
             .then((res) => {
                 setRuos(res.data)
             })
