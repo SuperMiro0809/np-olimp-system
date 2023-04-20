@@ -1,19 +1,23 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Box, Card } from '@mui/material';
 import groupService from '@services/group';
 import FormBuilder from '@modules/common/components/FormBuilder';
 import * as Yup from 'yup';
+import useMessage from '@modules/common/hooks/useMessage';
 
 const ApproveDetails = () => {
     const { key } = useParams();
     const [initialValues, setInitialValues] = useState({});
+    const { addMessage } = useMessage();
+    const navigate = useNavigate();
 
     useEffect(() => {
         groupService.getGrades(key, '2022-2023')
             .then((res) => {
-                const groups = res.data.map((group) =>  ({
+                const groups = res.data.map((group) => ({
+                    id: group.id,
                     school_name: group.school_name,
                     subject_name: group.subject_name,
                     class: group.class,
@@ -39,11 +43,19 @@ const ApproveDetails = () => {
     ];
 
     const validationSchema = Yup.object().shape({
-
+        
     });
 
     const onSubmit = (values, { setSubmitting }) => {
-
+        groupService.approveGroups(values)
+            .then((res) => {
+                addMessage('Одобрението на групите е запазено успешно', 'success');
+                navigate('/app/approve');
+            })
+            .catch((error) => {
+                console.log(error);
+                setSubmitting(false);
+            })
     }
 
     const submitButton = {

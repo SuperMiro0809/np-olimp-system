@@ -51,12 +51,21 @@ function getGrades(schoolKey, schoolYear) {
     });
 }
 
+function approveGroups(data) {
+    let url = `${servicesHelper.url}/groups/approve`;
+
+    return axios.put(url, data, {
+        headers: servicesHelper.header()
+    });
+}
+
 const groupService = {
     getGroups,
     getById,
     getAll,
     grade,
-    getGrades
+    getGrades,
+    approveGroups
 }
 
 export default groupService;

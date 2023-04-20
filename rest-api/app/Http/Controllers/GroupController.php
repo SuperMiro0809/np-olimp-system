@@ -88,4 +88,19 @@ class GroupController extends Controller
 
         return $groups;
     }
+
+    public function approveGroups(Request $request)
+    {
+        $groups = $request->groups;
+
+        foreach($groups as $gr) {
+            $group = Group::findOrFail($gr['id']);
+
+            $group->grade()->update([
+                'approved' => $gr['approved']
+            ]);
+        }
+
+        return 'Approved';
+    }
 }
