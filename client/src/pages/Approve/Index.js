@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet';
 import { Box, Card, Typography, Button, Stack } from '@mui/material';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -9,13 +9,15 @@ import ruoService from '@services/ruo';
 import groupService from '@services/group';
 import Select from '@modules/common/components/filters/Select';
 import generateGradeWord from '@modules/schoolForms/utils/generateGradeWord';
+import getSchoolYear from '@modules/common/utils/getSchoolYear';
 
 import DownloadIcon from '@mui/icons-material/Download';
 import ForwardIcon from '@mui/icons-material/Forward';
 
 const ApproveList = () => {
     const [ruos, setRuos] = useState([]);
-    const [schoolYear, setSchoolYear] = useState('2022-2023')
+    const [schoolYear, setSchoolYear] = useState(getSchoolYear());
+    const navigate = useNavigate();
 
     useEffect(() => {
         ruoService.getAll()
@@ -37,6 +39,10 @@ const ApproveList = () => {
         })
     }
 
+    const handleNaviagate = (key) => {
+        navigate(`/app/approve/${key}/details`, { state: { schoolYear } });
+    }
+
     return (
         <>
             <Helmet>
@@ -49,7 +55,7 @@ const ApproveList = () => {
                     py: 3
                 }}
             >
-                <Box sx={{ mb: 2 }}>
+                {/* <Box sx={{ mb: 2 }}>
                     <Select
                         title='Учебна година'
                         value={schoolYear}
@@ -57,7 +63,7 @@ const ApproveList = () => {
                         setValue={setSchoolYear}
                         fullWidth
                     />
-                </Box>
+                </Box> */}
                 <Stack spacing={2}>
                     {ruos.map((ruo, index) => (
                         <Card sx={{ p: 2 }} key={index}>
@@ -74,11 +80,10 @@ const ApproveList = () => {
                                             Изтегли оценъчна карта
                                         </Button>
                                         <Button
-                                            component={RouterLink}
                                             variant='outlined'
                                             color='lightBlue'
                                             endIcon={<ForwardIcon />}
-                                            to={`/app/approve/${ruo.key}/details`}
+                                            onClick={() => handleNaviagate(ruo.key)}
                                         >
                                             Одобряване
                                         </Button>

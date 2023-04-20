@@ -1,20 +1,23 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Box, Card } from '@mui/material';
 import groupService from '@services/group';
 import FormBuilder from '@modules/common/components/FormBuilder';
 import * as Yup from 'yup';
 import useMessage from '@modules/common/hooks/useMessage';
+import getSchoolYear from '@modules/common/utils/getSchoolYear';
 
 const ApproveDetails = () => {
     const { key } = useParams();
     const [initialValues, setInitialValues] = useState({});
     const { addMessage } = useMessage();
     const navigate = useNavigate();
+    const location = useLocation();
+    const schoolYear = location.state?.schoolYear || getSchoolYear();
 
     useEffect(() => {
-        groupService.getGrades(key, '2022-2023')
+        groupService.getGrades(key, schoolYear)
             .then((res) => {
                 const groups = res.data.map((group) => ({
                     id: group.id,
@@ -43,7 +46,7 @@ const ApproveDetails = () => {
     ];
 
     const validationSchema = Yup.object().shape({
-        
+
     });
 
     const onSubmit = (values, { setSubmitting }) => {
