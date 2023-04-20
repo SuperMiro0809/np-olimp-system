@@ -81,6 +81,12 @@ const LessonItem = ({
     ];
 
     const validationSchema = Yup.object().shape({
+        themes: Yup.array().of(Yup.object({
+            theme: Yup.object().required('Темата е задължителна'),
+            teachers: Yup.array().of(Yup.object({
+                lessons: Yup.number().required('Часовете са задължителни')
+            }))
+        }))
     });
 
     const onSubmit = (values, { setSubmitting }) => {
