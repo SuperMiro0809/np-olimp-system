@@ -98,7 +98,7 @@ const SchoolFormsList = () => {
             >
                 <Card sx={{ p: 2, mb: 2 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 5, justifyContent: 'flex-end' }}>
-                        <Typography variant='h4'>Изтегляне на оценачната карта в Word формат</Typography>
+                        <Typography variant='h4'>Изтегляне на оценъчната карта в Word формат</Typography>
                         <Select
                             title='Учебна година'
                             value={schoolYear}

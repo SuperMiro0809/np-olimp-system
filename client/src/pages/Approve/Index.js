@@ -71,7 +71,7 @@ const ApproveList = () => {
                                             endIcon={<DownloadIcon />}
                                             onClick={() => getGroups(ruo.key)}
                                         >
-                                            Изтегли оценачна карта
+                                            Изтегли оценъчна карта
                                         </Button>
                                         <Button
                                             component={RouterLink}
