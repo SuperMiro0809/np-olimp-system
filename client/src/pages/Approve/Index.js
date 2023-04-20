@@ -16,8 +16,21 @@ import ForwardIcon from '@mui/icons-material/Forward';
 
 const ApproveList = () => {
     const [ruos, setRuos] = useState([]);
-    const [schoolYear, setSchoolYear] = useState(getSchoolYear());
+    const [schoolYear, setSchoolYear] = useState('');
+    const [options, setOption] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        ruoService.getSchoolYears()
+        .then((res) => {
+            const opt = res.data.map((el) => ({ label: el.schoolYear, value: el.schoolYear }));
+            setOption(opt);
+            setSchoolYear(getSchoolYear());
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }, []);
 
     useEffect(() => {
         ruoService.getAll(schoolYear)
@@ -27,7 +40,7 @@ const ApproveList = () => {
             .catch((error) => {
                 console.log(error)
             })
-    }, [])
+    }, [schoolYear])
 
     const getGroups = (key) => {
         groupService.getGrades(key, schoolYear)
@@ -55,15 +68,14 @@ const ApproveList = () => {
                     py: 3
                 }}
             >
-                {/* <Box sx={{ mb: 2 }}>
+                <Box sx={{ mb: 2 }}>
                     <Select
                         title='Учебна година'
                         value={schoolYear}
-                        options={[]}
+                        options={options}
                         setValue={setSchoolYear}
-                        fullWidth
                     />
-                </Box> */}
+                </Box>
                 <Stack spacing={2}>
                     {ruos.map((ruo, index) => (
                         <Card sx={{ p: 2 }} key={index}>

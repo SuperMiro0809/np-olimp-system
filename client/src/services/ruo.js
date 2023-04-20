@@ -17,9 +17,18 @@ function submitCard(data, id) {
     });
 }
 
+function getSchoolYears() {
+    let url = `${servicesHelper.url}/ruo/schoolYears`;
+
+    return axios.get(url, {
+        headers: servicesHelper.header()
+    });
+}
+
 const ruoService = {
     getAll,
-    submitCard
+    submitCard,
+    getSchoolYears
 }
 
 export default ruoService;

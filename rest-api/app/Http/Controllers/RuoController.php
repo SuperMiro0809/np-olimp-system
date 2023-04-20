@@ -39,4 +39,11 @@ class RuoController extends Controller
 
         return $gradeCard;
     }
+
+    public function getSchoolYears()
+    {
+        $query = RuoGradeCard::select('schoolYear')->groupBy('schoolYear');
+
+        return $query->get();
+    }
 }

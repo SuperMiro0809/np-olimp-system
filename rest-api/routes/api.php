@@ -68,7 +68,8 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('ruo')->group(function () {
         Route::get('/', [RuoController::class, 'index']);
-        Route::post('/submit/{id}',  [RuoController::class, 'submitCard']);
+        Route::post('/submit/{id}', [RuoController::class, 'submitCard']);
+        Route::get('/schoolYears', [RuoController::class, 'getSchoolYears']);
     });
 
     Route::prefix('groups')->group(function () {
