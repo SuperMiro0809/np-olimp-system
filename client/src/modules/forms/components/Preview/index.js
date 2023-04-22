@@ -300,13 +300,7 @@ const FormPreview = ({ id, schoolId }) => {
         'information': [
             { type: 'text', name: 'schoolYear', label: 'Учебна година', readOnly: true },
             { type: 'text', name: 'fullName', label: 'Пълно име', readOnly: true },
-            {
-                type: 'select', name: 'type', label: 'Tип', readOnly: true, options: [
-                    { label: 'Държавно', value: 'Държавно' },
-                    { label: 'Общинско', value: 'Общинско' },
-                    { label: 'Частно ', value: 'Частно ' }
-                ]
-            },
+            { type: 'text', name: 'type', label: 'Tип', readOnly: true },
             { type: 'text', name: 'key', label: 'Код по НЕИСПУО', readOnly: true },
             {
                 type: 'group', name: 'address', title: 'Aдрес за кореспонденция', fields: [
