@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Container, Grid } from '@mui/material';
 import moment from 'moment';
+import getSchoolYear from '@modules/common/utils/getSchoolYear';
 
 import useAuth from '@modules/common/hooks/useAuth';
 import dashboardService from '@services/dashboard';
@@ -31,6 +32,9 @@ import WatchLaterIcon from '@mui/icons-material/WatchLater';
 
 //requests
 import DescriptionIcon from '@mui/icons-material/Description';
+
+//approve
+import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 
 const Dashboard = () => {
     const [tiles, setTiles] = useState([]);
@@ -72,10 +76,23 @@ const Dashboard = () => {
                         value: values.trainingOrganizationsRequestCount,
                         url: '/app/training-organizations/requests',
                         icon: DescriptionIcon
+                    },
+                    {
+                        title: 'Одобряване на проекти',
+                        value: getSchoolYear(),
+                        url: '/app/approve',
+                        icon: LibraryAddCheckIcon
                     }
                 ]);
             } else if (user.role.name === 'Admin') {
-
+                setTiles([
+                    {
+                        title: 'Училища и формуляри',
+                        value: getSchoolYear(),
+                        url: '/app/schools',
+                        icon: SchoolIcon,
+                    },
+                ]);
             } else if (user.role.name === 'Moderator') {
                 setTiles([
                     {
