@@ -91,13 +91,13 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
 
     const userInfo = {
         avatar: '',
-        role: user && formatRole(user.role.name),
-        name: user && user.info.name
+        role: user && formatRole(user.role?.name),
+        name: user && user.info?.name
     };
 
     useEffect(() => {
         if (user) {
-            if (user.role.name === 'SuperAdmin') {
+            if (user.role?.name === 'SuperAdmin') {
                 setMenuItems([
                     ...baseMenuItems,
                     {
@@ -120,7 +120,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                         title: 'Одобряване на проекти'
                     }
                 ]);
-            } else if (user.role.name === 'Admin') {
+            } else if (user.role?.name === 'Admin') {
                 setMenuItems([
                     ...baseMenuItems,
                     {
@@ -129,7 +129,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                         title: 'Училища и формуляри'
                     },
                 ]);
-            } else if (user.role.name === 'Moderator') {
+            } else if (user.role?.name === 'Moderator') {
                 setMenuItems([
                     ...baseMenuItems,
                     {
@@ -162,7 +162,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                         title: 'Данни за училището'
                     }
                 ]);
-            } else if (user.role.name === 'User') {
+            } else if (user.role?.name === 'User') {
                 setMenuItems([
                     ...baseMenuItems,
                     {
@@ -197,12 +197,12 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
 
         //requests on every path change
         if (user) {
-            if (user.role.name === 'SuperAdmin') {
+            if (user.role?.name === 'SuperAdmin') {
                 trainingOrganizationsService.requestsCount()
                     .then((res) => {
                         setTrainingOrganizationsRequestCount(res.data);
                     })
-            } else if (user.role.name === 'Moderator') {
+            } else if (user.role?.name === 'Moderator') {
                 teacherService.requestsCount(user.info.id)
                     .then((res) => {
                         setTeachersRequestCount(res.data);

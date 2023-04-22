@@ -63,7 +63,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (user) {
-            if (user.role.name === 'SuperAdmin') {
+            if (user.role?.name === 'SuperAdmin') {
                 setTiles([
                     {
                         title: 'Обучителни организации',
@@ -84,7 +84,7 @@ const Dashboard = () => {
                         icon: LibraryAddCheckIcon
                     }
                 ]);
-            } else if (user.role.name === 'Admin') {
+            } else if (user.role?.name === 'Admin') {
                 setTiles([
                     {
                         title: 'Училища и формуляри',
@@ -93,7 +93,7 @@ const Dashboard = () => {
                         icon: SchoolIcon,
                     },
                 ]);
-            } else if (user.role.name === 'Moderator') {
+            } else if (user.role?.name === 'Moderator') {
                 setTiles([
                     {
                         title: 'Формуляри',
@@ -126,7 +126,7 @@ const Dashboard = () => {
                         icon: SchoolIcon
                     }
                 ]);
-            } else if (user.role.name === 'User') {
+            } else if (user.role?.name === 'User') {
                 setTiles([
                     {
                         title: 'Моето занятие',
