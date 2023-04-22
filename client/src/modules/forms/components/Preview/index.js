@@ -21,7 +21,7 @@ import Additional from './FormMenus/Additional';
 import Budget from './FormMenus/Budget';
 import SchoolProgram from './FormFields/SchoolProgram';
 
-const FormPreview = ({ id, schoolId }) => {
+const FormPreview = ({ form = null, id, schoolId }) => {
     const { addMessage } = useMessage();
     const navigate = useNavigate();
     const { user } = useAuth();
@@ -31,125 +31,134 @@ const FormPreview = ({ id, schoolId }) => {
     const [subjectId, setSubjectId] = useState(null);
     const [selectedTeachers, setSelectedTeachers] = useState([]);
 
+    const constructInitialValues = (f) => {
+        const schoolInfo = f.school_info;
+        const description = f.description;
+        const budget = f.budget;
+
+        let declarations = [];
+        f.declarations.forEach(async (declaration) => {
+            try {
+                const url = `${process.env.REACT_APP_ASSETS}/${declaration.path}`;
+                const name = declaration.path.split('/').pop();
+
+                const response = await fileService.show(declaration.path);
+                const blob = new Blob([response.data]);
+                const file = new File([blob], name, { type: fileMimeType(name) });
+
+                declarations.push({ file, url });
+            } catch (error) {
+                console.error('Failed to download file:', error);
+            }
+        });
+
+        let letters = [];
+        f.letters.forEach(async (letter) => {
+            let obj = {
+                id: letter.id,
+                teacher_id: letter.teacher_id,
+                letter: letter.letter,
+                files: ''
+            }
+
+            if (letter.files.length > 0) {
+                let files = [];
+                letter.files.forEach(async (f) => {
+                    try {
+                        const url = `${process.env.REACT_APP_ASSETS}/${f.path}`;
+                        const name = f.path.split('/').pop();
+
+                        const response = await fileService.show(f.path);
+                        const blob = new Blob([response.data]);
+                        const file = new File([blob], name, { type: fileMimeType(name) });
+
+                        files.push({ file, url });
+                    } catch (error) {
+                        console.error('Failed to download file:', error);
+                    }
+                });
+
+                obj.files = files;
+            }
+
+            letters.push(obj);
+        });
+
+        setInitialValues({
+            schoolYear: f.schoolYear,
+            fullName: schoolInfo.fullName,
+            type: schoolInfo.type,
+            key: schoolInfo.key,
+            address: {
+                address: schoolInfo.address.address,
+                phone: schoolInfo.address.phone,
+                email: schoolInfo.address.email
+            },
+            contact: {
+                name: schoolInfo.contact.name,
+                phone: schoolInfo.contact.phone,
+                email: schoolInfo.contact.email
+            },
+            director: schoolInfo.director,
+            subject: { label: f.subject_name, value: f.subject_id },
+            groups: f.groups.map((group) => {
+
+                return {
+                    id: group.id,
+                    teachers: group.teachers.map((teacher) => ({ id: teacher.id, label: teacher.name, value: teacher.teacher_id })),
+                    class: group.class,
+                    lessons: group.lessons,
+                    students: group.students.map((student) => ({ id: student.id, name: student.name, class: student.class })),
+                    program: group.program.map((program) => {
+                        return {
+                            id: program.id,
+                            theme: program.theme,
+                            allLessons: program.lessons,
+                            teachers: program.teachers.map((teacher) => ({ id: teacher.id, teacher_id: teacher.teacher_id, lessons: teacher.lessons }))
+                        }
+                    })
+                };
+            }),
+            description: description.description,
+            goals: description.goals,
+            results: description.results,
+            activities: description.activities.map((activity) => {
+                return {
+                    id: activity.id,
+                    activity: activity.activity,
+                    teachers: activity.teachers.map((teacher) => ({ label: teacher.name, value: teacher.teacher_id, id: teacher.id })),
+                    date: activity.date
+                };
+            }),
+            indicatorsOfSuccess: description.indicatorsOfSuccess,
+            resources: description.resources,
+            budget: {
+                hourPrice: budget.hourPrice,
+                trainingCosts: budget.trainingCosts,
+                administrationCosts: budget.administrationCosts,
+                administration: budget.administration,
+                teachers: budget.teachers.map((teacher) => ({ id: teacher.id, teacher_id: teacher.teacher_id, teacher_name: teacher.name, lessons: teacher.lessons }))
+            },
+            declarations: declarations,
+            letters: letters
+        });
+    }
+
     useEffect(() => {
         if (user) {
-            formService.getById(schoolId, id)
-                .then((res) => {
-                    const form = res.data;
-                    const schoolInfo = form.school_info;
-                    const description = form.description;
-                    const budget = form.budget;
+            if (form) {
+                constructInitialValues(form);
+            } else {
+                formService.getById(schoolId, id)
+                    .then((res) => {
+                        const form = res.data;
 
-                    let declarations = [];
-                    form.declarations.forEach(async (declaration) => {
-                        try {
-                            const url = `${process.env.REACT_APP_ASSETS}/${declaration.path}`;
-                            const name = declaration.path.split('/').pop();
-
-                            const response = await fileService.show(declaration.path);
-                            const blob = new Blob([response.data]);
-                            const file = new File([blob], name, { type: fileMimeType(name) });
-
-                            declarations.push({ file, url });
-                        } catch (error) {
-                            console.error('Failed to download file:', error);
-                        }
-                    });
-
-                    let letters = [];
-                    form.letters.forEach(async (letter) => {
-                        let obj = {
-                            id: letter.id,
-                            teacher_id: letter.teacher_id,
-                            letter: letter.letter,
-                            files: ''
-                        }
-
-                        if(letter.files.length > 0) {
-                            let files = [];
-                            letter.files.forEach(async (f) => {
-                                try {
-                                    const url = `${process.env.REACT_APP_ASSETS}/${f.path}`;
-                                    const name = f.path.split('/').pop();
-
-                                    const response = await fileService.show(f.path);
-                                    const blob = new Blob([response.data]);
-                                    const file = new File([blob], name, { type: fileMimeType(name) });
-
-                                    files.push({ file, url });
-                                } catch (error) {
-                                    console.error('Failed to download file:', error);
-                                }
-                            });
-
-                            obj.files = files;
-                        }
-
-                        letters.push(obj);
-                    });
-
-                    setInitialValues({
-                        schoolYear: form.schoolYear,
-                        fullName: schoolInfo.fullName,
-                        type: schoolInfo.type,
-                        key: schoolInfo.key,
-                        address: {
-                            address: schoolInfo.address.address,
-                            phone: schoolInfo.address.phone,
-                            email: schoolInfo.address.email
-                        },
-                        contact: {
-                            name: schoolInfo.contact.name,
-                            phone: schoolInfo.contact.phone,
-                            email: schoolInfo.contact.email
-                        },
-                        director: schoolInfo.director,
-                        subject: { label: form.subject_name, value: form.subject_id },
-                        groups: form.groups.map((group) => {
-
-                            return {
-                                id: group.id,
-                                teachers: group.teachers.map((teacher) => ({ id: teacher.id, label: teacher.name, value: teacher.teacher_id })),
-                                class: group.class,
-                                lessons: group.lessons,
-                                students: group.students.map((student) => ({ id: student.id, name: student.name, class: student.class })),
-                                program: group.program.map((program) => {
-                                    return {
-                                        id: program.id,
-                                        theme: program.theme,
-                                        allLessons: program.lessons,
-                                        teachers: program.teachers.map((teacher) => ({ id: teacher.id, teacher_id: teacher.teacher_id, lessons: teacher.lessons }))
-                                    }
-                                })
-                            };
-                        }),
-                        description: description.description,
-                        goals: description.goals,
-                        results: description.results,
-                        activities: description.activities.map((activity) => {
-                            return {
-                                id: activity.id,
-                                activity: activity.activity,
-                                teachers: activity.teachers.map((teacher) => ({ label: teacher.name, value: teacher.teacher_id, id: teacher.id })),
-                                date: activity.date
-                            };
-                        }),
-                        indicatorsOfSuccess: description.indicatorsOfSuccess,
-                        resources: description.resources,
-                        budget: {
-                            hourPrice: budget.hourPrice,
-                            trainingCosts: budget.trainingCosts,
-                            administrationCosts: budget.administrationCosts,
-                            administration: budget.administration,
-                            teachers: budget.teachers.map((teacher) => ({ id: teacher.id, teacher_id: teacher.teacher_id, teacher_name: teacher.name, lessons: teacher.lessons }))
-                        },
-                        declarations: declarations,
-                        letters: letters
-                    });
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
+                        constructInitialValues(form);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            }
 
             subjectService.getAll(user.info.school_id)
                 .then((res) => {

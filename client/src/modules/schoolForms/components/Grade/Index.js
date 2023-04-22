@@ -3,18 +3,7 @@ import { Grid } from '@mui/material';
 import formService from '@services/form';
 import GradeItem from './GradeItem';
 
-const Grade = ({ id, schoolId }) => {
-    const [groups, setGroups] = useState([]);
-
-    useEffect(() => {
-        formService.getById(schoolId, id)
-            .then((res) => {
-                setGroups(res.data.groups)
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }, [])
+const Grade = ({ groups }) => {
 
     return (
         <Grid container spasing={2} rowGap={2}>

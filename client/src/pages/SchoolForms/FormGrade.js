@@ -1,12 +1,26 @@
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import { Box, Card, Grid } from '@mui/material';
 import FormPreview from '@modules/forms/components/Preview';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import Grade from '@modules/schoolForms/components/Grade/Index';
+import formService from '@services/form';
 
 const FormGrade = () => {
     const { id: schoolId, formId } = useParams();
+    const [form, setForm] = useState(null);
+
+    useEffect(() => {
+        formService.getById(schoolId, formId)
+            .then((res) => {
+                setForm(res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+    }, [])
 
     return (
         <>
@@ -25,13 +39,13 @@ const FormGrade = () => {
                         <Card sx={{ p: 2 }}>
                             <PerfectScrollbar>
                                 <Box>
-                                    <FormPreview id={formId} schoolId={schoolId} />
+                                    <FormPreview form={form} id={formId} schoolId={schoolId} />
                                 </Box>
                             </PerfectScrollbar>
                         </Card>
                     </Grid>
                     <Grid item xs={12} xl={6}>
-                        <Grade id={formId} schoolId={schoolId} />
+                        <Grade groups={form?.groups || []} />
                     </Grid>
                 </Grid>
             </Box>
