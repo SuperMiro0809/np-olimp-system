@@ -38,7 +38,7 @@ const GroupsList = () => {
 
     const headings = [
         { id: 'id', label: 'ID', order: true },
-        { id: 'schoolYear', label: 'Учебна година', order: true },
+        { id: 'schoolYear', type: 'chip', label: 'Учебна година', order: true },
         { id: 'class', label: 'Клас', order: true },
         { id: 'lessons', label: 'Часове', order: true}
     ];

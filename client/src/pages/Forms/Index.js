@@ -58,7 +58,7 @@ const FormsList = () => {
 
     const headings = [
         { id: 'id', label: 'ID', order: true },
-        { id: 'schoolYear', label: 'Учебна година', order: true },
+        { id: 'schoolYear', type: 'chip', label: 'Учебна година', order: true },
         { id: 'subject_name', label: 'Учебен предмет', order: false }
     ];
 
