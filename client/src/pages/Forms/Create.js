@@ -149,18 +149,16 @@ const FormsAdd = () => {
                             }
                         });
 
-                        if (lessons) {
-                            return Yup.number().required('Броят учебни часове е задължителен').min(1, 'Броят учебни часове трябва е поне 1').test({
-                                message: 'Броят учебни часове не съвпада със сбора от часовете за учители',
-                                test: (value) => {
-                                    return value === lessons
-                                }
-                            })
-                        }
+                        return Yup.number().required('Броят учебни часове е задължителен').min(1, 'Броят учебни часове трябва е поне 1').test({
+                            message: 'Броят учебни часове не съвпада със сбора от часовете за учители',
+                            test: (value) => {
+                                return value === lessons
+                            }
+                        });
                     }
                 }),
                 teachers: Yup.array().of(Yup.object().shape({
-                    lessons: Yup.number().required('Учебните часове на учителя са задължителни').min(1, 'Учебните часове на учителя трябва да са поне 1')
+                    lessons: Yup.number().required('Учебните часове на учителя са задължителни')
                 })).required('Учителите са задължителни')
             }))
         })),
