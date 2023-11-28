@@ -6,6 +6,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import groupService from '@services/group';
 import groupLessonsService from '@services/groupLessons';
 import FormBuilder from '@modules/common/components/FormBuilder';
+import getSchoolYear from '@modules/common/utils/getSchoolYear';
 import * as Yup from 'yup';
 import useMessage from '@modules/common/hooks/useMessage';
 import useAuth from '@modules/common/hooks/useAuth';
@@ -18,10 +19,11 @@ const LessonsAdd = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const [groups, setGroups] = useState([]);
+    const schoolYear = getSchoolYear();
 
     useEffect(() => {
         if (user) {
-            const filters = [ { label: 'approved', value: 1 } ];
+            const filters = [ { label: 'approved', value: 1 }, { label: 'schoolYear', value: schoolYear } ];
 
             groupService.getAll(user.info.school_id, user.info.id, filters)
                 .then((res) => {
@@ -82,7 +84,7 @@ const LessonsAdd = () => {
     });
 
     const fields = [
-        { type: 'autocomplete', name: 'groups', label: 'Групи', options: groups, multiple: true },
+        { type: 'autocomplete', name: 'groups', label: 'Групи', options: groups, multiple: true, freeSolo: false, noOptionsText: `Няма активни групи за учебната ${schoolYear}` },
         { type: 'custom', component: GroupLessons }
     ];
 

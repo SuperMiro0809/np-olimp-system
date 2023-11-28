@@ -89,7 +89,7 @@ const Fields = ({
                     onChange={(e, value) => (
                         setFieldValue(baseProps.name, value)
                     )}
-                    freeSolo
+                    freeSolo={Object.hasOwn(field, 'freeSolo') ? field.freeSolo : true}
                     readOnly={field.readOnly || false}
                     renderInput={(params) => (
                         <TextField
@@ -98,6 +98,7 @@ const Fields = ({
                             onChange={() => { }}
                         />
                     )}
+                    noOptionsText={field.noOptionsText || 'Няма данни'}
                 />
             )}
 
