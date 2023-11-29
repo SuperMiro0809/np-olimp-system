@@ -31,6 +31,13 @@ class GroupController extends Controller
         return $groups;
     }
 
+    public function getAllBySchool($schoolId)
+    {
+        $groups = $this->getGroups(null, null, true, null, $schoolId);
+
+        return $groups;
+    }
+
     public function grade(Request $request, $id)
     {
         $group = Group::findOrFail($id);

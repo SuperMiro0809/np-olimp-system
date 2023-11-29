@@ -41,6 +41,20 @@ function getAll(schoolId, teacherId, filters = []) {
     });
 }
 
+function getAllBySchool(schoolId, filters = []) {
+    let url = `${servicesHelper.url}/${schoolId}/groups/all?`;
+
+    if(filters.length > 0) {
+        filters.forEach((filter) => {
+            url += `&${filter.label}=${filter.value}`
+        })
+    }
+
+    return axios.get(url, {
+        headers: servicesHelper.header()
+    });
+}
+
 function grade(data, id) {
     let url = `${servicesHelper.url}/groups/grade/${id}`;
 
@@ -69,6 +83,7 @@ const groupService = {
     getGroups,
     getById,
     getAll,
+    getAllBySchool,
     grade,
     getGrades,
     approveGroups

@@ -5,7 +5,10 @@ import {
     Divider,
     InputAdornment,
     Box,
-    Typography
+    Typography,
+    FormGroup,
+    FormControlLabel,
+    Checkbox
 } from '@mui/material';
 import RichTextEditor from './RichTextEditor';
 import LangFields from './LangFields';
@@ -19,6 +22,7 @@ import DatePicker from './DateField/DatePicker';
 import TimePicker from './TimeField/TimePicker';
 import TimeRangePicker from './TimeField/TimeRangePicker';
 import Toggle from './Toggle';
+import CheckboxField from './CheckboxField';
 import PropTypes from 'prop-types';
 
 const Fields = ({
@@ -204,6 +208,15 @@ const Fields = ({
 
             {field.type === 'toggle' && (
                 <Toggle
+                    field={field}
+                    baseProps={baseProps}
+                    element={baseProps.element || values[baseProps.name]}
+                    {...formikProps}
+                />
+            )}
+
+            {field.type === 'checkbox' && (
+                <CheckboxField
                     field={field}
                     baseProps={baseProps}
                     element={baseProps.element || values[baseProps.name]}

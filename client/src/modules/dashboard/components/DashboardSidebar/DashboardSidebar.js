@@ -57,6 +57,9 @@ import PersonIcon from '@mui/icons-material/Person';
 //approve
 import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 
+//reports
+import SummarizeIcon from '@mui/icons-material/Summarize';
+
 const formatRole = (role) => {
     if (role === 'SuperAdmin') {
         return 'МОН администратор';
@@ -160,6 +163,11 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
                         href: '/app/school-data',
                         icon: SchoolIcon,
                         title: 'Данни за училището'
+                    },
+                    {
+                        href: '/app/reports',
+                        icon: SummarizeIcon,
+                        title: 'Справки'
                     }
                 ]);
             } else if (user.role?.name === 'User') {

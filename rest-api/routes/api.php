@@ -133,6 +133,10 @@ Route::middleware('auth:api')->group(function () {
                 });
             });
         });
+
+        Route::prefix('groups')->group(function () {
+            Route::get('/all', [GroupController::class, 'getAllBySchool']);
+        });
     
         Route::prefix('subjects')->group(function () {
             Route::get('/', [SubjectController::class, 'index']);

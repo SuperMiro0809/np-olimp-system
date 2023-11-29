@@ -53,6 +53,8 @@ import FormGrade from './pages/SchoolForms/FormGrade';
 import ApproveList from './pages/Approve/Index';
 import ApproveDetails from './pages/Approve/Details';
 
+import ReportsList from './pages/Reports/Index';
+
 import AuthGuard from '@modules/common/hoc/AuthGuard';
 import RoleGuard from '@modules/common/hoc/RoleGuard';
 
@@ -128,6 +130,13 @@ const routes = [
         element: <RoleGuard component={<DashboardPageLayout title='Данни за училището' />} accessRolesFromRoute={['Moderator']} />,
         children: [
           { path: '', element: <SchoolData /> }
+        ]
+      },
+      {
+        path: 'reports',
+        element: <RoleGuard component={<DashboardPageLayout title='Справки' />} accessRolesFromRoute={['Moderator']} />,
+        children: [
+          { path: '', element: <ReportsList /> }
         ]
       },
       {

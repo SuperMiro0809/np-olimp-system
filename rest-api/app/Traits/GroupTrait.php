@@ -6,7 +6,7 @@ use App\Models\{
 };
 
 trait GroupTrait {
-    public function getGroups($teacherId=null, $id=null, $all=false, $schoolKey=null) {
+    public function getGroups($teacherId=null, $id=null, $all=false, $schoolKey=null, $schoolId=null) {
         $query = Group::select(
                         'groups.*',
                         'forms.subject_id',
@@ -70,6 +70,10 @@ trait GroupTrait {
         if($schoolKey) {
             $query->whereRaw('(LENGTH(`key`) = 6 AND LEFT(`key`, 1) = ' . $schoolKey . ') OR (LENGTH(`key`) = 7 AND LEFT(`key`, 2) = ' . $schoolKey . ')');
         }
+
+        if($schoolId) {
+            $query->where('forms.school_id', $schoolId);
+        }
         
         if(request()->query('id')) {
             $query->where('groups.id', 'LIKE', '%'.request()->query('id').'%');
@@ -89,6 +93,10 @@ trait GroupTrait {
 
         if(request()->query('approved')) {
             $query->where('group_grades.approved', request()->query('approved'));
+        }
+
+        if(request()->query('subject')) {
+            $query->where('forms.subject_id', request()->query('subject'));
         }
         
         if($id) {
