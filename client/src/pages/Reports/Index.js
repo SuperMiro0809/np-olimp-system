@@ -4,18 +4,26 @@ import { Box, Card, TextField, MenuItem } from '@mui/material';
 
 import FormBuilder from '@modules/common/components/FormBuilder';
 import useAuth from '@modules/common/hooks/useAuth';
+import useMessage from '@modules/common/hooks/useMessage';
+import getSchoolYear from '@modules/common/utils/getSchoolYear';
+import downloadGroupReport from '@modules/reports/utils/downloadGroupReport';
 
 import * as Yup from 'yup';
 
 import subjectService from '@services/subject';
+import reportsService from '@services/reports';
 
 import GroupFields from './FormFields/GroupFields';
 import TeacherFields from './FormFields/TeacherFields';
+
+import { generateReport } from './utils/generateReport';
 
 const ReportsList = () => {
     const [type, setType] = useState('');
     const [subjects, setSubjects] = useState([]);
     const { user } = useAuth();
+    const { addMessage } = useMessage();
+    const schoolYear = getSchoolYear();
 
     useEffect(() => {
         if (user) {
@@ -29,9 +37,14 @@ const ReportsList = () => {
         }
     }, [user]);
 
-    const validationSchema = Yup.object().shape({
+    const validationSchemaGroups = Yup.object().shape({
         subject: Yup.object().required('Предметът е задължителен').nullable(),
         groups: Yup.array().required('Групите са задължителни'),
+    });
+
+    const validationSchemaTeachers = Yup.object().shape({
+        subject: Yup.object().required('Предметът е задължителен').nullable(),
+        teachers: Yup.array().required('Учителите са задължителни'),
     });
 
     const groupFields = [
@@ -45,7 +58,45 @@ const ReportsList = () => {
     ];
 
     const onSubmit = (values, { setSubmitting }) => {
-        console.log(values)
+        const { all_lessons, per_teacher, per_group, per_months } = values;
+        const options = [];
+
+        if(all_lessons) {
+            options.push('all_lessons');
+        }
+
+        if(per_teacher) {
+            options.push('per_teacher');
+        }
+
+        if(per_group) {
+            options.push('per_group');
+        }
+
+        if(per_months) {
+            options.push('per_months');
+        }
+
+        const filters = [
+            { label: 'schoolYear', value: schoolYear }
+        ];
+
+        reportsService.groupsReport(user.info.id, values, filters)
+            .then((res) => {
+                const data = res.data;
+
+                const reportData = generateReport(data, type, options);
+
+                console.log(reportData)
+
+                downloadGroupReport(reportData, options);
+
+                setSubmitting(false);
+            })
+            .catch((error) => {
+                addMessage(error.message, 'error');
+                setSubmitting(false);
+            })
     };
 
     const submitButton = {
@@ -82,7 +133,7 @@ const ReportsList = () => {
                         {type === 'groups' && (
                             <FormBuilder
                                 fields={groupFields}
-                                validationSchema={validationSchema}
+                                validationSchema={validationSchemaGroups}
                                 onSubmit={onSubmit}
                                 enableReinitialize
                                 submitButton={submitButton}
@@ -92,7 +143,7 @@ const ReportsList = () => {
                         {type === 'teachers' && (
                             <FormBuilder
                                 fields={teacherFields}
-                                validationSchema={validationSchema}
+                                validationSchema={validationSchemaTeachers}
                                 onSubmit={onSubmit}
                                 enableReinitialize
                                 submitButton={submitButton}

@@ -15,7 +15,8 @@ use App\Http\Controllers\{
     GroupLessonsController,
     DashboardController,
     FileController,
-    RuoController
+    RuoController,
+    ReportController
 };
 
 /*
@@ -156,6 +157,11 @@ Route::middleware('auth:api')->group(function () {
             Route::put('/permissions/{id}', [FormController::class, 'changePermissions']);
             Route::get('/school-years', [FormController::class, 'getSchoolYears']);
             Route::get('/{id}', [FormController::class, 'getById']);
+        });
+
+        Route::prefix('reports')->group(function () {
+            Route::post('/groups', [ReportController::class, 'groupsReport']);
+            Route::post('/teachers', [ReportController::class, 'teachersReport']);
         });
     });
 });

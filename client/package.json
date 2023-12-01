@@ -64,6 +64,7 @@
     "react-scripts": "^5.0.1",
     "styled-components": "^5.3.6",
     "uuid": "^9.0.0",
+    "xlsx": "^0.18.5",
     "yup": "^0.32.11"
   },
   "devDependencies": {
