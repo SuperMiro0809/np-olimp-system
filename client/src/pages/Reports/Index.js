@@ -88,15 +88,13 @@ const ReportsList = () => {
 
                 const reportData = generateReport(data, type, options);
 
-                console.log(reportData)
-
-                if(type === 'group') {
+                if(type === 'groups') {
                     downloadGroupReport(reportData, options);
                 }else {
                     downloadTeacherReport(reportData, options);
                 }
 
-                setSubmitting(false);
+                addMessage('Справката е генерирана успешно', 'success');
             })
             .catch((error) => {
                 addMessage(error.message, 'error');

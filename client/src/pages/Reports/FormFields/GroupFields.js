@@ -39,7 +39,6 @@ const GroupFields = ({
             groupService.getAllBySchool(schoolId, filters)
                 .then((res) => {
                     const options = res.data.map(group => ({ label: group.class, value: group.id }));
-                    console.log(res.data);
                     setGroups(options);
                 })
                 .catch((error) => {

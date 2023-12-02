@@ -44,8 +44,6 @@ export function generateReport(data, type, options = []) {
             const date = lesson.date;
             const month = moment(date).format('MM');
 
-            console.log(typeof month)
-
             lesson.themes.forEach(theme => {
                 theme.teachers.forEach(teacher => {
                     const teacherName = teacher.name;
