@@ -7,6 +7,7 @@ import useAuth from '@modules/common/hooks/useAuth';
 import useMessage from '@modules/common/hooks/useMessage';
 import getSchoolYear from '@modules/common/utils/getSchoolYear';
 import downloadGroupReport from '@modules/reports/utils/downloadGroupReport';
+import downloadTeacherReport from '@modules/reports/utils/downloadTeacherReport';
 
 import * as Yup from 'yup';
 
@@ -89,7 +90,11 @@ const ReportsList = () => {
 
                 console.log(reportData)
 
-                downloadGroupReport(reportData, options);
+                if(type === 'group') {
+                    downloadGroupReport(reportData, options);
+                }else {
+                    downloadTeacherReport(reportData, options);
+                }
 
                 setSubmitting(false);
             })
