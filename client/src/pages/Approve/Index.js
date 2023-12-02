@@ -16,7 +16,7 @@ import ForwardIcon from '@mui/icons-material/Forward';
 
 const ApproveList = () => {
     const [ruos, setRuos] = useState([]);
-    const [schoolYear, setSchoolYear] = useState('');
+    const [schoolYear, setSchoolYear] = useState(getSchoolYear());
     const [options, setOption] = useState([]);
     const navigate = useNavigate();
 
