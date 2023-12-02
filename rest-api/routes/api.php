@@ -160,8 +160,7 @@ Route::middleware('auth:api')->group(function () {
         });
 
         Route::prefix('reports')->group(function () {
-            Route::post('/groups', [ReportController::class, 'groupsReport']);
-            Route::post('/teachers', [ReportController::class, 'teachersReport']);
+            Route::post('/generate', [ReportController::class, 'generate']);
         });
     });
 });

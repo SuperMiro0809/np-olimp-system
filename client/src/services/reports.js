@@ -1,8 +1,8 @@
 import servicesHelper from ".";
 import axios from "axios";
 
-function groupsReport(schoolId, data, filters = []) {
-    let url = `${servicesHelper.url}/${schoolId}/reports/groups?`;
+function generate(schoolId, data, filters = []) {
+    let url = `${servicesHelper.url}/${schoolId}/reports/generate?`;
 
     if(filters.length > 0) {
         filters.forEach((filter) => {
@@ -15,14 +15,8 @@ function groupsReport(schoolId, data, filters = []) {
     });
 }
 
-function teachersReports(schoolId, data) {
-    let url = `${servicesHelper.url}/${schoolId}/reports/teachers?`;
-
-}
-
 const reportsService = {
-    groupsReport,
-    teachersReports
+    generate
 }
 
 export default reportsService;

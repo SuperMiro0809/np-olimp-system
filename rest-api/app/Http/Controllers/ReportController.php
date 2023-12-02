@@ -11,7 +11,7 @@ use App\Models\{
 
 class ReportController extends Controller
 {
-    public function groupsReport(Request $request, $schoolId)
+    public function generate(Request $request, $schoolId)
     {
         $query = GroupLesson::select(
                                 'group_lessons.id',
@@ -86,10 +86,5 @@ class ReportController extends Controller
         $report = $query->get();
 
         return $report;
-    }
-
-    public function teachersReport(Request $request, $schoolId)
-    {
-
     }
 }

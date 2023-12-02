@@ -82,7 +82,7 @@ const ReportsList = () => {
             { label: 'schoolYear', value: schoolYear }
         ];
 
-        reportsService.groupsReport(user.info.id, values, filters)
+        reportsService.generate(user.info.id, values, filters)
             .then((res) => {
                 const data = res.data;
 
@@ -95,6 +95,8 @@ const ReportsList = () => {
                 }
 
                 addMessage('Справката е генерирана успешно', 'success');
+
+                setSubmitting(false);
             })
             .catch((error) => {
                 addMessage(error.message, 'error');
