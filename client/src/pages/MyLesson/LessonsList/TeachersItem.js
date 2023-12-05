@@ -16,10 +16,10 @@ const TeachersItem = ({
     } = formikProps;
 
     useEffect(() => {
+        if(values.themes[parentIndex].theme) {
+            const program = values.program.find(p => p.id === values.themes[parentIndex].theme.value);
 
-        if(!values.themes[parentIndex].teachers && values.themes[parentIndex].theme) {
-            
-            const teachersValues = values.program[parentIndex].teachers.map((teacher) => {
+            const teachersValues = program.teachers.map((teacher) => {
                 return {
                     lessons: '',
                     remainingLessons: teacher.remainingLessons,
